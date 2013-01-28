@@ -1,0 +1,504 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <h2><a href="/">Front-Ender, love javascript and nodejs.</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+
+
+<h2 class="archive-title">Archives</h2>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">深入理解JavaScript定时器（续）</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  
+
+</p>
+<h2>同步事件</h2>
+<h3>DOM改变事件(DOM Mutation events)</h3>
+<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。  
+</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;a href="http://heroicyang.com/"&gt;heroicyang.com&lt;/a&gt;</div><div class="line">&lt;script type="text/javascript"&gt;</div><div class="line">  var anchor = document.getElementsByTagName('a')[0];</div><br><div class="line">  anchor.onclick = function(e) {</div><div class="line">    alert('in onclick');</div><div class="line">    this.setAttribute('href', '#');</div><div class="line">    alert('out onclick');</div><div class="line">    return false;</div><div class="line">  };</div><br><div class="line">  if (anchor.addEventListener) {  //Firefox, Opera</div><div class="line">    anchor.addEventListener('DOMAttrModified', onpropchange, false);</div><div class="line">  } else if (anchor.attachEvent) {  //IE</div><div class="line">    anchor.attachEvent('onpropertychange', onpropchange);</div><div class="line">  }</div><br><div class="line">  function onpropchange() {</div><div class="line">    alert('onpropchange');</div><div class="line">  }</div><div class="line">&lt;/script&gt;</div></code></pre></td></tr></table></figure><br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/10/14/javascript-timer-and-event-in-depth/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-09-22T10:57:00.000Z"><a href="/2012/09/22/javascript-timer-in-depth/">Sep 22 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/09/22/javascript-timer-in-depth/">深入理解JavaScript定时器</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>对于浏览器内部，大部分操作都是异步的生成事件并添加到<code>JavaScript引擎线程</code>的队列中，然后由<code>JavaScript引擎线程</code>进行调度执行。因此浏览器的很多事件都是和<code>JavaScript</code>相结合的，但是也有一些内部的限制。  
+
+</p>
+<p>首先我们非常确定<code>JavaScript</code>是单线程的，对于浏览器来说，一个窗体中只有一个<code>JavaScript引擎线程</code>。而其他的行为，如：渲染、下载等是由单独的线程进行管理的，且具有不同的优先级。  
+
+</p>
+<h2>异步事件</h2>
+<p>前面提到大多数事件都是异步的，触发的时候就将回调函数添加到事件队列。浏览器提供了一个内部的回路，也就是之前所谈到的<code>Event Loop</code>，由它来负责检查队列和处理事件、执行函数等。详细可参考我的<a href="http://heroicyang.com/blog/javascript-event-loop.html">前一篇博文</a>。而<code>setTimeout</code>和<code>setInterval</code>也是将其需要执行的函数添加到事件队列。  
+
+</p>
+<p><strong>事实上，大多数交互和活动都得通过事件循环。</strong><br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/09/22/javascript-timer-in-depth/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-09-06T14:56:00.000Z"><a href="/2012/09/06/javascript-timers/">Sep 6 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/09/06/javascript-timers/">理解JavaScript定时器：setTimeout和setInterval</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  
+
+</p>
+<p>这两个方法所接收的参数都一样：  
+</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line">setTimeout(func|code, delay);</div><div class="line">setInterval(func|code, delay);</div></code></pre></td></tr></table></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/blog/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。
+
+</p>
+<p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  
+
+</p>
+<p>后者：按照指定的周期（以毫秒计），将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/09/06/javascript-timers/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-08-28T14:52:00.000Z"><a href="/2012/08/28/javascript-event-loop/">Aug 28 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/08/28/javascript-event-loop/">JavaScript Event Loop 浅析</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>最近在学习<code>Nodejs</code>的过程中深入的了解了<code>异步编程</code>这个概念，为了更好的使用<code>Nodejs</code>，这些概念不可不知。在以前作为一个<code>JavaScript</code>用户的时候，完全是不知道它是怎么运行的，对好些概念也是“知其然不知其所以然”。  
+
+</p>
+<p>对于客户端的<code>JavaScript</code>和<code>Nodejs</code>来说其实差距不是很大，这回就从客户端方面来说说<code>Event Loop</code>这个概念吧，算是<code>异步编程</code>的一个切入点吧。其实<code>jQuery</code>的作者John Resig在几年前就写了一篇好文章<a href="http://ejohn.org/blog/how-javascript-timers-work/">How JavaScript Timers Work</a>，来讲述<code>timer</code>和<code>事件</code>在浏览器中是怎样工作的，我也是通过这篇文章才“知其所以然”。  
+
+</p>
+<h3>问题场景</h3>
+<p>先来看看一段代码：  
+</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div></code></pre></td><td class="code"><pre><code><div class="line">  &lt;a href="#" id="doBtn"&gt;do something&lt;/a&gt;</div><div class="line">  &lt;div id="status"&gt;&lt;/div&gt;</div><div class="line">  &lt;script type="text/javascript"&gt;</div><div class="line">    void function() {</div><div class="line">      var doBtn = document.getElementById('doBtn')</div><div class="line">        , status = document.getElementById('status');</div><br><div class="line">      doBtn.onclick = function(e) {</div><div class="line">        e.preventDefault();</div><br><div class="line">        status.innerText = 'doing...please wait...';  //开始啦</div><div class="line">        sleep(10000);  //模拟一个耗时较长的计算过程，10s</div><div class="line">        status.innerText = 'done';  //完成啦</div><div class="line">      };</div><div class="line">    }();</div><br><div class="line">    function sleep(ms) {</div><div class="line">      var start = new Date();</div><div class="line">      while (new Date() - start &lt;= ms) {}</div><div class="line">    }</div><div class="line">  &lt;/script&gt;</div></code></pre></td></tr></table></figure>
+
+<p>上面代码主要想完成一个功能：按钮被点击时------&gt;显示一个状态告知用户正在干一些事情------&gt;开始干------&gt;事情干完后状态变更为已完成。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/08/28/javascript-event-loop/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-08-26T15:24:00.000Z"><a href="/2012/08/26/blogging-like-a-hacker/">Aug 26 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/08/26/blogging-like-a-hacker/">像黑客一样写博客</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>“像黑客一样写博客”，这个标题是网络上对<code>Octopress</code>（其实应该是<code>Jekyll</code>）的评价，而这一评价是来自一篇几年前的<a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html">文章</a>。当我将自己的博客抹掉并重新开始的时候，我也准备以这个标题来作为这次的新起点。  
+
+</p>
+<p>其实早就有换掉<code>WordPress</code>的想法，一是因为它太臃肿了，我只是想简单的写写博客，用不着那么多强大的功能；二是它对插入代码的支持让我绝望了，每次用<code>Markdown</code>写好文章，复制其<code>HTML</code>到<code>WordPress</code>之后，都要调整好半天的样式；三是我之前的博客中太多的碎碎念之类的水文了，可谓杂、乱，并不像一个记录技术的博客。综合这些借口，我每次登录到<code>WordPress</code>后台都没有再写文章的激情。<br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/08/26/blogging-like-a-hacker/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-08-18T17:05:00.000Z"><a href="/2012/08/19/create-class-in-javascript/">Aug 19 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/08/19/create-class-in-javascript/">JavaScript中创建类的方式</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  
+
+</p>
+<p>在<code>JavaScript</code>中是其实不存在所谓“类”的概念，因为它并不是面向对象的语言。在面向对象中，一个最常见的说法就是：“类”是“对象”的模板，基本上都是采用语言内置的<code>Class</code>或<code>class</code>关键字来定义“类”。而<code>JavaScript</code>不存在这个概念，所以也没有提供类似的关键字（虽然<code>class</code>是<code>JavaScript</code>的关键字，但是至今都没有实现，只是被保留而已）。  
+
+</p>
+<p>因此，在<code>JavaScript</code>中创建类就唯有使用模拟的方式，而模拟的手法多种多样，何时采用何种方式最合适，需视情况而定。以下就记录下常见的几种模式。
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/08/19/create-class-in-javascript/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">Aug 9 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/08/09/to-backbone-tutorial-2/">Backbone之旅：前端MVC架构初体验（下）</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>继<a href="http://heroicyang.com/blog/to-backbone-tutorial-1.html">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  
+
+</p>
+<p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  
+</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="keyword">var</span> events = _.clone(Backbone.Events);</div><br><div class="line"><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};</div><br><div class="line">TodoList.prototype.add = <span class="keyword">function</span>(options){</div><div class="line">  $.ajax({</div><div class="line">    url: <span class="string">'/add'</span>,</div><div class="line">    type: <span class="string">'POST'</span>,</div><div class="line">    dataType: <span class="string">'json'</span>,</div><div class="line">    data: { todoContent: options.todoContent },</div><div class="line">    success: options.success</div><div class="line">  });</div><div class="line">};</div><br><div class="line"><span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){</div><div class="line">  <span class="keyword">this</span>.todoList = options.todoList;</div><br><div class="line">  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);</div><div class="line">  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);</div><br><div class="line">  $(<span class="string">'#new-todo form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));</div><div class="line">};</div><br><div class="line">NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){</div><div class="line">  e.preventDefault();</div><br><div class="line">  <span class="keyword">this</span>.todoList.add({</div><div class="line">    todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),</div><div class="line">    success: <span class="keyword">function</span>(data){</div><div class="line">      events.trigger(<span class="string">'todo:add'</span>, data.todoContent);</div><div class="line">    }</div><div class="line">  });</div><div class="line">};</div><br><div class="line"><span class="comment">/*后面不变*/</span></div></code></pre></td></tr></table></figure><br>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  
+
+</p>
+<p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/08/09/to-backbone-tutorial-2/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/08/08/to-backbone-tutorial-1/">Backbone之旅：前端MVC架构初体验（上）</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>最近一段时间来，才算是真正的开始深入学习<code>JavaScript</code>，收获颇丰。也首次领略了前端<code>MVC</code>架构的风采，现在前端<code>MVC</code>的类库和框架越来越多，在经过初步的评估之后，决定先学习备受推崇的<code>Backbone</code>。 
+
+</p>
+<p>以前自己做的一些<code>Web</code>应用，基本上都是按照非常传统的方式：1.服务器端渲染模板；2.利用<code>jQuery</code>的<code>ajax</code>进行异步数据交换。所以首次接触前端架构类的东西，难免有点无从下手。经过几天的奋战，以及参阅国外大牛们的各种<code>Tutorial</code>之后，终于拨开迷雾，缕了些头绪，自己也试着从传统的方式过渡（重构）出了所谓的架构性的代码。  
+
+</p>
+<p>整个重构的过程让我受益良多，所以决定再认真的记录一遍，加深自己的印象，也再确认一遍自己是否真的搞明白了，文章应该会比较长。  
+
+</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/08/08/to-backbone-tutorial-1/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div></div>
+    <aside id="sidebar" class="alignright">
+<div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="text" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:heroicyang.com">
+  </form>
+</div>
+
+
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JavaScript/">JavaScript</a><small>7</small></li>
+  
+  </ul>
+</div>
+
+
+
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>7</small></li>
+  
+    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
+  
+    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+
+<div class="widget twitter">
+  <h3 class="title">Tweets</h3>
+  <ul id="tweets"></ul>
+</div>
+
+<script type="text/javascript">
+var twitter_stream = ['heroicyang', 5, false];
+var moment_js_path = '/js/moment.min.js';
+</script>
+<script src="/js/twitter.js"></script>
+
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2013 Heroic Yang
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<script type="text/javascript">
+var duoshuoQuery = {short_name: 'heroicyang'};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = 'http://static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

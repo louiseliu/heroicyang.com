@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mvc | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <h2><a href="/">Front-Ender, love javascript and nodejs.</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+
+
+<h2 class="archive-title tag">mvc</h2>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">Aug 9 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/08/09/to-backbone-tutorial-2/">Backbone之旅：前端MVC架构初体验（下）</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>继<a href="http://heroicyang.com/blog/to-backbone-tutorial-1.html">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  
+
+</p>
+<p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  
+</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div><div class="line-number">30</div><div class="line-number">31</div><div class="line-number">32</div><div class="line-number">33</div><div class="line-number">34</div><div class="line-number">35</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="keyword">var</span> events = _.clone(Backbone.Events);</div><br><div class="line"><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};</div><br><div class="line">TodoList.prototype.add = <span class="keyword">function</span>(options){</div><div class="line">  $.ajax({</div><div class="line">    url: <span class="string">'/add'</span>,</div><div class="line">    type: <span class="string">'POST'</span>,</div><div class="line">    dataType: <span class="string">'json'</span>,</div><div class="line">    data: { todoContent: options.todoContent },</div><div class="line">    success: options.success</div><div class="line">  });</div><div class="line">};</div><br><div class="line"><span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){</div><div class="line">  <span class="keyword">this</span>.todoList = options.todoList;</div><br><div class="line">  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);</div><div class="line">  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);</div><br><div class="line">  $(<span class="string">'#new-todo form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));</div><div class="line">};</div><br><div class="line">NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){</div><div class="line">  e.preventDefault();</div><br><div class="line">  <span class="keyword">this</span>.todoList.add({</div><div class="line">    todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),</div><div class="line">    success: <span class="keyword">function</span>(data){</div><div class="line">      events.trigger(<span class="string">'todo:add'</span>, data.todoContent);</div><div class="line">    }</div><div class="line">  });</div><div class="line">};</div><br><div class="line"><span class="comment">/*后面不变*/</span></div></code></pre></td></tr></table></figure><br>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  
+
+</p>
+<p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/08/09/to-backbone-tutorial-2/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/08/08/to-backbone-tutorial-1/">Backbone之旅：前端MVC架构初体验（上）</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>最近一段时间来，才算是真正的开始深入学习<code>JavaScript</code>，收获颇丰。也首次领略了前端<code>MVC</code>架构的风采，现在前端<code>MVC</code>的类库和框架越来越多，在经过初步的评估之后，决定先学习备受推崇的<code>Backbone</code>。 
+
+</p>
+<p>以前自己做的一些<code>Web</code>应用，基本上都是按照非常传统的方式：1.服务器端渲染模板；2.利用<code>jQuery</code>的<code>ajax</code>进行异步数据交换。所以首次接触前端架构类的东西，难免有点无从下手。经过几天的奋战，以及参阅国外大牛们的各种<code>Tutorial</code>之后，终于拨开迷雾，缕了些头绪，自己也试着从传统的方式过渡（重构）出了所谓的架构性的代码。  
+
+</p>
+<p>整个重构的过程让我受益良多，所以决定再认真的记录一遍，加深自己的印象，也再确认一遍自己是否真的搞明白了，文章应该会比较长。  
+
+</p>
+
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/08/08/to-backbone-tutorial-1/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div></div>
+    <aside id="sidebar" class="alignright">
+<div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="text" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:heroicyang.com">
+  </form>
+</div>
+
+
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JavaScript/">JavaScript</a><small>7</small></li>
+  
+  </ul>
+</div>
+
+
+
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>7</small></li>
+  
+    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
+  
+    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+
+<div class="widget twitter">
+  <h3 class="title">Tweets</h3>
+  <ul id="tweets"></ul>
+</div>
+
+<script type="text/javascript">
+var twitter_stream = ['heroicyang', 5, false];
+var moment_js_path = '/js/moment.min.js';
+</script>
+<script src="/js/twitter.js"></script>
+
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2013 Heroic Yang
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<script type="text/javascript">
+var duoshuoQuery = {short_name: 'heroicyang'};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = 'http://static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

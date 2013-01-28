@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives: 2012/10 | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <h2><a href="/">Front-Ender, love javascript and nodejs.</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+
+
+<h2 class="archive-title">2012/10</h2>
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">深入理解JavaScript定时器（续）</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  
+
+</p>
+<h2>同步事件</h2>
+<h3>DOM改变事件(DOM Mutation events)</h3>
+<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。  
+</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;a href="http://heroicyang.com/"&gt;heroicyang.com&lt;/a&gt;</div><div class="line">&lt;script type="text/javascript"&gt;</div><div class="line">  var anchor = document.getElementsByTagName('a')[0];</div><br><div class="line">  anchor.onclick = function(e) {</div><div class="line">    alert('in onclick');</div><div class="line">    this.setAttribute('href', '#');</div><div class="line">    alert('out onclick');</div><div class="line">    return false;</div><div class="line">  };</div><br><div class="line">  if (anchor.addEventListener) {  //Firefox, Opera</div><div class="line">    anchor.addEventListener('DOMAttrModified', onpropchange, false);</div><div class="line">  } else if (anchor.attachEvent) {  //IE</div><div class="line">    anchor.attachEvent('onpropertychange', onpropchange);</div><div class="line">  }</div><br><div class="line">  function onpropchange() {</div><div class="line">    alert('onpropchange');</div><div class="line">  }</div><div class="line">&lt;/script&gt;</div></code></pre></td></tr></table></figure><br>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2012/10/14/javascript-timer-and-event-in-depth/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div></div>
+    <aside id="sidebar" class="alignright">
+<div class="search">
+  <form action="http://google.com/search" method="get" accept-charset="utf-8">
+    <input type="text" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:heroicyang.com">
+  </form>
+</div>
+
+
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/JavaScript/">JavaScript</a><small>7</small></li>
+  
+  </ul>
+</div>
+
+
+
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>7</small></li>
+  
+    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
+  
+    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+
+<div class="widget twitter">
+  <h3 class="title">Tweets</h3>
+  <ul id="tweets"></ul>
+</div>
+
+<script type="text/javascript">
+var twitter_stream = ['heroicyang', 5, false];
+var moment_js_path = '/js/moment.min.js';
+</script>
+<script src="/js/twitter.js"></script>
+
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2013 Heroic Yang
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<script type="text/javascript">
+var duoshuoQuery = {short_name: 'heroicyang'};
+(function() {
+  var ds = document.createElement('script');
+  ds.type = 'text/javascript';ds.async = true;
+  ds.src = 'http://static.duoshuo.com/embed.js';
+  ds.charset = 'UTF-8';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
