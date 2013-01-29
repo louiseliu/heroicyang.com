@@ -110,7 +110,7 @@
 
 </p>
 <h2>异步事件</h2>
-<p>前面提到大多数事件都是异步的，触发的时候就将回调函数添加到事件队列。浏览器提供了一个内部的回路，也就是之前所谈到的<code>Event Loop</code>，由它来负责检查队列和处理事件、执行函数等。详细可参考我的<a href="http://heroicyang.com/blog/javascript-event-loop.html">前一篇博文</a>。而<code>setTimeout</code>和<code>setInterval</code>也是将其需要执行的函数添加到事件队列。  
+<p>前面提到大多数事件都是异步的，触发的时候就将回调函数添加到事件队列。浏览器提供了一个内部的回路，也就是之前所谈到的<code>Event Loop</code>，由它来负责检查队列和处理事件、执行函数等。详细可参考我的<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">前一篇博文</a>。而<code>setTimeout</code>和<code>setInterval</code>也是将其需要执行的函数添加到事件队列。  
 
 </p>
 <p><strong>事实上，大多数交互和活动都得通过事件循环。</strong><br>
@@ -154,7 +154,7 @@
 </p>
 <p>这两个方法所接收的参数都一样：  
 </p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line">setTimeout(func|code, delay);</div><div class="line">setInterval(func|code, delay);</div></code></pre></td></tr></table></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/blog/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line">setTimeout(func|code, delay);</div><div class="line">setInterval(func|code, delay);</div></code></pre></td></tr></table></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。
 
 </p>
 <p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  
@@ -325,7 +325,7 @@
     </header>
     <div class="entry">
       
-        <p>继<a href="http://heroicyang.com/blog/to-backbone-tutorial-1.html">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  
+        <p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  
 
 </p>
 <p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  

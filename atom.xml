@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and nodejs.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-01-29T14:34:42.106Z</updated>
+  <updated>2013-01-29T14:42:32.930Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -16,7 +16,7 @@
     <link href="http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/"/>
     <id>http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/</id>
     <published>2012-10-14T14:50:00.000Z</published>
-    <updated>2013-01-28T15:30:02.000Z</updated>
+    <updated>2013-01-29T14:42:17.000Z</updated>
     <content type="html"><![CDATA[<p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  
 
 </p>
@@ -45,7 +45,7 @@
 <p><img src="http://img.heroicyang.com/synchronous-focus-event.png" alt="">  
 
 </p>
-<p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/blog/javascript-timer-in-depth.html">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  
+<p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  
 
 </p>
 <h2>JavaScript执行与页面渲染</h2>
@@ -81,7 +81,7 @@
 
 </p>
 <h2>当脚本需要花很长的时间干复杂的工作时</h2>
-<p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/blog/javascript-timer-in-depth.html">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  
+<p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  
 </p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></div><div class="line">  <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)</div><div class="line">    , stopBtn = document.getElementById(<span class="string">'stop'</span>)</div><div class="line">    , container = document.getElementById(<span class="string">'container'</span>);</div><div class="line">  <span class="keyword">var</span> i = <span class="number">0xA00000</span>, timer = <span class="literal">null</span>;</div><br><div class="line">  runBtn.onclick = <span class="keyword">function</span>(e) {</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> {</span></div><div class="line">      timer = setTimeout(run, <span class="number">0</span>);</div><div class="line">      container.style.backgroundColor = <span class="string">'#'</span> + i.toString(<span class="number">16</span>);</div><br><div class="line">      <span class="keyword">if</span> (i++ == <span class="number">0xFFFFFF</span>) stop();</div><div class="line">    }</div><div class="line">    timer = setTimeout(run, <span class="number">0</span>);</div><div class="line">  };</div><div class="line">  stopBtn.onclick = stop;</div><br><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">stop</span><span class="params">()</span> {</span></div><div class="line">    clearTimeout(timer);</div><div class="line">  }</div><div class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span></div></code></pre></td></tr></table></figure>
 </p>
@@ -105,7 +105,7 @@
     <link href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth/"/>
     <id>http://heroicyang.com/2012/09/22/javascript-timer-in-depth/</id>
     <published>2012-09-22T10:57:00.000Z</published>
-    <updated>2013-01-28T15:29:53.000Z</updated>
+    <updated>2013-01-29T14:41:39.000Z</updated>
     <content type="html"><![CDATA[<p>对于浏览器内部，大部分操作都是异步的生成事件并添加到<code>JavaScript引擎线程</code>的队列中，然后由<code>JavaScript引擎线程</code>进行调度执行。因此浏览器的很多事件都是和<code>JavaScript</code>相结合的，但是也有一些内部的限制。  
 
 </p>
@@ -113,7 +113,7 @@
 
 </p>
 <h2>异步事件</h2>
-<p>前面提到大多数事件都是异步的，触发的时候就将回调函数添加到事件队列。浏览器提供了一个内部的回路，也就是之前所谈到的<code>Event Loop</code>，由它来负责检查队列和处理事件、执行函数等。详细可参考我的<a href="http://heroicyang.com/blog/javascript-event-loop.html">前一篇博文</a>。而<code>setTimeout</code>和<code>setInterval</code>也是将其需要执行的函数添加到事件队列。  
+<p>前面提到大多数事件都是异步的，触发的时候就将回调函数添加到事件队列。浏览器提供了一个内部的回路，也就是之前所谈到的<code>Event Loop</code>，由它来负责检查队列和处理事件、执行函数等。详细可参考我的<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">前一篇博文</a>。而<code>setTimeout</code>和<code>setInterval</code>也是将其需要执行的函数添加到事件队列。  
 
 </p>
 <p><strong>事实上，大多数交互和活动都得通过事件循环。</strong><br><span id="more"></span>  
@@ -189,13 +189,13 @@
     <link href="http://heroicyang.com/2012/09/06/javascript-timers/"/>
     <id>http://heroicyang.com/2012/09/06/javascript-timers/</id>
     <published>2012-09-06T14:56:00.000Z</published>
-    <updated>2013-01-28T15:29:43.000Z</updated>
+    <updated>2013-01-29T14:41:15.000Z</updated>
     <content type="html"><![CDATA[<p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  
 
 </p>
 <p>这两个方法所接收的参数都一样：  
 </p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line">setTimeout(func|code, delay);</div><div class="line">setInterval(func|code, delay);</div></code></pre></td></tr></table></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/blog/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div></code></pre></td><td class="code"><pre><code><div class="line">setTimeout(func|code, delay);</div><div class="line">setInterval(func|code, delay);</div></code></pre></td></tr></table></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。
 
 </p>
 <p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  
@@ -341,12 +341,12 @@
     <link href="http://heroicyang.com/2012/08/26/blogging-like-a-hacker/"/>
     <id>http://heroicyang.com/2012/08/26/blogging-like-a-hacker/</id>
     <published>2012-08-26T15:24:00.000Z</published>
-    <updated>2013-01-28T15:26:59.000Z</updated>
+    <updated>2013-01-29T14:40:15.000Z</updated>
     <content type="html"><![CDATA[<p>“像黑客一样写博客”，这个标题是网络上对<code>Octopress</code>（其实应该是<code>Jekyll</code>）的评价，而这一评价是来自一篇几年前的<a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html">文章</a>。当我将自己的博客抹掉并重新开始的时候，我也准备以这个标题来作为这次的新起点。  
 
 </p>
 <p>其实早就有换掉<code>WordPress</code>的想法，一是因为它太臃肿了，我只是想简单的写写博客，用不着那么多强大的功能；二是它对插入代码的支持让我绝望了，每次用<code>Markdown</code>写好文章，复制其<code>HTML</code>到<code>WordPress</code>之后，都要调整好半天的样式；三是我之前的博客中太多的碎碎念之类的水文了，可谓杂、乱，并不像一个记录技术的博客。综合这些借口，我每次登录到<code>WordPress</code>后台都没有再写文章的激情。<br><span id="more"></span>
-而之前我也和<a href="http://veryb.us/">fiture</a>聊到用<a href="http://heroicyang.com/blog/tags/nodejs/">Nodejs</a>来重新写个博客，也当学习练手。经过间歇性的聊聊之后，我提议说不弄数据库了，直接将文章以<code>Markdown</code>的格式<code>push</code>到<code>Github</code>吧等等的初步想法。当时我们觉得还不错，因为也没了解过有没有这样的东西存在，之后我下意识地搜了下。结果发现了<code>OctoPress</code>这个东西，了解之后感觉完全正合我意啊，所以二话不说就直接给换上了。  
+而之前我也和<a href="http://veryb.us/">fiture</a>聊到用<a href="http://heroicyang.com/tags/nodejs/">Nodejs</a>来重新写个博客，也当学习练手。经过间歇性的聊聊之后，我提议说不弄数据库了，直接将文章以<code>Markdown</code>的格式<code>push</code>到<code>Github</code>吧等等的初步想法。当时我们觉得还不错，因为也没了解过有没有这样的东西存在，之后我下意识地搜了下。结果发现了<code>OctoPress</code>这个东西，了解之后感觉完全正合我意啊，所以二话不说就直接给换上了。  
 
 </p>
 <p>于是我总算是终于弃掉了<code>WordPress</code>，用上<code>Octopress</code>这个高级货，可谓得心应手。  
@@ -365,7 +365,7 @@
 <p>这样，就只需要一个<code>Markdown</code>编辑器（推荐<a href="http://mouapp.com/">Mou</a>和<a href="http://www.sublimetext.com/2">Sublime Text 2</a>），再配合终端的<code>git</code>命令就OK了，其余的都不用管了，交给第三方去。比如：评论系统我就采用了国内的<a href="http://duoshuo.com/">多说</a>；然后用<a href="http://dropbox.com/">Dropbox</a>来保存文章中会用到的图片，因为<code>Dropbox</code>被<code>GFW</code>认证，所以再利用<a href="http://en.wikipedia.org/wiki/Nginx">Nginx</a>做个<a href="http://en.wikipedia.org/wiki/Reverse_proxy">反向代理</a>。一切都妥妥的了。  
 
 </p>
-<p>以前博客的那些废柴文章都不要了，不过还是做了个备份，算是纪念好了。而把近期写的3篇与<a href="http://heroicyang.com/blog/tags/javascript/">JavaScript</a>相关的文章转移了过来，重新开始技术博客的历程，见证成长。</p>
+<p>以前博客的那些废柴文章都不要了，不过还是做了个备份，算是纪念好了。而把近期写的3篇与<a href="http://heroicyang.com/tags/javascript/">JavaScript</a>相关的文章转移了过来，重新开始技术博客的历程，见证成长。</p>
 ]]></content>
     <category scheme="http://heroicyang.com/tags/blog/" term="blog"/>
   </entry>
@@ -425,8 +425,8 @@
     <link href="http://heroicyang.com/2012/08/09/to-backbone-tutorial-2/"/>
     <id>http://heroicyang.com/2012/08/09/to-backbone-tutorial-2/</id>
     <published>2012-08-08T16:59:00.000Z</published>
-    <updated>2013-01-28T15:27:24.000Z</updated>
-    <content type="html"><![CDATA[<p>继<a href="http://heroicyang.com/blog/to-backbone-tutorial-1.html">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  
+    <updated>2013-01-29T14:39:47.000Z</updated>
+    <content type="html"><![CDATA[<p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  
 
 </p>
 <p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  
