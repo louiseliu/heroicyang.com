@@ -47,56 +47,21 @@
 <h2 class="archive-title">2012/10</h2>
 
 
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">深入理解JavaScript定时器（续）</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  
-
-</p>
-<h2>同步事件</h2>
-<h3>DOM改变事件(DOM Mutation events)</h3>
-<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。  
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;a href="http://heroicyang.com/"&gt;heroicyang.com&lt;/a&gt;</div><div class="line">&lt;script type="text/javascript"&gt;</div><div class="line">  var anchor = document.getElementsByTagName('a')[0];</div><br><div class="line">  anchor.onclick = function(e) {</div><div class="line">    alert('in onclick');</div><div class="line">    this.setAttribute('href', '#');</div><div class="line">    alert('out onclick');</div><div class="line">    return false;</div><div class="line">  };</div><br><div class="line">  if (anchor.addEventListener) {  //Firefox, Opera</div><div class="line">    anchor.addEventListener('DOMAttrModified', onpropchange, false);</div><div class="line">  } else if (anchor.attachEvent) {  //IE</div><div class="line">    anchor.attachEvent('onpropertychange', onpropchange);</div><div class="line">  }</div><br><div class="line">  function onpropchange() {</div><div class="line">    alert('onpropchange');</div><div class="line">  }</div><div class="line">&lt;/script&gt;</div></code></pre></td></tr></table></figure><br>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2012/10/14/javascript-timer-and-event-in-depth/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
+  <div class="archive">
+    
+      <article class="post">
+        <div class="post-content">
+          <header>
+            <div class="icon"></div>
+            <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
+            
+              <h1 class="title"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">深入理解JavaScript定时器（续）</a></h1>
+            
+          </header>
+        </div>
+      </article>
+    
   </div>
-</article>
-
-
-
-  
-
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
 </div></div>
     <aside id="sidebar" class="alignright">
 <div class="search">
