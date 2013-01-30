@@ -8,7 +8,9 @@
         $(this).after('<span class="caption">' + alt + '</span>');
       }
 
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox" rel="gallery' + i + '" />');
+      if ($(this).parent('a').length === 0) {
+        $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox" rel="gallery' + i + '" />');
+      }
     });
   });
 
