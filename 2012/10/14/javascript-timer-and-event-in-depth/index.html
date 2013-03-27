@@ -7,13 +7,51 @@
   <meta name="author" content="Heroic Yang">
   
   <meta name="description" content="对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做同步事件，因此它们都是立即执行的，完全不理会前几篇文章中所提到的事件队列。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的事件队列的概念。不过，本篇将会陆续不断的把这些坑给填上。  
-
-
 同步事件
 DOM改变事件(DOM Mutation events)
 下面的Demo便用于说明同步事件之一的DOM Mutation events（注：该事件不支持Chrome浏览器）。  
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+&lt;a href=&quot;http://heroicyang.com/&quot;&gt;heroicyang.com&lt;/a&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  var anchor = document.getElementsByTagName('a')[0];
 
-123456789101112131415161718192021&lt;a href=&quot;http://heroicyang.com/&quot;&gt;heroicyang.com&lt;/a&gt;&lt;script type=&quot;text/javascript&quot;&gt;  var anchor = document.getElementsByTagName('a')[0];  anchor.onclick = function(e) {    alert('in onclick');    this.setAttribute('href', '#');    alert('out onclick');    return false;  };  if (anchor.addEventListener) {  //Firefox, Opera    anchor.addEventListener('DOMAttrModified', onpropchange, false);  } else if (anchor.attachEvent) {  //IE    anchor.attachEvent('onpropertychange', onpropchange);  }  function onpropchange() {    alert('onpropchange');  }&lt;/script&gt;">
+  anchor.onclick = function(e) {
+    alert('in onclick');
+    this.setAttribute('href', '#');
+    alert('out onclick');
+    return false;
+  };
+
+  if (anchor.addEventListener) {  //Firefox, Opera
+    anchor.addEventListener('DOMAttrModified', onpropchange, false);
+  } else if (anchor.attachEvent) {  //IE
+    anchor.attachEvent('onpropertychange', onpropchange);
+  }
+
+  function onpropchange() {
+    alert('onpropchange');
+  }
+&lt;/script&gt;">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -32,7 +70,7 @@ DOM改变事件(DOM Mutation events)
 <body>
   <header id="header" class="inner"><div class="alignleft">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and nodejs.</a></h2>
+  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
 </div>
 <nav id="main-nav" class="alignright">
   <ul>
@@ -68,79 +106,265 @@ DOM改变事件(DOM Mutation events)
     </header>
     <div class="entry">
       
-        <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  
-
-</p>
+        <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
 <h2>同步事件</h2>
 <h3>DOM改变事件(DOM Mutation events)</h3>
-<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。  
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;a href="http://heroicyang.com/"&gt;heroicyang.com&lt;/a&gt;</div><div class="line">&lt;script type="text/javascript"&gt;</div><div class="line">  var anchor = document.getElementsByTagName('a')[0];</div><br><div class="line">  anchor.onclick = function(e) {</div><div class="line">    alert('in onclick');</div><div class="line">    this.setAttribute('href', '#');</div><div class="line">    alert('out onclick');</div><div class="line">    return false;</div><div class="line">  };</div><br><div class="line">  if (anchor.addEventListener) {  //Firefox, Opera</div><div class="line">    anchor.addEventListener('DOMAttrModified', onpropchange, false);</div><div class="line">  } else if (anchor.attachEvent) {  //IE</div><div class="line">    anchor.attachEvent('onpropertychange', onpropchange);</div><div class="line">  }</div><br><div class="line">  function onpropchange() {</div><div class="line">    alert('onpropchange');</div><div class="line">  }</div><div class="line">&lt;/script&gt;</div></code></pre></td></tr></table></figure><br><span id="more"></span>
-当<code>click</code>事件触发时，其处理的顺序依次为：
+<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。  </p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="code"><pre>&lt;a href="http://heroicyang.com/"&gt;heroicyang.com&lt;/a&gt;
+&lt;script type="text/javascript"&gt;
+  var anchor = document.getElementsByTagName('a')[0];
 
-</p>
+  anchor.onclick = function(e) {
+    alert('in onclick');
+    this.setAttribute('href', '#');
+    alert('out onclick');
+    return false;
+  };
+
+  if (anchor.addEventListener) {  //Firefox, Opera
+    anchor.addEventListener('DOMAttrModified', onpropchange, false);
+  } else if (anchor.attachEvent) {  //IE
+    anchor.attachEvent('onpropertychange', onpropchange);
+  }
+
+  function onpropchange() {
+    alert('onpropchange');
+  }
+&lt;/script&gt;
+</pre></td></tr></table></figure><br><a name="more"></a>
+当<code>click</code>事件触发时，其处理的顺序依次为：</p>
 <ol>
 <li>alert <code>in onclick</code>  </li>
 <li>超链接的属性立即被改变，并alert <code>onpropchange</code>  </li>
 <li>继续执行<code>onclick</code>事件处理程序中剩下的 <code>alert(&#39;out onclick&#39;);</code>  </li>
 </ol>
-<p><img src="http://img.heroicyang.com/synchronous-mutation-events.png" alt=""><br>关于<code>DOM Mutation events</code>，详情请参见：<br><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events"><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events">https://developer.mozilla.org/en-US/docs/DOM/Mutation_events</a></a><br><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents"><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents</a></a>  
-
-</p>
+<p><img src="http://img.heroicyang.com/synchronous-mutation-events.png" alt=""><br>关于<code>DOM Mutation events</code>，详情请参见：<br><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events"><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events">https://developer.mozilla.org/en-US/docs/DOM/Mutation_events</a></a><br><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents"><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents</a></a>  </p>
 <h3>嵌套的DOM事件</h3>
-<p>在浏览器端，有一些方法会立即触发某类事件，而这类事件也是同步的。比如<code>element.focus()</code>，下面是演示代码。  
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;input type=<span class="string">"button"</span> value=<span class="string">"click me"</span>&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></div><div class="line">  <span class="keyword">var</span> btn = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">0</span>]</div><div class="line">    , text = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">1</span>];</div><br><div class="line">  btn.onclick = <span class="keyword">function</span>(e) {</div><div class="line">    console.log(<span class="string">'in onclick'</span>);</div><div class="line">    text.focus();</div><div class="line">    console.log(<span class="string">'out onclick'</span>);</div><div class="line">  };</div><br><div class="line">  text.onfocus = <span class="keyword">function</span>(e) {</div><div class="line">    console.log(<span class="string">'onfocus'</span>);</div><div class="line">  };</div><div class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span></div></code></pre></td></tr></table></figure><br>执行结果如下：
+<p>在浏览器端，有一些方法会立即触发某类事件，而这类事件也是同步的。比如<code>element.focus()</code>，下面是演示代码。  </p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click me"</span>&gt;
+<span class="xml"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> btn = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">0</span>]
+    , text = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">1</span>];
 
-</p>
-<p><img src="http://img.heroicyang.com/synchronous-focus-event.png" alt="">  
+  btn.onclick = <span class="keyword">function</span>(e) {
+    console.log(<span class="string">'in onclick'</span>);
+    text.focus();
+    console.log(<span class="string">'out onclick'</span>);
+  };
 
-</p>
-<p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  
-
-</p>
+  text.onfocus = <span class="keyword">function</span>(e) {
+    console.log(<span class="string">'onfocus'</span>);
+  };
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
+</pre></td></tr></table></figure><br>执行结果如下：</p>
+<p><img src="http://img.heroicyang.com/synchronous-focus-event.png" alt="">  </p>
+<p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  </p>
 <h2>JavaScript执行与页面渲染</h2>
-<p>大多数浏览器中，JavaScript的执行和页面渲染是互斥的，于是JavaScript执行时，浏览器就不会做任何的页面渲染。比如下面的Demo...  
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div><div class="line-number">25</div><div class="line-number">26</div><div class="line-number">27</div><div class="line-number">28</div><div class="line-number">29</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en-US"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">title</span>&gt;</span>JavaScript执行与页面渲染<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">style</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span><span class="css"></div><div class="line">    <span class="id">#container</span> <span class="rules">{</div><div class="line">      <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">200</span>px;</span></span> </div><div class="line">      <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px;</span></span> </div><div class="line">      <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#A00000</span>;</span></span> </div><div class="line">      <span class="rule"><span class="attribute">margin-bottom</span>:<span class="value"> <span class="number">10</span>px;</span></span></div><div class="line">    <span class="rule">}</span></span></div><div class="line">  </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"container"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></div><div class="line">    <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)</div><div class="line">      , container = document.getElementById(<span class="string">'container'</span>);</div><div class="line">    </div><div class="line">    runBtn.onclick = <span class="keyword">function</span>(e) {</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0xA00000</span>; i &lt; <span class="number">0xFFFFFF</span>; i++) {</div><div class="line">        container.style.backgroundColor = <span class="string">'#'</span> + i.toString(<span class="number">16</span>);</div><div class="line">      }</div><div class="line">    };</div><div class="line">  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span></div></code></pre></td></tr></table></figure>
-</p>
+<p>大多数浏览器中，JavaScript的执行和页面渲染是互斥的，于是JavaScript执行时，浏览器就不会做任何的页面渲染。比如下面的Demo...  </p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="code"><pre>&lt;!DOCTYPE HTML&gt;
+<span class="xml"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en-US"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">title</span>&gt;</span>JavaScript执行与页面渲染<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">style</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span><span class="css">
+    <span class="id">#container</span> <span class="rules">{
+      <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">200</span>px;</span></span> 
+      <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px;</span></span> 
+      <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#A00000</span>;</span></span> 
+      <span class="rule"><span class="attribute">margin-bottom</span>:<span class="value"> <span class="number">10</span>px;</span></span>
+    <span class="rule">}</span></span>
+  </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"container"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)
+      , container = document.getElementById(<span class="string">'container'</span>);
+    
+    runBtn.onclick = <span class="keyword">function</span>(e) {
+      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0xA00000</span>; i &lt; <span class="number">0xFFFFFF</span>; i++) {
+        container.style.backgroundColor = <span class="string">'#'</span> + i.toString(<span class="number">16</span>);
+      }
+    };
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></span>
+</pre></td></tr></table></figure></p>
 <iframe src="http://sample.heroicyang.com/repaint.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>
 
-<p>运行上面的Demo后，大多数浏览器都会假死了，直到<code>container</code>的背景颜色变更为<code>#FFFFFF</code>后才恢复。而有的浏览器(如Firefox)还会弹出警告，告知JavaScript没有响应，是终止还是等待。但是Opera却能正常运行，并不断更改背景颜色。因此不同浏览器对页面渲染和JavaScript执行的实现方式是不一样的。  
-
-</p>
-<p>关于这方面有很大的学问，还需要继续学习，慢慢摸索。So...这个就点到为止了。
-
-</p>
+<p>运行上面的Demo后，大多数浏览器都会假死了，直到<code>container</code>的背景颜色变更为<code>#FFFFFF</code>后才恢复。而有的浏览器(如Firefox)还会弹出警告，告知JavaScript没有响应，是终止还是等待。但是Opera却能正常运行，并不断更改背景颜色。因此不同浏览器对页面渲染和JavaScript执行的实现方式是不一样的。  </p>
+<p>关于这方面有很大的学问，还需要继续学习，慢慢摸索。So...这个就点到为止了。</p>
 <h3>模式对话框的同步调用</h3>
-<p>浏览器提供的如<code>alert</code>等的模式对话框是同步调用的，所以当这类对话框工作时，会停止<code>JavaScript线程</code>，当然如页面渲染等活动也将被冻结。继续下面的Demo…当运行代码下面的<code>iframe</code>中的进度条后，无论是点击<code>主窗体中的alert</code>按钮，还是点击<code>iframe中的alert</code>按钮，都会导致进度条挂起。  
+<p>浏览器提供的如<code>alert</code>等的模式对话框是同步调用的，所以当这类对话框工作时，会停止<code>JavaScript线程</code>，当然如页面渲染等活动也将被冻结。继续下面的Demo…当运行代码下面的<code>iframe</code>中的进度条后，无论是点击<code>主窗体中的alert</code>按钮，还是点击<code>iframe中的alert</code>按钮，都会导致进度条挂起。  </p>
+<p><input type="button" value="主窗体中的alert" onclick="alert('主窗体对话框');"></p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre>&lt;div id=<span class="string">"container"</span> style=<span class="string">"width: 0px; height: 20px; background-color: #A00000;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"iframe中的alert"</span> <span class="attribute">onclick</span>=<span class="value">"alert('iframe中的对话框');"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)
+    , stopBtn = document.getElementById(<span class="string">'stop'</span>)
+    , container = document.getElementById(<span class="string">'container'</span>);
+  <span class="keyword">var</span> timer = <span class="literal">null</span>;
 
-</p>
-<p><input type="button" value="主窗体中的alert" onclick="alert('主窗体对话框');">
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;div id=<span class="string">"container"</span> style=<span class="string">"width: 0px; height: 20px; background-color: #A00000;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"iframe中的alert"</span> <span class="attribute">onclick</span>=<span class="value">"alert('iframe中的对话框');"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></div><div class="line">  <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)</div><div class="line">    , stopBtn = document.getElementById(<span class="string">'stop'</span>)</div><div class="line">    , container = document.getElementById(<span class="string">'container'</span>);</div><div class="line">  <span class="keyword">var</span> timer = <span class="literal">null</span>;</div><br><div class="line">  runBtn.onclick = <span class="keyword">function</span>(e) {</div><div class="line">    timer = setInterval(<span class="keyword">function</span>() {</div><div class="line">      <span class="keyword">var</span> style = container.style;</div><div class="line">      style.width = (parseInt(style.width) + <span class="number">2</span>) % <span class="number">400</span> + <span class="string">'px'</span>;</div><div class="line">    }, <span class="number">50</span>);</div><div class="line">  };</div><div class="line">  stopBtn.onclick = <span class="keyword">function</span>(e) {</div><div class="line">    clearInterval(timer);</div><div class="line">  };</div><div class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span></div></code></pre></td></tr></table></figure>
-</p>
+  runBtn.onclick = <span class="keyword">function</span>(e) {
+    timer = setInterval(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> style = container.style;
+      style.width = (parseInt(style.width) + <span class="number">2</span>) % <span class="number">400</span> + <span class="string">'px'</span>;
+    }, <span class="number">50</span>);
+  };
+  stopBtn.onclick = <span class="keyword">function</span>(e) {
+    clearInterval(timer);
+  };
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
+</pre></td></tr></table></figure></p>
 <iframe src="http://sample.heroicyang.com/modal-sync.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:70px; padding: 1px;"></iframe>  
 
-<p>因此，浏览器所提供的<code>alert</code>、<code>confirm</code>、<code>prompt</code>这三类模式对话框，都会阻塞<code>JavaScript线程</code>和<code>UI线程</code>。  
-
-</p>
-<p><strong>依旧，Opera有一点点的例外。。。</strong>  
-
-</p>
-<p>在Opera中，点击<code>主窗体中的alert</code>按钮不会阻塞<code>iframe</code>中的进度条。。。又打破我们的常规认识啊：同一个页面上，<code>iframe</code>是和主窗体同一个线程的。但Opera的设计并非如此。。。  
-
-</p>
+<p>因此，浏览器所提供的<code>alert</code>、<code>confirm</code>、<code>prompt</code>这三类模式对话框，都会阻塞<code>JavaScript线程</code>和<code>UI线程</code>。  </p>
+<p><strong>依旧，Opera有一点点的例外。。。</strong>  </p>
+<p>在Opera中，点击<code>主窗体中的alert</code>按钮不会阻塞<code>iframe</code>中的进度条。。。又打破我们的常规认识啊：同一个页面上，<code>iframe</code>是和主窗体同一个线程的。但Opera的设计并非如此。。。  </p>
 <h2>当脚本需要花很长的时间干复杂的工作时</h2>
-<p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div><div class="line-number">16</div><div class="line-number">17</div><div class="line-number">18</div><div class="line-number">19</div><div class="line-number">20</div><div class="line-number">21</div><div class="line-number">22</div><div class="line-number">23</div><div class="line-number">24</div></code></pre></td><td class="code"><pre><code><div class="line">&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></div><div class="line">  <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)</div><div class="line">    , stopBtn = document.getElementById(<span class="string">'stop'</span>)</div><div class="line">    , container = document.getElementById(<span class="string">'container'</span>);</div><div class="line">  <span class="keyword">var</span> i = <span class="number">0xA00000</span>, timer = <span class="literal">null</span>;</div><br><div class="line">  runBtn.onclick = <span class="keyword">function</span>(e) {</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> {</span></div><div class="line">      timer = setTimeout(run, <span class="number">0</span>);</div><div class="line">      container.style.backgroundColor = <span class="string">'#'</span> + i.toString(<span class="number">16</span>);</div><br><div class="line">      <span class="keyword">if</span> (i++ == <span class="number">0xFFFFFF</span>) stop();</div><div class="line">    }</div><div class="line">    timer = setTimeout(run, <span class="number">0</span>);</div><div class="line">  };</div><div class="line">  stopBtn.onclick = stop;</div><br><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">stop</span><span class="params">()</span> {</span></div><div class="line">    clearTimeout(timer);</div><div class="line">  }</div><div class="line"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span></div></code></pre></td></tr></table></figure>
-</p>
+<p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  </p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre>&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)
+    , stopBtn = document.getElementById(<span class="string">'stop'</span>)
+    , container = document.getElementById(<span class="string">'container'</span>);
+  <span class="keyword">var</span> i = <span class="number">0xA00000</span>, timer = <span class="literal">null</span>;
+
+  runBtn.onclick = <span class="keyword">function</span>(e) {
+    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> {</span>
+      timer = setTimeout(run, <span class="number">0</span>);
+      container.style.backgroundColor = <span class="string">'#'</span> + i.toString(<span class="number">16</span>);
+
+      <span class="keyword">if</span> (i++ == <span class="number">0xFFFFFF</span>) stop();
+    }
+    timer = setTimeout(run, <span class="number">0</span>);
+  };
+  stopBtn.onclick = stop;
+
+  <span class="function"><span class="keyword">function</span> <span class="title">stop</span><span class="params">()</span> {</span>
+    clearTimeout(timer);
+  }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
+</pre></td></tr></table></figure></p>
 <iframe src="http://sample.heroicyang.com/heavy-jobs.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>  
 
-<p>最后，总结一下<code>setTimeout(func, 0)</code>的使用场景吧：
-
-</p>
+<p>最后，总结一下<code>setTimeout(func, 0)</code>的使用场景吧：</p>
 <ol>
 <li>让浏览器渲染当前的变化  </li>
 <li>避免长时间运行的脚本  </li>
@@ -192,7 +416,7 @@ DOM改变事件(DOM Mutation events)
   <h3 class="title">Categories</h3>
   <ul class="entry">
   
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>7</small></li>
+    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
   
   </ul>
 </div>
@@ -203,19 +427,21 @@ DOM改变事件(DOM Mutation events)
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript/">javascript</a><small>7</small></li>
+    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
   
     <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
   
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
+    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
   
     <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
+  
+    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
+  
+    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
   
   </ul>
 </div>

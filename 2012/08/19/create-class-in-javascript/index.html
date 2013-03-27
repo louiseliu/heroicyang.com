@@ -7,11 +7,7 @@
   <meta name="author" content="Heroic Yang">
   
   <meta name="description" content="现在JavaScript这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩jQuery和ExtJs，其实都算不上开发者，而是一个JavaScript用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  
-
-
 在JavaScript中是其实不存在所谓“类”的概念，因为它并不是面向对象的语言。在面向对象中，一个最常见的说法就是：“类”是“对象”的模板，基本上都是采用语言内置的Class或class关键字来定义“类”。而JavaScript不存在这个概念，所以也没有提供类似的关键字（虽然class是JavaScript的关键字，但是至今都没有实现，只是被保留而已）。  
-
-
 因此，在JavaScript中创建类就唯有使用模拟的方式，而模拟的手法多种多样，何时采用何种方式最合适，需视情况而定。以下就记录下常见的几种模式。">
   
   
@@ -31,7 +27,7 @@
 <body>
   <header id="header" class="inner"><div class="alignleft">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and nodejs.</a></h2>
+  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
 </div>
 <nav id="main-nav" class="alignright">
   <ul>
@@ -67,47 +63,153 @@
     </header>
     <div class="entry">
       
-        <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  
-
-</p>
-<p>在<code>JavaScript</code>中是其实不存在所谓“类”的概念，因为它并不是面向对象的语言。在面向对象中，一个最常见的说法就是：“类”是“对象”的模板，基本上都是采用语言内置的<code>Class</code>或<code>class</code>关键字来定义“类”。而<code>JavaScript</code>不存在这个概念，所以也没有提供类似的关键字（虽然<code>class</code>是<code>JavaScript</code>的关键字，但是至今都没有实现，只是被保留而已）。  
-
-</p>
+        <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  </p>
+<p>在<code>JavaScript</code>中是其实不存在所谓“类”的概念，因为它并不是面向对象的语言。在面向对象中，一个最常见的说法就是：“类”是“对象”的模板，基本上都是采用语言内置的<code>Class</code>或<code>class</code>关键字来定义“类”。而<code>JavaScript</code>不存在这个概念，所以也没有提供类似的关键字（虽然<code>class</code>是<code>JavaScript</code>的关键字，但是至今都没有实现，只是被保留而已）。  </p>
 <p>因此，在<code>JavaScript</code>中创建类就唯有使用模拟的方式，而模拟的手法多种多样，何时采用何种方式最合适，需视情况而定。以下就记录下常见的几种模式。
-<span id="more"></span>
-</p>
+<a name="more"></a></p>
 <h3>一.工厂模式</h3>
-<p>工厂方法是设计模式中非常基础的，也被广泛用于面向对象编程中。而在<code>JavaScript</code>中，通过工厂方法即能模拟出类的行为。  
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span></div><div class="line">  <span class="keyword">var</span> obj = {};</div><div class="line">  obj.name = name;</div><div class="line">  obj.sex = sex;</div><div class="line">  …</div><div class="line">  obj.getName = <span class="keyword">function</span>() {</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">  };</div><div class="line">  <span class="keyword">return</span> obj;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> personA = createPerson(<span class="string">'heroicYang'</span>, <span class="string">'male'</span>);</div><div class="line"><span class="keyword">var</span> personB = createPerosn(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);</div></code></pre></td></tr></table></figure><br>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。
-</p>
+<p>工厂方法是设计模式中非常基础的，也被广泛用于面向对象编程中。而在<code>JavaScript</code>中，通过工厂方法即能模拟出类的行为。  </p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span>
+  <span class="keyword">var</span> obj = {};
+  obj.name = name;
+  obj.sex = sex;
+  …
+  obj.getName = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.name;
+  };
+  <span class="keyword">return</span> obj;
+}
+<span class="keyword">var</span> personA = createPerson(<span class="string">'heroicYang'</span>, <span class="string">'male'</span>);
+<span class="keyword">var</span> personB = createPerosn(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
+</pre></td></tr></table></figure><br>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。</p>
 <h3>二.构造函数模式</h3>
-<p>其实，这应该是很常见的模式了，很多书上基本上一来就是讲这个的，更狠点的可能就只讲这个…
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span></div><div class="line">  <span class="keyword">this</span>.name = name;</div><div class="line">  <span class="keyword">this</span>.sex = sex;</div><div class="line">  …</div><div class="line">  <span class="keyword">this</span>.getName = <span class="keyword">function</span>() {</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="keyword">var</span> personA = <span class="keyword">new</span> Person(<span class="string">'heroic'</span>, <span class="string">'male'</span>);</div><div class="line"><span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);</div></code></pre></td></tr></table></figure><br>这种模拟类方式的特点就是:
-
-</p>
+<p>其实，这应该是很常见的模式了，很多书上基本上一来就是讲这个的，更狠点的可能就只讲这个…</p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+  <span class="keyword">this</span>.name = name;
+  <span class="keyword">this</span>.sex = sex;
+  …
+  <span class="keyword">this</span>.getName = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.name;
+  }
+}
+<span class="keyword">var</span> personA = <span class="keyword">new</span> Person(<span class="string">'heroic'</span>, <span class="string">'male'</span>);
+<span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
+</pre></td></tr></table></figure><br>这种模拟类方式的特点就是:</p>
 <ol>
 <li>没有显示的创建对象   </li>
 <li>直接将属性和方法赋给了<code>this</code>对象    </li>
 <li>没有<code>return</code>字句</li>
 </ol>
-<p>在使用这种方式时，创建对象则必须使用<code>new</code>关键字。当然，好处就是完全解决了对象类型识别问题。
-</p>
+<p>在使用这种方式时，创建对象则必须使用<code>new</code>关键字。当然，好处就是完全解决了对象类型识别问题。</p>
 <h3>三.原型模式</h3>
-<p>原型应该是<code>JavaScript</code>中一个很有意思，当然也是很有用的一个概念了。接下来用原型模式来模拟类。
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div><div class="line-number">14</div><div class="line-number">15</div></code></pre></td><td class="code"><pre><code><div class="line">  </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">()</span> {</span>}</div><div class="line">Person.prototype = {</div><div class="line">  name: <span class="literal">null</span>,</div><div class="line">  sex: <span class="literal">null</span>,</div><div class="line">  getName: <span class="keyword">function</span>() {</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">  }</div><div class="line">};</div><div class="line"><span class="keyword">var</span> personA = <span class="keyword">new</span> Person;</div><div class="line">personA.name = <span class="string">'heroic'</span>;</div><div class="line">personA.sex = <span class="string">'male'</span>;</div><div class="line"><span class="keyword">var</span> personB = <span class="keyword">new</span> Person;</div><div class="line">personB.name = <span class="string">'路人甲'</span>;</div><div class="line">personB.sex = <span class="string">'male'</span>;</div></code></pre></td></tr></table></figure>
-</p>
+<p>原型应该是<code>JavaScript</code>中一个很有意思，当然也是很有用的一个概念了。接下来用原型模式来模拟类。</p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre>  
+<span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">()</span> {</span>}
+Person.prototype = {
+  name: <span class="literal">null</span>,
+  sex: <span class="literal">null</span>,
+  getName: <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.name;
+  }
+};
+<span class="keyword">var</span> personA = <span class="keyword">new</span> Person;
+personA.name = <span class="string">'heroic'</span>;
+personA.sex = <span class="string">'male'</span>;
+<span class="keyword">var</span> personB = <span class="keyword">new</span> Person;
+personB.name = <span class="string">'路人甲'</span>;
+personB.sex = <span class="string">'male'</span>;
+</pre></td></tr></table></figure></p>
 <h3>四.组合使用构造函数和原型模式</h3>
-<p>由于只用原型模式的话，会带来一些问题，所以常规情况下，都是采用组合构造函数和原型模式来创建类，这也是使用率最高的一种方式。
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div><div class="line-number">12</div><div class="line-number">13</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span></div><div class="line">  <span class="keyword">this</span>.name = name;</div><div class="line">  <span class="keyword">this</span>.sex = sex;</div><div class="line">  …</div><div class="line">}</div><div class="line">Person.prototype.getName = <span class="keyword">function</span>() {</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</div><div class="line">};</div><div class="line">…</div><div class="line"><span class="keyword">var</span> personA = <span class="keyword">new</span> Person(<span class="string">'heroic'</span>, <span class="string">'male'</span>);</div><div class="line"><span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);</div><div class="line">personA.getName(); <span class="comment">//"heroic"</span></div><div class="line">personB.getName(); <span class="comment">//"路人甲"</span></div></code></pre></td></tr></table></figure>
-</p>
+<p>由于只用原型模式的话，会带来一些问题，所以常规情况下，都是采用组合构造函数和原型模式来创建类，这也是使用率最高的一种方式。</p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+  <span class="keyword">this</span>.name = name;
+  <span class="keyword">this</span>.sex = sex;
+  …
+}
+Person.prototype.getName = <span class="keyword">function</span>() {
+  <span class="keyword">return</span> <span class="keyword">this</span>.name;
+};
+…
+<span class="keyword">var</span> personA = <span class="keyword">new</span> Person(<span class="string">'heroic'</span>, <span class="string">'male'</span>);
+<span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
+personA.getName(); <span class="comment">//"heroic"</span>
+personB.getName(); <span class="comment">//"路人甲"</span>
+</pre></td></tr></table></figure></p>
 <h3>五.寄生构造函数模式</h3>
-<p>这种模式和工厂模式非常相似。
-</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><code><div class="line-number">1</div><div class="line-number">2</div><div class="line-number">3</div><div class="line-number">4</div><div class="line-number">5</div><div class="line-number">6</div><div class="line-number">7</div><div class="line-number">8</div><div class="line-number">9</div><div class="line-number">10</div><div class="line-number">11</div></code></pre></td><td class="code"><pre><code><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span></div><div class="line">  <span class="keyword">var</span> values = <span class="keyword">new</span> Array();</div><div class="line">  values.push.apply(values, arguments);</div><div class="line">    </div><div class="line">  values.toPipString = <span class="keyword">function</span>() {</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.join(<span class="string">'|'</span>);</div><div class="line">  }</div><div class="line">  <span class="keyword">return</span> values;</div><div class="line">}</div><div class="line"><span class="keyword">var</span> test = <span class="keyword">new</span> SpecialArray(<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>);</div><div class="line">test.toPipString(); <span class="comment">// "1|2|3"</span></div></code></pre></td></tr></table></figure><br>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
+<p>这种模式和工厂模式非常相似。</p>
+<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> values = <span class="keyword">new</span> Array();
+  values.push.apply(values, arguments);
+    
+  values.toPipString = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.join(<span class="string">'|'</span>);
+  }
+  <span class="keyword">return</span> values;
+}
+<span class="keyword">var</span> test = <span class="keyword">new</span> SpecialArray(<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>);
+test.toPipString(); <span class="comment">// "1|2|3"</span>
+</pre></td></tr></table></figure><br>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
 
       
     </div>
@@ -153,7 +255,7 @@
   <h3 class="title">Categories</h3>
   <ul class="entry">
   
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>7</small></li>
+    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
   
   </ul>
 </div>
@@ -164,19 +266,21 @@
   <h3 class="title">Tags</h3>
   <ul class="entry">
   
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript/">javascript</a><small>7</small></li>
+    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
   
     <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
   
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
+    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
   
     <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
+  
+    <li><a href="/tags/blog/">blog</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
+  
+    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
+  
+    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
   
   </ul>
 </div>
