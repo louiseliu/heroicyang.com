@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-03-27T14:12:26.393Z</updated>
+  <updated>2013-03-27T14:14:25.728Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1927,15 +1927,15 @@ setInterval(count, <span class="number">200</span>);
     <link href="http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/"/>
     <id>http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/</id>
     <published>2013-03-26T15:42:35.000Z</published>
-    <updated>2013-03-27T14:12:18.000Z</updated>
+    <updated>2013-03-27T14:14:19.000Z</updated>
     <content type="html"><![CDATA[<p>最近总算是把《JavaScript设计模式》这本书给认认真真啃完了，受益匪浅。虽然已经是几年前的出版物了，而且也没得地方可以买到，但是我个人觉得这本书是JavaScript程序员必读书籍之一。如果没有读过，建议一读，绝对不会让你失望。  </p>
 <p>而可能有一些地方的翻译让人一开始有点迷糊，比如我们常说的“单例模式”被译为“单体模式”，而“mixin class”被译为“掺元类”。但是对于我这种E文能力弱的人来说，完全没有挑剔的地方。  </p>
 <p>我在读这本书的时候，采取了一些阅读方式来加深理解，个人感觉还过得去，就简单的分享下。我每两天完成一章节，第一天阅读整个章节的内容，边理解边对照着写实例代码；之后若是一有时间，大脑就温习这次的内容；第二天则主动回忆前一天所阅读的内容，整理简要的笔记纲要，并按照个人的理解和笔记纲要再写一次实例代码。  </p>
 <p>因此这本书读完之后，我的笔记也就随即产出了。我没有采用很长的篇幅记录，而是思维导图来整理每一章的内容，这样也方便日后温习。  </p>
-<p>呃，好久也没有写博客了，所以将笔记也一并分享出来，也欢迎大家分享自己的学习方法和笔记方法。<br><a name="more"></a>
-<a href="http://code.heroicyang.com/%E3%80%8AJavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E7%AC%94%E8%AE%B0.pdf">我将思维导图导出成pdf版本了，需要的自取吧！</a>  </p>
+<p>呃，好久也没有写博客了，所以将笔记也一并分享出来，也欢迎大家分享自己的学习方法和笔记方法。<br><a name="more"></a>  </p>
+<p><a href="http://code.heroicyang.com/%E3%80%8AJavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%8B%E7%AC%94%E8%AE%B0.pdf">我将思维导图导出成pdf版本了，需要的自取吧！</a>  </p>
 <p>顺便也放张预览图，不过有点大。</p>
-<p><img src="http://img.heroicyang.com/JavaScript-Design-Pattern-Notes.png" alt="JavaScript设计模式读书笔记"></p>
+<p><img src="http://img.heroicyang.com/JavaScript-Design-Pattern-Notes.png" alt="《JavaScript设计模式》读书笔记"></p>
 ]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
     <category scheme="http://heroicyang.com/tags/design-pattern/" term="design pattern"/>
