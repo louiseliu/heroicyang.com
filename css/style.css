@@ -376,7 +376,10 @@ article .entry img,
 article .entry video {
   max-width: 100%;
   height: auto;
-  border: none;
+  -webkit-box-shadow: 0 5px 13px #ddd;
+  box-shadow: 0 5px 13px #ddd;
+  border: 1px solid #eee;
+  padding: 5px;
 }
 article .entry iframe {
   border: none;
