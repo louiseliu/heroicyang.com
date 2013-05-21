@@ -59,43 +59,18 @@ strong {
   border-radius: 0 0 8px 8px;
   border-top: 1px solid #fff;
 }
-@media screen and (max-width: 740px) {
-  body {
-    padding: 0;
-  }
-  .wrapper {
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    width: 100%;
-  }
-  #footer {
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    padding: 20px;
-    width: auto;
-  }
-  #footer .copyright {
-    float: none;
-    margin: 0;
-  }
-  #footer .theme-copyright {
-    float: none;
-  }
+.clearfix {
+  zoom: 1;
 }
-@media screen and (max-width:580px) {
-  header ul {
-    display: none;
-  }
-  header p.view {
-    display: block;
-  }
-  header p {
-    width: 100%;
-  }
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
 }
-header {
+.clearfix:after {
+  clear: both;
+}
+#header {
   -webkit-border-radius: 8px 8px 0 0;
   border-radius: 8px 8px 0 0;
   background: #c6eafa -webkit-gradient(linear, left top, left bottom, color-stop(0, #ddfbfc), color-stop(1, #c6eafa));
@@ -108,7 +83,23 @@ header {
   padding: 15px 20px;
   border-bottom: 1px solid #b2d2e1;
 }
-header h1 {
+#header .title {
+  float: left;
+}
+#header .nav {
+  float: right;
+  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
+  line-height: 2.5em;
+}
+#header .nav ul {
+  list-style: none;
+  font-weight: 900;
+}
+#header .nav ul li {
+  float: left;
+  margin-left: 30px;
+}
+#header h1 {
   margin: 0;
   padding: 0;
   font-size: 24px;
@@ -116,10 +107,10 @@ header h1 {
   color: #069;
   text-shadow: rgba(255,255,255,0.9) 0 1px 0;
 }
-header.without-description h1 {
+#header.without-description h1 {
   margin: 10px 0;
 }
-header p {
+#header p {
   margin: 0;
   color: #61778b;
   width: 300px;
@@ -187,7 +178,18 @@ article header time {
   }
 }
 article header .title {
+  font-size: 24px;
   font-weight: normal;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+  text-shadow: rgba(255,255,255,0.9) 0 1px 0;
+}
+article header .title a {
+  color: #222;
+}
+article header .title a:hover {
+  color: #069;
 }
 article .entry {
   text-align: justify;
@@ -239,7 +241,7 @@ article .entry blockquote {
 }
 article .entry img,
 article .entry video {
-  max-width: 100%;
+  max-width: 98%;
   -webkit-border-radius: 3px;
   border-radius: 3px;
   padding: 5px;
@@ -257,7 +259,7 @@ article .entry video.nstyle {
   box-shadow: none;
 }
 article .entry iframe {
-  max-width: 100%;
+  max-width: 98%;
 }
 article .entry code,
 article .entry pre {
@@ -352,6 +354,44 @@ article footer .tags:before {
   top: 5px;
   left: 2px;
 }
+#comment {
+  padding: 0 20px 20px;
+}
+#comment .title {
+  font-weight: normal;
+  margin-bottom: 15px;
+}
+#pagination {
+  padding-bottom: 20px;
+}
+#pagination a {
+  display: block;
+  padding: 5px 10px;
+  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
+  text-shadow: 0 0 1px #fff;
+}
+#pagination a:hover {
+  background: #069;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: none;
+}
+#pagination .prev {
+  float: left;
+}
+#pagination .prev:before {
+  content: '\f053';
+  padding-right: 10px;
+  font-family: FontAwesome;
+}
+#pagination .next {
+  float: right;
+}
+#pagination .next:after {
+  content: '\f054';
+  padding-left: 10px;
+  font-family: FontAwesome;
+}
 .archive-title {
   font-weight: normal;
   margin-bottom: 10px;
@@ -385,6 +425,48 @@ article footer .tags:before {
 }
 #footer .theme-copyright {
   float: right;
+}
+@media screen and (max-width: 740px) {
+  body {
+    padding: 0;
+  }
+  .wrapper {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+  }
+  #pagination a {
+    background: #069;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: none;
+  }
+  #footer {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    padding: 20px;
+    width: auto;
+  }
+  #footer .copyright {
+    float: none;
+    margin: 0;
+  }
+  #footer .theme-copyright {
+    float: none;
+  }
+}
+@media screen and (max-width:580px) {
+  #header .title {
+    float: none;
+  }
+  #header .nav ul li {
+    margin-left: 10px;
+  }
+  #header p {
+    width: 100%;
+  }
 }
 .entry .gist {
   background: #eee;
