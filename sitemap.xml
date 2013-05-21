@@ -2,19 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://heroicyang.com/about/index.html</loc>
-    <lastmod>2013-05-16T16:12:12.000Z</lastmod>
+    <lastmod>2013-05-21T16:41:41.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/</loc>
+    <lastmod>2013-05-21T14:01:51.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/</loc>
-    <lastmod>2013-05-16T15:34:57.000Z</lastmod>
+    <lastmod>2013-05-21T12:41:55.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2012/08/28/javascript-event-loop/</loc>
     <lastmod>2013-05-16T15:33:53.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/</loc>
-    <lastmod>2013-03-27T14:32:36.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2012/09/22/javascript-timer-in-depth/</loc>

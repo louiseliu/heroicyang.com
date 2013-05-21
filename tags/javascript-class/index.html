@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>javascript class | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   
   <meta property="og:site_name" content="Heroic Yang's Blog"/>
@@ -22,11 +23,12 @@
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
+  <div class="wrapper">
+    <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
+  <p><a href="/">Front-Ender, love javascript and node.</a></p>
 </div>
-<nav id="main-nav" class="alignright">
+<nav class="nav">
   <ul>
     
       <li><a href="/">Home</a></li>
@@ -41,96 +43,68 @@
   <div class="clearfix"></div>
 </nav>
 <div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-
-
+    <div class="content">
 <h2 class="archive-title tag">javascript class</h2>
 
 
-  <div class="archive">
+  
+    <article class="post">
+  <header>
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2012-08-18T17:05:00.000Z"><a href="/2012/08/19/create-class-in-javascript/">Aug 19 2012</a></time>
-            
-              <h1 class="title"><a href="/2012/08/19/create-class-in-javascript/">JavaScript中创建类的方式</a></h1>
-            
-          </header>
+      <div class="icon"></div>
+      <time datetime="2012-08-18T17:05:00.000Z"><a href="/2012/08/19/create-class-in-javascript/">Aug 19 2012</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2012/08/19/create-class-in-javascript/">JavaScript中创建类的方式</a></h1>
+  
+
+  </header>
+  <div class="entry">
+    
+      <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  </p>
+<p>在<code>JavaScript</code>中是其实不存在所谓“类”的概念，因为它并不是面向对象的语言。在面向对象中，一个最常见的说法就是：“类”是“对象”的模板，基本上都是采用语言内置的<code>Class</code>或<code>class</code>关键字来定义“类”。而<code>JavaScript</code>不存在这个概念，所以也没有提供类似的关键字（虽然<code>class</code>是<code>JavaScript</code>的关键字，但是至今都没有实现，只是被保留而已）。  </p>
+<p>因此，在<code>JavaScript</code>中创建类就唯有使用模拟的方式，而模拟的手法多种多样，何时采用何种方式最合适，需视情况而定。以下就记录下常见的几种模式。
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2012/08/19/create-class-in-javascript/#more" class="more-link">阅读全文</a>
         </div>
-      </article>
+      
+      
     
-  </div>
-</div></div>
-    <aside id="sidebar" class="alignright">
-<div class="search">
-  <form action="http://google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:heroicyang.com">
-  </form>
-</div>
-
-
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
-  
-    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
-  
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget twitter">
-  <h3 class="title">Tweets</h3>
-  <ul id="tweets"></ul>
-</div>
-
-<script type="text/javascript">
-var twitter_stream = ['heroicyang', 5, false];
-var moment_js_path = '/js/moment.min.js';
-</script>
-<script src="/js/twitter.js"></script>
-
-
-</aside>
     <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div>
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+  <footer id="footer"><div class="copyright">
   
-  &copy; 2013 Heroic Yang
+  &copy; 2013 <a href="/">Heroic Yang</a>
   
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
 </div>
 <div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
 

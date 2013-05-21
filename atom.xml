@@ -4,11 +4,11 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-05-16T16:12:15.768Z</updated>
+  <updated>2013-05-21T16:51:40.430Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
-    <email><![CDATA[heroicyang@gmail.com]]></email>
+    <email><![CDATA[me@heroicyang.com]]></email>
   </author>
   <generator uri="http://zespia.tw/hexo">Hexo</generator>
   <entry>
@@ -23,19 +23,7 @@
 <a name="more"></a></p>
 <h3>一.工厂模式</h3>
 <p>工厂方法是设计模式中非常基础的，也被广泛用于面向对象编程中。而在<code>JavaScript</code>中，通过工厂方法即能模拟出类的行为。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span>
   <span class="keyword">var</span> obj = {};
   obj.name = name;
   obj.sex = sex;
@@ -47,20 +35,10 @@
 }
 <span class="keyword">var</span> personA = createPerson(<span class="string">'heroicYang'</span>, <span class="string">'male'</span>);
 <span class="keyword">var</span> personB = createPerosn(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
-</pre></td></tr></table></figure><br>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。</p>
+</pre></figure><br>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。</p>
 <h3>二.构造函数模式</h3>
 <p>其实，这应该是很常见的模式了，很多书上基本上一来就是讲这个的，更狠点的可能就只讲这个…</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
   <span class="keyword">this</span>.name = name;
   <span class="keyword">this</span>.sex = sex;
   …
@@ -70,7 +48,7 @@
 }
 <span class="keyword">var</span> personA = <span class="keyword">new</span> Person(<span class="string">'heroic'</span>, <span class="string">'male'</span>);
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
-</pre></td></tr></table></figure><br>这种模拟类方式的特点就是:</p>
+</pre></figure><br>这种模拟类方式的特点就是:</p>
 <ol>
 <li>没有显示的创建对象   </li>
 <li>直接将属性和方法赋给了<code>this</code>对象    </li>
@@ -79,22 +57,7 @@
 <p>在使用这种方式时，创建对象则必须使用<code>new</code>关键字。当然，好处就是完全解决了对象类型识别问题。</p>
 <h3>三.原型模式</h3>
 <p>原型应该是<code>JavaScript</code>中一个很有意思，当然也是很有用的一个概念了。接下来用原型模式来模拟类。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-</pre></td><td class="code"><pre>  
+<p><figure class="highlight lang-javascript"><pre>  
 <span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">()</span> {</span>}
 Person.prototype = {
   name: <span class="literal">null</span>,
@@ -109,23 +72,10 @@ personA.sex = <span class="string">'male'</span>;
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person;
 personB.name = <span class="string">'路人甲'</span>;
 personB.sex = <span class="string">'male'</span>;
-</pre></td></tr></table></figure></p>
+</pre></figure></p>
 <h3>四.组合使用构造函数和原型模式</h3>
 <p>由于只用原型模式的话，会带来一些问题，所以常规情况下，都是采用组合构造函数和原型模式来创建类，这也是使用率最高的一种方式。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
   <span class="keyword">this</span>.name = name;
   <span class="keyword">this</span>.sex = sex;
   …
@@ -138,21 +88,10 @@ Person.prototype.getName = <span class="keyword">function</span>() {
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
 personA.getName(); <span class="comment">//"heroic"</span>
 personB.getName(); <span class="comment">//"路人甲"</span>
-</pre></td></tr></table></figure></p>
+</pre></figure></p>
 <h3>五.寄生构造函数模式</h3>
 <p>这种模式和工厂模式非常相似。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> values = <span class="keyword">new</span> Array();
   values.push.apply(values, arguments);
     
@@ -163,7 +102,7 @@ personB.getName(); <span class="comment">//"路人甲"</span>
 }
 <span class="keyword">var</span> test = <span class="keyword">new</span> SpecialArray(<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>);
 test.toPipString(); <span class="comment">// "1|2|3"</span>
-</pre></td></tr></table></figure><br>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
+</pre></figure><br>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
 ]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
     <category scheme="http://heroicyang.com/tags/javascript-class/" term="javascript class"/>
@@ -180,24 +119,7 @@ test.toPipString(); <span class="comment">// "1|2|3"</span>
 <a name="more"></a>
 
 <p>首先，先上一段所谓的传统式的代码。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-</pre></td><td class="code"><pre>$(<span class="keyword">function</span>(){
+<p><figure class="highlight lang-javascript"><pre>$(<span class="keyword">function</span>(){
   $(<span class="string">'#new-todo form'</span>).submit(<span class="keyword">function</span>(e){
     e.preventDefault();
     <span class="keyword">var</span> that = <span class="keyword">this</span>;
@@ -214,7 +136,7 @@ test.toPipString(); <span class="comment">// "1|2|3"</span>
     });
   });
 });
-</pre></td></tr></table></figure><br>另外，也上一张关于这篇文章中涉及到的<code>HTML</code>结构图，方便参照。由于文章稍长，我想如果直接在这里插图的话会影响阅读，所以就只给出<a href="http://img.heroicyang.com/to-backbone-tutorial.png">图片链接</a>了。 </p>
+</pre></figure><br>另外，也上一张关于这篇文章中涉及到的<code>HTML</code>结构图，方便参照。由于文章稍长，我想如果直接在这里插图的话会影响阅读，所以就只给出<a href="http://img.heroicyang.com/to-backbone-tutorial.png">图片链接</a>了。 </p>
 <p>上面的一段代码我想应该都是大家非常熟悉的做法，因为我是一个伪前端攻城湿，所以我以前的代码中无不充斥着类似的、一堆一堆这样的代码。看上去貌似挺好的啊，也没啥问题，程序跑得倍儿棒。但是就这么短短的一段代码，它可干了不少事情：监听页面事件、用户事件、网络事件，接收用户的输入、执行网络的I/O、解析服务端返回的数据、动态生成<code>HTML</code>结构，可谓是包罗万象啊，就这么短短的一段代码就解释了整个<code>Web</code>应用程序的本质。  </p>
 <p>所以即便是这么一个小小的应用，逻辑和架构上都已经臃肿了，完全违反了咱们软件开发中的“单一职责原则”。如果是一个大应用，那估计就如乱麻------剪不断理还乱了。所以，改变迫在眉睫。 </p>
 <p>确实咱的要求也不高，如果把它搞成这样，其实咱就满足了：</p>
@@ -224,27 +146,7 @@ test.toPipString(); <span class="comment">// "1|2|3"</span>
 <li>减小<code>ajax</code>和<code>DOM</code>的耦合，其实也算是第2条。  </li>
 </ol>
 <p>OK，动手。按照最基本的重构方式，咱先把<code>ajax</code>分离到一个方法里面去。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-</pre></td><td class="code"><pre><span class="keyword">var</span> addTodo = <span class="keyword">function</span>(){
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> addTodo = <span class="keyword">function</span>(){
   $.ajax({
     url: <span class="string">'/add'</span>,
     type: <span class="string">'POST'</span>,
@@ -264,31 +166,8 @@ $(<span class="keyword">function</span>(){
     addTodo();
   });
 });
-</pre></td></tr></table></figure><br>但是，在<code>ajax</code>所在的方法中，<code>data</code>和<code>success</code>属性仍然保留了对<code>DOM</code>的依赖，于是接下来将其调整为函数的参数来传递。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-</pre></td><td class="code"><pre><span class="keyword">var</span> addTodo = <span class="keyword">function</span>(options){
+</pre></figure><br>但是，在<code>ajax</code>所在的方法中，<code>data</code>和<code>success</code>属性仍然保留了对<code>DOM</code>的依赖，于是接下来将其调整为函数的参数来传递。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> addTodo = <span class="keyword">function</span>(options){
   $.ajax({
     url: <span class="string">'/add'</span>,
     type: <span class="string">'POST'</span>,
@@ -311,35 +190,8 @@ $(<span class="keyword">function</span>(){
     });
   });
 });
-</pre></td></tr></table></figure><br>好像OK了，不过此时<code>addTodo()</code>方法暴露在全局环境内，任何人都可以呼之欲来。我可不想当屌丝，作为一个富有上进心的、想成为一个合格前端攻城湿的我，还是给<code>addTodo()</code>方法加个命名空间吧。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-</pre></td><td class="code"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+</pre></figure><br>好像OK了，不过此时<code>addTodo()</code>方法暴露在全局环境内，任何人都可以呼之欲来。我可不想当屌丝，作为一个富有上进心的、想成为一个合格前端攻城湿的我，还是给<code>addTodo()</code>方法加个命名空间吧。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
 
 TodoList.prototype.add = <span class="keyword">function</span>(options){
   $.ajax({
@@ -366,40 +218,8 @@ $(<span class="keyword">function</span>(){
     });
   });
 });
-</pre></td></tr></table></figure><br>现在<code>submit</code>事件只依赖一个<code>todoList</code>变量了，而且最重要的是现在的<code>submit</code>事件中只关注<code>DOM</code>操作了，干脆大刀阔斧的把它移到外层去。于是咱们引入视图<code>View</code>了。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-</pre></td><td class="code"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+</pre></figure><br>现在<code>submit</code>事件只依赖一个<code>todoList</code>变量了，而且最重要的是现在的<code>submit</code>事件中只关注<code>DOM</code>操作了，干脆大刀阔斧的把它移到外层去。于是咱们引入视图<code>View</code>了。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
 
 TodoList.prototype.add = <span class="keyword">function</span>(options){
   $.ajax({
@@ -431,42 +251,8 @@ $(<span class="keyword">function</span>(){
   <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
   <span class="keyword">new</span> NewTodoView({ todoList: todoList });
 });
-</pre></td></tr></table></figure><br>恩，现如今<code>$(document).ready</code>中就简洁得只剩我们之前所说的应用启动代码了。虽然代码已经组件化了，也工作得很好，但是仍然有需要重构的地方。<code>NewTodoView</code>目前看上去都不怎么像一个对象的行为，所以继续重构之。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-</pre></td><td class="code"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+</pre></figure><br>恩，现如今<code>$(document).ready</code>中就简洁得只剩我们之前所说的应用启动代码了。虽然代码已经组件化了，也工作得很好，但是仍然有需要重构的地方。<code>NewTodoView</code>目前看上去都不怎么像一个对象的行为，所以继续重构之。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
 
 TodoList.prototype.add = <span class="keyword">function</span>(options){
   $.ajax({
@@ -500,30 +286,8 @@ $(<span class="keyword">function</span>(){
   <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
   <span class="keyword">new</span> NewTodoView({ todoList: todoList });
 });
-</pre></td></tr></table></figure><br>这里用到了<code>jQuery</code>中的<code>$.proxy()</code>方法来解决<code>this</code>作用域的问题，玩<code>JavaScript</code>的童鞋们应该都很了解作用域这个东东。接下来，咱干点有关洁癖的事情，鉴于要保证代码的清晰、方便阅读，咱把<code>success</code>里面的行为采用<code>callback</code>的形式来完成。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-</pre></td><td class="code"><pre><span class="comment">/*前面不变*/</span>
+</pre></figure><br>这里用到了<code>jQuery</code>中的<code>$.proxy()</code>方法来解决<code>this</code>作用域的问题，玩<code>JavaScript</code>的童鞋们应该都很了解作用域这个东东。接下来，咱干点有关洁癖的事情，鉴于要保证代码的清晰、方便阅读，咱把<code>success</code>里面的行为采用<code>callback</code>的形式来完成。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/*前面不变*/</span>
 NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
   e.preventDefault();
   <span class="keyword">var</span> that = <span class="keyword">this</span>;
@@ -545,7 +309,7 @@ NewTodoView.prototype.clearTextArea = <span class="keyword">function</span>(){
   $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
 };
 <span class="comment">/*后面也不变*/</span>
-</pre></td></tr></table></figure><br>至此，重构的第一个版本其实就算得上大功告成了，已经达到前面提出的三大方针政策。文章果然比较长，所以我决定还是分成了上、下两节，当前这篇中完全没涉及到<code>backbone</code>，所以到此就打住了，敬请关注下回分解。</p>
+</pre></figure><br>至此，重构的第一个版本其实就算得上大功告成了，已经达到前面提出的三大方针政策。文章果然比较长，所以我决定还是分成了上、下两节，当前这篇中完全没涉及到<code>backbone</code>，所以到此就打住了，敬请关注下回分解。</p>
 ]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
     <category scheme="http://heroicyang.com/tags/backbone/" term="backbone"/>
@@ -559,42 +323,7 @@ NewTodoView.prototype.clearTextArea = <span class="keyword">function</span>(){
     <updated>2013-01-29T14:39:47.000Z</updated>
     <content type="html"><![CDATA[<p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  </p>
 <p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-</pre></td><td class="code"><pre><span class="keyword">var</span> events = _.clone(Backbone.Events);
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> events = _.clone(Backbone.Events);
 
 <span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
 
@@ -629,28 +358,9 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
 };
 
 <span class="comment">/*后面不变*/</span>
-</pre></td></tr></table></figure><br>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  </p>
+</pre></figure><br>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  </p>
 <p><a name="more"></a></p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-</pre></td><td class="code"><pre><span class="comment">/* … */</span>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
 TodoList.prototype.add = <span class="keyword">function</span>(todoContent){
   $.ajax({
     url: <span class="string">'/add'</span>,
@@ -669,43 +379,9 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
   <span class="keyword">this</span>.todoList.add($(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val());
 };
 <span class="comment">/* … */</span>
-</pre></td></tr></table></figure><br>接下来，咱看看在<code>NewTodoView</code>这个视图中事件订阅所触发的对应方法<code>appendTodo()</code>和<code>clearTextArea()</code>中，涉及到的是处在同一级别的不同的<code>DOM</code>元素节点，也就是说在<code>NewTodoView</code>这个视图中，我们处理了两个<code>DOM</code>元素，这似乎和我们之前提到的“单一职责原则”相违背了，所以还有待进一步的改进。  </p>
+</pre></figure><br>接下来，咱看看在<code>NewTodoView</code>这个视图中事件订阅所触发的对应方法<code>appendTodo()</code>和<code>clearTextArea()</code>中，涉及到的是处在同一级别的不同的<code>DOM</code>元素节点，也就是说在<code>NewTodoView</code>这个视图中，我们处理了两个<code>DOM</code>元素，这似乎和我们之前提到的“单一职责原则”相违背了，所以还有待进一步的改进。  </p>
 <p>我们分别把新增<code>Todo</code>的视图和负责展示<code>Todo Item</code>的视图分开定义，使其符合“单一职责原则”。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-</pre></td><td class="code"><pre><span class="comment">/* 前面不变 */</span>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* 前面不变 */</span>
 <span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
   <span class="keyword">this</span>.todoList = options.todoList;
 
@@ -739,37 +415,8 @@ $(<span class="keyword">function</span>(){
   <span class="keyword">new</span> NewTodoView({ todoList: todoList });
   <span class="keyword">new</span> TodoView();
 });
-</pre></td></tr></table></figure><br>现在每个<code>View</code>里面只依赖一个顶层的<code>HTML Element</code>了，而在各自的<code>View</code>里面多次使用到了<code>$(&#39;#new-todo&#39;)</code>这样的代码，所以干脆将其在初始化的时候作为<code>View</code>的一个属性来提供吧。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-</pre></td><td class="code"><pre><span class="comment">/* 前面依旧不变 */</span>
+</pre></figure><br>现在每个<code>View</code>里面只依赖一个顶层的<code>HTML Element</code>了，而在各自的<code>View</code>里面多次使用到了<code>$(&#39;#new-todo&#39;)</code>这样的代码，所以干脆将其在初始化的时候作为<code>View</code>的一个属性来提供吧。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* 前面依旧不变 */</span>
 <span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
   <span class="keyword">this</span>.todoList = options.todoList;
   <span class="keyword">this</span>.el = $(<span class="string">'#new-todo'</span>);  <span class="comment">//定义一个el属性ß</span>
@@ -798,31 +445,8 @@ TodoView.prototype.appendTodo = <span class="keyword">function</span>(todoConten
   <span class="keyword">this</span>.el.find(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
 };
 <span class="comment">/* 后面不变 */</span>
-</pre></td></tr></table></figure><br>此时观察发现，两个<code>View</code>当中还保留着对<code>DOM</code>节点的依赖，其重用度依然不高，于是可采用实例化<code>View</code>的时候传入<code>el</code>参数来解决这个问题。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-</pre></td><td class="code"><pre><span class="comment">/* 前面不变 */</span>
+</pre></figure><br>此时观察发现，两个<code>View</code>当中还保留着对<code>DOM</code>节点的依赖，其重用度依然不高，于是可采用实例化<code>View</code>的时候传入<code>el</code>参数来解决这个问题。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* 前面不变 */</span>
 <span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
   <span class="keyword">this</span>.todoList = options.todoList;
   <span class="keyword">this</span>.el = options.el;
@@ -845,45 +469,8 @@ $(<span class="keyword">function</span>(){
   <span class="keyword">new</span> NewTodoView({ el: $(<span class="string">'#new-todo'</span>), todoList: todoList });
   <span class="keyword">new</span> TodoView({ el: $(<span class="string">'#todo-list'</span>) });
 });
-</pre></td></tr></table></figure><br><code>View</code>中我们频繁使用到了<code>jQuery</code>的<code>find()</code>方法来查找<code>View</code>所在<code>el</code>下面的子元素，所以可以考虑将这作为<code>View</code>的特性来提供，于是我们为<code>View</code>定义这样一个名叫<code>$</code>方法，然后替换掉<code>this.el.find()</code>这样的写法。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-</pre></td><td class="code"><pre><span class="comment">/* … */</span>
+</pre></figure><br><code>View</code>中我们频繁使用到了<code>jQuery</code>的<code>find()</code>方法来查找<code>View</code>所在<code>el</code>下面的子元素，所以可以考虑将这作为<code>View</code>的特性来提供，于是我们为<code>View</code>定义这样一个名叫<code>$</code>方法，然后替换掉<code>this.el.find()</code>这样的写法。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
 <span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
   <span class="keyword">this</span>.todoList = options.todoList;
   <span class="keyword">this</span>.el = options.el;
@@ -920,44 +507,8 @@ TodoView.prototype.$ = <span class="keyword">function</span>(selector){
   <span class="keyword">return</span> <span class="keyword">this</span>.el.find(selector);
 };
 <span class="comment">/* … */</span>
-</pre></td></tr></table></figure><br>上面的代码越来越多了，看上去好像咱是干的坏事，而不是往好的方向发展啊。是的，如果每个<code>View</code>都有很多自己的特性（方法），那向上面这样着实太痛苦了。看样子是时候请出<code>Backbone</code>提供的<code>View</code>特性了。OK，把我们自己的<code>View</code>转移到<code>Backbone</code>的。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-</pre></td><td class="code"><pre><span class="comment">/* … */</span>
+</pre></figure><br>上面的代码越来越多了，看上去好像咱是干的坏事，而不是往好的方向发展啊。是的，如果每个<code>View</code>都有很多自己的特性（方法），那向上面这样着实太痛苦了。看样子是时候请出<code>Backbone</code>提供的<code>View</code>特性了。OK，把我们自己的<code>View</code>转移到<code>Backbone</code>的。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
 <span class="keyword">var</span> NewTodoView = Backbone.View.extend({
   initialize: <span class="keyword">function</span>(options){
     <span class="keyword">this</span>.todoList = options.todoList;
@@ -993,36 +544,8 @@ TodoView.prototype.$ = <span class="keyword">function</span>(selector){
   }
 });
 <span class="comment">/* … */</span>
-</pre></td></tr></table></figure><br>由于<code>Backbone</code>的<code>View</code>已经提供了我们实现的<code>$()</code>方法的能力，也叫<code>$</code>（这也是之前我们自己命名的原因）；同时<code>Backbone</code>的<code>View</code>也提供了<code>this.el</code>的能力，所以可以把它们从代码中显示的移除了。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-</pre></td><td class="code"><pre><span class="comment">/* … */</span>
+</pre></figure><br>由于<code>Backbone</code>的<code>View</code>已经提供了我们实现的<code>$()</code>方法的能力，也叫<code>$</code>（这也是之前我们自己命名的原因）；同时<code>Backbone</code>的<code>View</code>也提供了<code>this.el</code>的能力，所以可以把它们从代码中显示的移除了。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
 <span class="keyword">var</span> NewTodoView = Backbone.View.extend({
   initialize: <span class="keyword">function</span>(options){
     <span class="keyword">this</span>.todoList = options.todoList;
@@ -1050,24 +573,8 @@ TodoView.prototype.$ = <span class="keyword">function</span>(selector){
   }
 });
 <span class="comment">/* 启动代码依然不变 */</span>
-</pre></td></tr></table></figure><br>现在可以回过头来看看<code>ajax</code>那部分了，由于<code>Backbone</code>提供了<code>Model</code>的能力，这个就是用于和服务端打交道的，所以将长长的<code>ajax</code>代码改写为这一方式。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-</pre></td><td class="code"><pre><span class="comment">/* … */</span>
+</pre></figure><br>现在可以回过头来看看<code>ajax</code>那部分了，由于<code>Backbone</code>提供了<code>Model</code>的能力，这个就是用于和服务端打交道的，所以将长长的<code>ajax</code>代码改写为这一方式。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
 <span class="keyword">var</span> Todo = Backbone.Model.extend({
   url: <span class="string">'/add'</span>
 });
@@ -1083,58 +590,9 @@ TodoList.prototype.add = <span class="keyword">function</span>(todoContent){
   });
 };
 <span class="comment">/* … */</span>
-</pre></td></tr></table></figure><br>同时，<code>Backbone</code>中还提供了一个<code>Collection</code>的概念，也就是<code>Model</code>的集合，比如我们这个案例中，每次创建单条的<code>Todo</code>，然后形成<code>Todo List</code>。当然，我们的任何数据都应该是以多条记录的方式存在的。所以，我们同时将上面的<code>TodoList</code>的实现改为<code>Collection</code>。  </p>
+</pre></figure><br>同时，<code>Backbone</code>中还提供了一个<code>Collection</code>的概念，也就是<code>Model</code>的集合，比如我们这个案例中，每次创建单条的<code>Todo</code>，然后形成<code>Todo List</code>。当然，我们的任何数据都应该是以多条记录的方式存在的。所以，我们同时将上面的<code>TodoList</code>的实现改为<code>Collection</code>。  </p>
 <p>而且，<code>Backbone</code>的<code>Collection</code>已经支持了<code>Event</code>机制，所以我们也无需自定义<code>events</code>了，于是开头的<code>events</code>变量也一并移除了。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-</pre></td><td class="code"><pre><span class="keyword">var</span> Todo = Backbone.Model.extend({
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Todo = Backbone.Model.extend({
   url: <span class="string">'/add'</span>
 });
 
@@ -1183,32 +641,8 @@ $(<span class="keyword">function</span>(){
   <span class="keyword">new</span> NewTodoView({ el: $(<span class="string">'#new-todo'</span>), todoList: todoList });
   <span class="keyword">new</span> TodoView({ el: $(<span class="string">'#todo-list'</span>), todoList: todoList });
 });
-</pre></td></tr></table></figure><br><code>Collection</code>提供了一个名叫<code>create()</code>的方法，其可以根据<code>Collection</code>的<code>Model</code>属性创建一个<code>Model</code>的实例，并执行<code>Model</code>的<code>save()</code>方法。所以我们的<code>TodoList</code>中的<code>add()</code>方法已经可以废去了。我们只需为<code>TodoList</code>提供<code>Model</code>属性的值即可，然后在<code>NewTodoView</code>的<code>addTodo()</code>方法中，替换<code>this.todoList.add()</code>方法为<code>this.todoList.create()</code>。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-</pre></td><td class="code"><pre>	
+</pre></figure><br><code>Collection</code>提供了一个名叫<code>create()</code>的方法，其可以根据<code>Collection</code>的<code>Model</code>属性创建一个<code>Model</code>的实例，并执行<code>Model</code>的<code>save()</code>方法。所以我们的<code>TodoList</code>中的<code>add()</code>方法已经可以废去了。我们只需为<code>TodoList</code>提供<code>Model</code>属性的值即可，然后在<code>NewTodoView</code>的<code>addTodo()</code>方法中，替换<code>this.todoList.add()</code>方法为<code>this.todoList.create()</code>。  </p>
+<p><figure class="highlight lang-javascript"><pre>	
 <span class="comment">/* … */</span>
 <span class="keyword">var</span> TodoList = Backbone.Collection.extend({
   model: Todo
@@ -1232,39 +666,8 @@ $(<span class="keyword">function</span>(){
   }
 });
 <span class="comment">/* … */</span>
-</pre></td></tr></table></figure><br>这时，我们的<code>Model</code>、<code>Collection</code>、<code>View</code>都已经齐上阵了。由于<code>Backbone</code>的<code>View</code>已经内置<code>collection</code>属性，使得我们可以设置、获取<code>View</code>对应的<code>Collection</code>，所以我们完全无需手动在<code>View</code>的内部来定义一个<code>todoList</code>的变量了。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-</pre></td><td class="code"><pre><span class="comment">/* … */</span>
+</pre></figure><br>这时，我们的<code>Model</code>、<code>Collection</code>、<code>View</code>都已经齐上阵了。由于<code>Backbone</code>的<code>View</code>已经内置<code>collection</code>属性，使得我们可以设置、获取<code>View</code>对应的<code>Collection</code>，所以我们完全无需手动在<code>View</code>的内部来定义一个<code>todoList</code>的变量了。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
 <span class="keyword">var</span> NewTodoView = Backbone.View.extend({
   initialize: <span class="keyword">function</span>(options){
     <span class="keyword">this</span>.collection.on(<span class="string">'add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
@@ -1295,14 +698,11 @@ $(<span class="keyword">function</span>(){
   <span class="keyword">new</span> NewTodoView({ el: $(<span class="string">'#new-todo'</span>), collection: todoList });
   <span class="keyword">new</span> TodoView({ el: $(<span class="string">'#todo-list'</span>), collection: todoList });
 });
-</pre></td></tr></table></figure><br>至此，完整的基于<code>Backbone</code>的<code>Model</code>、<code>Collection</code>、<code>View</code>模式就构建好了。如果说还有什么瑕疵的话，应该就是一些表层功夫了，那就是咱们的<code>HTML Element</code>的<code>append</code>了，需要做一些过滤，比如用户输入<code>JavaScript</code>代码那就糟糕了。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todo.get(<span class="string">'todoContent'</span>) + <span class="string">'&lt;/li&gt;'</span>);
+</pre></figure><br>至此，完整的基于<code>Backbone</code>的<code>Model</code>、<code>Collection</code>、<code>View</code>模式就构建好了。如果说还有什么瑕疵的话，应该就是一些表层功夫了，那就是咱们的<code>HTML Element</code>的<code>append</code>了，需要做一些过滤，比如用户输入<code>JavaScript</code>代码那就糟糕了。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todo.get(<span class="string">'todoContent'</span>) + <span class="string">'&lt;/li&gt;'</span>);
 调整为
 <span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todo.escape(<span class="string">'todoContent'</span>) + <span class="string">'&lt;/li&gt;'</span>);
-</pre></td></tr></table></figure><br>这样就Perfect了。文章忒长了点，但是为了从一个<code>0</code>变成一个<code>1</code>，我想应该还是很有意思的。</p>
+</pre></figure><br>这样就Perfect了。文章忒长了点，但是为了从一个<code>0</code>变成一个<code>1</code>，我想应该还是很有意思的。</p>
 ]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
     <category scheme="http://heroicyang.com/tags/backbone/" term="backbone"/>
@@ -1341,28 +741,7 @@ $(<span class="keyword">function</span>(){
 <p>对于客户端的<code>JavaScript</code>和<code>Nodejs</code>来说其实差距不是很大，这回就从客户端方面来说说<code>Event Loop</code>这个概念吧，算是<code>异步编程</code>的一个切入点吧。其实<code>jQuery</code>的作者John Resig在几年前就写了一篇好文章<a href="http://ejohn.org/blog/how-javascript-timers-work/">How JavaScript Timers Work</a>，来讲述<code>timer</code>和<code>事件</code>在浏览器中是怎样工作的，我也是通过这篇文章才“知其所以然”。  </p>
 <h3>问题场景</h3>
 <p>先来看看一段代码：  </p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"doBtn"</span>&gt;</span>do something<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<figure class="highlight lang-html"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"doBtn"</span>&gt;</span>do something<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
 <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"status"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">void</span> <span class="keyword">function</span>() {
@@ -1383,7 +762,7 @@ $(<span class="keyword">function</span>(){
     <span class="keyword">while</span> (<span class="keyword">new</span> Date() - start &lt;= ms) {}
   }
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-</pre></td></tr></table></figure>
+</pre></figure>
 
 <p>上面代码主要想完成一个功能：按钮被点击时------&gt;显示一个状态告知用户正在干一些事情------&gt;开始干------&gt;事情干完后状态变更为已完成。<br><a name="more"></a></p>
 <p>看上去没问题，应该是可以工作的，于是在浏览器运行这个页面。可是现实总是残忍的，没有符合预期效果。当点击按钮之后，浏览器就冻结了，用于显示状态的<code>div</code>并没有显示，界面上也没有“doing...”这个提示；经过<code>10s</code>之后，浏览器回过神了，代表耗时较长的计算已经结束，此时用于显示状态的<code>div</code>显示“done”。  </p>
@@ -1403,17 +782,7 @@ $(<span class="keyword">function</span>(){
 <p>于是结果就只看到了&quot;done&quot;。  </p>
 <h3>怎样解决？</h3>
 <p>使用<code>setTimeout()</code>，下面是修改后的<code>onclick</code>事件处理函数：</p>
-<figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre>doBtn.onclick = <span class="keyword">function</span>(e) {
+<figure class="highlight lang-javascript"><pre>doBtn.onclick = <span class="keyword">function</span>(e) {
   e.preventDefault();
 
   status.innerText = <span class="string">'doing...please wait...'</span>;  <span class="comment">//开始啦</span>
@@ -1423,7 +792,7 @@ $(<span class="keyword">function</span>(){
     status.innerText = <span class="string">'done'</span>;  <span class="comment">//完成啦</span>
   }, <span class="number">0</span>);  <span class="comment">// 0ms delay</span>
 };
-</pre></td></tr></table></figure>
+</pre></figure>
 
 <p>为什么这样就解决了呢？还是用上面的队列的图来解释。</p>
 <p><img src="http://img.heroicyang.com/js-event-loop-2.png" alt=""></p>
@@ -1440,11 +809,9 @@ $(<span class="keyword">function</span>(){
     <updated>2013-01-29T14:41:15.000Z</updated>
     <content type="html"><![CDATA[<p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  </p>
 <p>这两个方法所接收的参数都一样：  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>setTimeout(func|code, delay);
+<p><figure class="highlight lang-javascript"><pre>setTimeout(func|code, delay);
 setInterval(func|code, delay);
-</pre></td></tr></table></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
+</pre></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
 <p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  </p>
 <p>后者：按照指定的周期（以毫秒计），将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。<br><a name="more"></a>
 下面分别使用了<code>setInterval</code>和<code>setTimeout</code>来实现同一个功能，可运行查看效果。 </p>
@@ -1455,15 +822,7 @@ setInterval(func|code, delay);
 <p>假设定时器的上一个回调执行完到下一个回调开始的这段时间为时间间隔，那么对于<code>setTimeout</code>来说，这个时间间隔理论上是应该<code>&gt;=delay</code>；而对于<code>setInterval</code>来说，这个时间间隔理论上是应该<code>&lt;=delay</code>的。</p>
 <p>但事实总会有出人意料的地方，<code>setInterval</code>就是那个制造意外的东西。   </p>
 <p>以下是常规的代码：   </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre><span class="keyword">var</span> endTime = <span class="literal">null</span>;
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> endTime = <span class="literal">null</span>;
 setInterval(count, <span class="number">200</span>);
 <span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
@@ -1471,44 +830,30 @@ setInterval(count, <span class="number">200</span>);
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
   endTime = <span class="keyword">new</span> Date();
 }
-</pre></td></tr></table></figure><br>其执行结果也比较符合理论时间，见下图。</p>
+</pre></figure><br>其执行结果也比较符合理论时间，见下图。</p>
 <p><img src="http://img.heroicyang.com/setInterval1.png" alt="">   </p>
 <p>接下来修改代码，让<code>count()</code>方法的执行时间变长一点：  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
   i++;
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
   sleep(<span class="number">100</span>); <span class="comment">//sleep 100ms</span>
   endTime = <span class="keyword">new</span> Date();
 }
-</pre></td></tr></table></figure>
+</pre></figure>
 执行结果如下：</p>
 <p><img src="http://img.heroicyang.com/setInterval2.png" alt=""></p>
 <p>结合执行队列，可以用下图对上面两种情况进行直观的解释：</p>
 <p><img src="http://img.heroicyang.com/setInterval1-explain.png" alt="">   </p>
 <p>接下来再次修改代码，让<code>count()</code>方法的执行时间更长，设定为<code>setInterval</code>中<code>delay</code>的<code>2</code>倍，即<code>400ms</code>：  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
   i++;
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
   sleep(<span class="number">400</span>); <span class="comment">//sleep 400ms</span>
   endTime = <span class="keyword">new</span> Date();
 }
-</pre></td></tr></table></figure><br>其执行效果变为如下：</p>
+</pre></figure><br>其执行效果变为如下：</p>
 <p><img src="http://img.heroicyang.com/setInterval3.png" alt="">  </p>
 <p>意外发生了，每个回调之间的时间间隔竟然没有了，或者说缩短到非常小的间隔。事情大概是这样的：如果<code>setInterval</code>的定时时间到了，而前一个回调还没有执行完时，就会把这次的回调放在执行队列的队尾；如果<code>setInterval</code>的定时时间已经多次触发，而此时最前一个回调仍然还在执行，那么就会丢弃掉本次的回调。还是用图来直观说明吧。  </p>
 <p>这是回调处理时间比定时时间稍微长一点点的情况：</p>
@@ -1544,23 +889,7 @@ setInterval(count, <span class="number">200</span>);
 <p>因此，我们可以利用<code>setTimeout(func, 0)</code>来解决事件重叠所产生的负面效果，修正执行顺序。 </p>
 <h3>奇巧淫技之一：模拟浏览器的事件捕获</h3>
 <p>众所周知，浏览器的DOM事件都是采用冒泡的方式，只有个别浏览器是支持事件捕获的。而在实际的开发过程中可能存在需要事件捕获的需求，要求子元素的事件在父元素触发之后才能触发。为了兼容各个浏览器，我们不能使用事件捕获，而<code>setTimeout(func, 0)</code>在这个时候就很乐意帮忙了。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-</pre></td><td class="code"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click"</span> id=<span class="string">"cbtn"</span>&gt;
+<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click"</span> id=<span class="string">"cbtn"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"result"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> cbtn = document.getElementById(<span class="string">'cbtn'</span>)
@@ -1576,59 +905,35 @@ setInterval(count, <span class="number">200</span>);
     result.innerHTML += <span class="string">'body click -&gt; '</span>;
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></td></tr></table></figure><br>点击查看运行效果：  </p>
+</pre></figure><br>点击查看运行效果：  </p>
 <iframe src="http://sample.heroicyang.com/setTimeout01.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:80px; padding: 1px;"></iframe>
 
 <h3>奇巧淫技之二：让浏览器更好的工作</h3>
 <p>大多数情况下，我们可以在浏览器的默认行为之前对事件进行处理，但是有时我们按照常规的思路去做的时候，往往事与愿违。比如下面的例子。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
+<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> wordInput = document.getElementById(<span class="string">'wordInput'</span>);
   wordInput.onkeypress = <span class="keyword">function</span>(e) {
     <span class="keyword">this</span>.value = <span class="keyword">this</span>.value.toUpperCase();
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></td></tr></table></figure><br>看似一个很简单的需求：每输入一个字符，就将其转换为大写。但是上面的代码完全没有按照指示去做，不信你试试看：  </p>
+</pre></figure><br>看似一个很简单的需求：每输入一个字符，就将其转换为大写。但是上面的代码完全没有按照指示去做，不信你试试看：  </p>
 <iframe src="http://sample.heroicyang.com/setTimeout-toUpper-01.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; height:45px; padding: 1px;"></iframe>  
 
 <p>如果没有下一次输入，文本框中的小写字母永远都不会转换为大写。Why? 因为浏览器在<code>keypress</code>事件处理的时候，还没有将我们输入的值添加到文本框。于是乎换一个事件来handle然后再处理吧，既然键按下的时候还木有值，那就等键弹起来之后再处理。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
+<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> wordInput = document.getElementById(<span class="string">'wordInput'</span>);
   wordInput.onkeyup = <span class="keyword">function</span>(e) {
     <span class="keyword">this</span>.value = <span class="keyword">this</span>.value.toUpperCase();
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></td></tr></table></figure><br>运行试试吧。</p>
+</pre></figure><br>运行试试吧。</p>
 <iframe src="http://sample.heroicyang.com/setTimeout-toUpper-02.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; height:45px; padding: 1px;"></iframe>  
 
 <p>大概似乎是可行了，可是仔细观察就看出问题了。<code>keyup</code>事件触发时，文本框已经具备完整的值了，但先是一个小写的值，键完全释放之后转变为大写。这不科学…这太丑陋...  </p>
 <p>是时候关门放出<code>setTimeout(func, 0)</code>了。。。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
+<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> wordInput = document.getElementById(<span class="string">'wordInput'</span>);
   wordInput.onkeypress = <span class="keyword">function</span>(e) {
@@ -1638,7 +943,7 @@ setInterval(count, <span class="number">200</span>);
     }, <span class="number">0</span>);
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></td></tr></table></figure>  </p>
+</pre></figure>  </p>
 <iframe src="http://sample.heroicyang.com/setTimeout-toUpper-03.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; height:45px; padding: 1px;"></iframe>  
 
 <p>已经完美了。<code>keypress</code>事件触发时，将转换大写的操作添加到事件队列，紧接着浏览器添加我们输入的值，然后近乎0延迟的执行我们的转换大写操作函数。  </p>
@@ -1652,54 +957,35 @@ setInterval(count, <span class="number">200</span>);
     <link href="http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/"/>
     <id>http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/</id>
     <published>2012-10-14T14:50:00.000Z</published>
-    <updated>2013-05-16T15:34:57.000Z</updated>
+    <updated>2013-05-21T12:41:55.000Z</updated>
     <content type="html"><![CDATA[<p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
 <h2>同步事件</h2>
 <h3>DOM改变事件(DOM Mutation events)</h3>
-<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。  </p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://heroicyang.com/"</span>&gt;</span>heroicyang.com<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。</p>
+<figure class="highlight lang-html"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://heroicyang.com/"</span>&gt;</span>
+  heroicyang.com
+<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> anchor = document.getElementsByTagName(<span class="string">'a'</span>)[<span class="number">0</span>];
-
   anchor.onclick = <span class="keyword">function</span>(e) {
     alert(<span class="string">'in onclick'</span>);
     <span class="keyword">this</span>.setAttribute(<span class="string">'href'</span>, <span class="string">'#'</span>);
     alert(<span class="string">'out onclick'</span>);
     <span class="keyword">return</span> <span class="literal">false</span>;
   };
-
   <span class="keyword">if</span> (anchor.addEventListener) {  <span class="comment">//Firefox, Opera</span>
-    anchor.addEventListener(<span class="string">'DOMAttrModified'</span>, onpropchange, <span class="literal">false</span>);
+    anchor
+      .addEventListener(<span class="string">'DOMAttrModified'</span>, onpropchange, <span class="literal">false</span>);
   } <span class="keyword">else</span> <span class="keyword">if</span> (anchor.attachEvent) {  <span class="comment">//IE</span>
-    anchor.attachEvent(<span class="string">'onpropertychange'</span>, onpropchange);
+    anchor
+      .attachEvent(<span class="string">'onpropertychange'</span>, onpropchange);
   }
-
+  
   <span class="function"><span class="keyword">function</span> <span class="title">onpropchange</span><span class="params">()</span> {</span>
     alert(<span class="string">'onpropchange'</span>);
   }
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-</pre></td></tr></table></figure>
+</pre></figure>
 
 <p><a name="more"></a>
 当<code>click</code>事件触发时，其处理的顺序依次为：</p>
@@ -1711,23 +997,7 @@ setInterval(count, <span class="number">200</span>);
 <p><img src="http://img.heroicyang.com/synchronous-mutation-events.png" alt=""><br>关于<code>DOM Mutation events</code>，详情请参见：<br><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events"><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events">https://developer.mozilla.org/en-US/docs/DOM/Mutation_events</a></a><br><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents"><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents</a></a>  </p>
 <h3>嵌套的DOM事件</h3>
 <p>在浏览器端，有一些方法会立即触发某类事件，而这类事件也是同步的。比如<code>element.focus()</code>，下面是演示代码。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-</pre></td><td class="code"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click me"</span>&gt;
+<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click me"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> btn = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">0</span>]
@@ -1743,41 +1013,12 @@ setInterval(count, <span class="number">200</span>);
     console.log(<span class="string">'onfocus'</span>);
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></td></tr></table></figure><br>执行结果如下：</p>
+</pre></figure><br>执行结果如下：</p>
 <p><img src="http://img.heroicyang.com/synchronous-focus-event.png" alt="">  </p>
 <p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  </p>
 <h2>JavaScript执行与页面渲染</h2>
 <p>大多数浏览器中，JavaScript的执行和页面渲染是互斥的，于是JavaScript执行时，浏览器就不会做任何的页面渲染。比如下面的Demo...  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-</pre></td><td class="code"><pre>&lt;!DOCTYPE HTML&gt;
+<p><figure class="highlight lang-javascript"><pre>&lt;!DOCTYPE HTML&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en-US"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">head</span>&gt;</span>
   <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
@@ -1806,7 +1047,7 @@ setInterval(count, <span class="number">200</span>);
   </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></span>
-</pre></td></tr></table></figure></p>
+</pre></figure></p>
 <iframe src="http://sample.heroicyang.com/repaint.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>
 
 <p>运行上面的Demo后，大多数浏览器都会假死了，直到<code>container</code>的背景颜色变更为<code>#FFFFFF</code>后才恢复。而有的浏览器(如Firefox)还会弹出警告，告知JavaScript没有响应，是终止还是等待。但是Opera却能正常运行，并不断更改背景颜色。因此不同浏览器对页面渲染和JavaScript执行的实现方式是不一样的。  </p>
@@ -1814,27 +1055,7 @@ setInterval(count, <span class="number">200</span>);
 <h3>模式对话框的同步调用</h3>
 <p>浏览器提供的如<code>alert</code>等的模式对话框是同步调用的，所以当这类对话框工作时，会停止<code>JavaScript线程</code>，当然如页面渲染等活动也将被冻结。继续下面的Demo…当运行代码下面的<code>iframe</code>中的进度条后，无论是点击<code>主窗体中的alert</code>按钮，还是点击<code>iframe中的alert</code>按钮，都会导致进度条挂起。  </p>
 <p><input type="button" value="主窗体中的alert" onclick="alert('主窗体对话框');"></p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-</pre></td><td class="code"><pre>&lt;div id=<span class="string">"container"</span> style=<span class="string">"width: 0px; height: 20px; background-color: #A00000;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<p><figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span> style=<span class="string">"width: 0px; height: 20px; background-color: #A00000;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"iframe中的alert"</span> <span class="attribute">onclick</span>=<span class="value">"alert('iframe中的对话框');"</span>&gt;</span>
@@ -1854,7 +1075,7 @@ setInterval(count, <span class="number">200</span>);
     clearInterval(timer);
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></td></tr></table></figure></p>
+</pre></figure></p>
 <iframe src="http://sample.heroicyang.com/modal-sync.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:70px; padding: 1px;"></iframe>  
 
 <p>因此，浏览器所提供的<code>alert</code>、<code>confirm</code>、<code>prompt</code>这三类模式对话框，都会阻塞<code>JavaScript线程</code>和<code>UI线程</code>。  </p>
@@ -1862,31 +1083,7 @@ setInterval(count, <span class="number">200</span>);
 <p>在Opera中，点击<code>主窗体中的alert</code>按钮不会阻塞<code>iframe</code>中的进度条。。。又打破我们的常规认识啊：同一个页面上，<code>iframe</code>是和主窗体同一个线程的。但Opera的设计并非如此。。。  </p>
 <h2>当脚本需要花很长的时间干复杂的工作时</h2>
 <p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-</pre></td><td class="code"><pre>&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<p><figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
@@ -1910,7 +1107,7 @@ setInterval(count, <span class="number">200</span>);
     clearTimeout(timer);
   }
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></td></tr></table></figure></p>
+</pre></figure></p>
 <iframe src="http://sample.heroicyang.com/heavy-jobs.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>  
 
 <p>最后，总结一下<code>setTimeout(func, 0)</code>的使用场景吧：</p>
@@ -1929,7 +1126,7 @@ setInterval(count, <span class="number">200</span>);
     <link href="http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/"/>
     <id>http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/</id>
     <published>2013-03-26T15:42:35.000Z</published>
-    <updated>2013-03-27T14:32:36.000Z</updated>
+    <updated>2013-05-21T14:01:51.000Z</updated>
     <content type="html"><![CDATA[<p>最近总算是把《JavaScript设计模式》这本书给认认真真啃完了，受益匪浅。虽然已经是几年前的出版物了，而且也没得地方可以买到，但是我个人觉得这本书是JavaScript程序员必读书籍之一。如果没有读过，建议一读，绝对不会让你失望。  </p>
 <p>而可能有一些地方的翻译让人一开始有点迷糊，比如我们常说的“单例模式”被译为“单体模式”，而“mixin class”被译为“掺元类”。但是对于我这种E文能力弱的人来说，完全没有挑剔的地方。  </p>
 <p>我在读这本书的时候，采取了一些阅读方式来加深理解，个人感觉还过得去，就简单的分享下。我每两天完成一章节，第一天阅读整个章节的内容，边理解边对照着写实例代码；之后若是一有时间，大脑就温习这次的内容；第二天则主动回忆前一天所阅读的内容，整理简要的笔记纲要，并按照个人的理解和笔记纲要再写一次实例代码。  </p>

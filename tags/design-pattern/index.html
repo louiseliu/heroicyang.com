@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>design pattern | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   
   <meta property="og:site_name" content="Heroic Yang's Blog"/>
@@ -22,11 +23,12 @@
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
+  <div class="wrapper">
+    <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
+  <p><a href="/">Front-Ender, love javascript and node.</a></p>
 </div>
-<nav id="main-nav" class="alignright">
+<nav class="nav">
   <ul>
     
       <li><a href="/">Home</a></li>
@@ -41,96 +43,69 @@
   <div class="clearfix"></div>
 </nav>
 <div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-
-
+    <div class="content">
 <h2 class="archive-title tag">design pattern</h2>
 
 
-  <div class="archive">
+  
+    <article class="post">
+  <header>
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2013-03-26T15:42:35.000Z"><a href="/2013/03/26/javascript-design-pattern-notes/">Mar 26 2013</a></time>
-            
-              <h1 class="title"><a href="/2013/03/26/javascript-design-pattern-notes/">《JavaScript设计模式》阅读笔记</a></h1>
-            
-          </header>
+      <div class="icon"></div>
+      <time datetime="2013-03-26T15:42:35.000Z"><a href="/2013/03/26/javascript-design-pattern-notes/">Mar 26 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/03/26/javascript-design-pattern-notes/">《JavaScript设计模式》阅读笔记</a></h1>
+  
+
+  </header>
+  <div class="entry">
+    
+      <p>最近总算是把《JavaScript设计模式》这本书给认认真真啃完了，受益匪浅。虽然已经是几年前的出版物了，而且也没得地方可以买到，但是我个人觉得这本书是JavaScript程序员必读书籍之一。如果没有读过，建议一读，绝对不会让你失望。  </p>
+<p>而可能有一些地方的翻译让人一开始有点迷糊，比如我们常说的“单例模式”被译为“单体模式”，而“mixin class”被译为“掺元类”。但是对于我这种E文能力弱的人来说，完全没有挑剔的地方。  </p>
+<p>我在读这本书的时候，采取了一些阅读方式来加深理解，个人感觉还过得去，就简单的分享下。我每两天完成一章节，第一天阅读整个章节的内容，边理解边对照着写实例代码；之后若是一有时间，大脑就温习这次的内容；第二天则主动回忆前一天所阅读的内容，整理简要的笔记纲要，并按照个人的理解和笔记纲要再写一次实例代码。  </p>
+<p>因此这本书读完之后，我的笔记也就随即产出了。我没有采用很长的篇幅记录，而是思维导图来整理每一章的内容，这样也方便日后温习。  </p>
+<p>呃，好久也没有写博客了，所以将笔记也一并分享出来，也欢迎大家分享自己的学习方法和笔记方法。<br>
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/03/26/javascript-design-pattern-notes/#more" class="more-link">阅读全文</a>
         </div>
-      </article>
+      
+      
     
-  </div>
-</div></div>
-    <aside id="sidebar" class="alignright">
-<div class="search">
-  <form action="http://google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:heroicyang.com">
-  </form>
-</div>
-
-
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
-  
-    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
-  
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget twitter">
-  <h3 class="title">Tweets</h3>
-  <ul id="tweets"></ul>
-</div>
-
-<script type="text/javascript">
-var twitter_stream = ['heroicyang', 5, false];
-var moment_js_path = '/js/moment.min.js';
-</script>
-<script src="/js/twitter.js"></script>
-
-
-</aside>
     <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div>
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+  <footer id="footer"><div class="copyright">
   
-  &copy; 2013 Heroic Yang
+  &copy; 2013 <a href="/">Heroic Yang</a>
   
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
 </div>
 <div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
 

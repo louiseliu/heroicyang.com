@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>像黑客一样写博客 | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
@@ -10,7 +11,7 @@
 其实早就有换掉WordPress的想法，一是因为它太臃肿了，我只是想简单的写写博客，用不着那么多强大的功能；二是它对插入代码的支持让我绝望了，每次用Markdown写好文章，复制其HTML到WordPress之后，都要调整好半天的样式；三是我之前的博客中太多的碎碎念之类的水文了，可谓杂、乱，并不像一个记录技术的博客。综合这些借口，我每次登录到WordPress后台都没有再写文章的激情。">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <meta property="og:title" content="像黑客一样写博客"/>
   <meta property="og:site_name" content="Heroic Yang's Blog"/>
@@ -25,11 +26,12 @@
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
+  <div class="wrapper">
+    <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
+  <p><a href="/">Front-Ender, love javascript and node.</a></p>
 </div>
-<nav id="main-nav" class="alignright">
+<nav class="nav">
   <ul>
     
       <li><a href="/">Home</a></li>
@@ -44,26 +46,21 @@
   <div class="clearfix"></div>
 </nav>
 <div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-
-<article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2012-08-26T15:24:00.000Z"><a href="/2012/08/26/blogging-like-a-hacker/">Aug 26 2012</a></time>
-      
-      
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2012-08-26T15:24:00.000Z"><a href="/2012/08/26/blogging-like-a-hacker/">Aug 26 2012</a></time>
+    
+    
   
     <h1 class="title">像黑客一样写博客</h1>
   
 
-    </header>
-    <div class="entry">
-      
-        <p>“像黑客一样写博客”，这个标题是网络上对<code>Octopress</code>（其实应该是<code>Jekyll</code>）的评价，而这一评价是来自一篇几年前的<a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html">文章</a>。当我将自己的博客抹掉并重新开始的时候，我也准备以这个标题来作为这次的新起点。  </p>
+  </header>
+  <div class="entry">
+    
+      <p>“像黑客一样写博客”，这个标题是网络上对<code>Octopress</code>（其实应该是<code>Jekyll</code>）的评价，而这一评价是来自一篇几年前的<a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html">文章</a>。当我将自己的博客抹掉并重新开始的时候，我也准备以这个标题来作为这次的新起点。  </p>
 <p>其实早就有换掉<code>WordPress</code>的想法，一是因为它太臃肿了，我只是想简单的写写博客，用不着那么多强大的功能；二是它对插入代码的支持让我绝望了，每次用<code>Markdown</code>写好文章，复制其<code>HTML</code>到<code>WordPress</code>之后，都要调整好半天的样式；三是我之前的博客中太多的碎碎念之类的水文了，可谓杂、乱，并不像一个记录技术的博客。综合这些借口，我每次登录到<code>WordPress</code>后台都没有再写文章的激情。<br><a name="more"></a>
 而之前我也和<a href="http://veryb.us/">fiture</a>聊到用<a href="http://heroicyang.com/tags/nodejs/">Nodejs</a>来重新写个博客，也当学习练手。经过间歇性的聊聊之后，我提议说不弄数据库了，直接将文章以<code>Markdown</code>的格式<code>push</code>到<code>Github</code>吧等等的初步想法。当时我们觉得还不错，因为也没了解过有没有这样的东西存在，之后我下意识地搜了下。结果发现了<code>OctoPress</code>这个东西，了解之后感觉完全正合我意啊，所以二话不说就直接给换上了。  </p>
 <p>于是我总算是终于弃掉了<code>WordPress</code>，用上<code>Octopress</code>这个高级货，可谓得心应手。  </p>
@@ -78,27 +75,21 @@
 <p>这样，就只需要一个<code>Markdown</code>编辑器（推荐<a href="http://mouapp.com/">Mou</a>和<a href="http://www.sublimetext.com/2">Sublime Text 2</a>），再配合终端的<code>git</code>命令就OK了，其余的都不用管了，交给第三方去。比如：评论系统我就采用了国内的<a href="http://duoshuo.com/">多说</a>；然后用<a href="http://dropbox.com/">Dropbox</a>来保存文章中会用到的图片，因为<code>Dropbox</code>被<code>GFW</code>认证，所以再利用<a href="http://en.wikipedia.org/wiki/Nginx">Nginx</a>做个<a href="http://en.wikipedia.org/wiki/Reverse_proxy">反向代理</a>。一切都妥妥的了。  </p>
 <p>以前博客的那些废柴文章都不要了，不过还是做了个备份，算是纪念好了。而把近期写的3篇与<a href="http://heroicyang.com/tags/javascript/">JavaScript</a>相关的文章转移了过来，重新开始技术博客的历程，见证成长。</p>
 
-      
-    </div>
-    <footer>
-      
-        
-  
-  <div class="categories">
     
   </div>
-
-        
+  <footer>
+    
+      
+      
   
   <div class="tags">
     <a href="/tags/blog/">blog</a>
   </div>
 
-        
       
-      <div class="clearfix"></div>
-    </footer>
-  </div>
+    
+    <div class="clearfix"></div>
+  </footer>
 </article>
 
 
@@ -108,74 +99,21 @@
   <div class="ds-thread" data-title="像黑客一样写博客">
   </div>
 </section>
-</div></div>
-    <aside id="sidebar" class="alignright">
-<div class="search">
-  <form action="http://google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:heroicyang.com">
-  </form>
 </div>
-
-
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
-  
-    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
-  
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget twitter">
-  <h3 class="title">Tweets</h3>
-  <ul id="tweets"></ul>
-</div>
-
-<script type="text/javascript">
-var twitter_stream = ['heroicyang', 5, false];
-var moment_js_path = '/js/moment.min.js';
-</script>
-<script src="/js/twitter.js"></script>
-
-
-</aside>
-    <div class="clearfix"></div>
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+  <footer id="footer"><div class="copyright">
   
-  &copy; 2013 Heroic Yang
+  &copy; 2013 <a href="/">Heroic Yang</a>
   
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
 </div>
 <div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
 

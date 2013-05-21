@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>mvc | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   
   <meta property="og:site_name" content="Heroic Yang's Blog"/>
@@ -22,11 +23,12 @@
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
+  <div class="wrapper">
+    <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
+  <p><a href="/">Front-Ender, love javascript and node.</a></p>
 </div>
-<nav id="main-nav" class="alignright">
+<nav class="nav">
   <ul>
     
       <li><a href="/">Home</a></li>
@@ -41,108 +43,139 @@
   <div class="clearfix"></div>
 </nav>
 <div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-
-
+    <div class="content">
 <h2 class="archive-title tag">mvc</h2>
 
 
-  <div class="archive">
+  
+    <article class="post">
+  <header>
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">Aug 9 2012</a></time>
-            
-              <h1 class="title"><a href="/2012/08/09/to-backbone-tutorial-2/">Backbone之旅：前端MVC架构初体验（下）</a></h1>
-            
-          </header>
-        </div>
-      </article>
+      <div class="icon"></div>
+      <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">Aug 9 2012</a></time>
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
-            
-              <h1 class="title"><a href="/2012/08/08/to-backbone-tutorial-1/">Backbone之旅：前端MVC架构初体验（上）</a></h1>
-            
-          </header>
-        </div>
-      </article>
+    
+  
+    <h1 class="title"><a href="/2012/08/09/to-backbone-tutorial-2/">Backbone之旅：前端MVC架构初体验（下）</a></h1>
+  
+
+  </header>
+  <div class="entry">
+    
+      <p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  </p>
+<p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> events = _.clone(Backbone.Events);
+
+<span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+
+TodoList.prototype.add = <span class="keyword">function</span>(options){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: options.todoContent },
+    success: options.success
+  });
+};
+
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+  $(<span class="string">'#new-todo form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+
+  <span class="keyword">this</span>.todoList.add({
+    todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+    success: <span class="keyword">function</span>(data){
+      events.trigger(<span class="string">'todo:add'</span>, data.todoContent);
+    }
+  });
+};
+
+<span class="comment">/*后面不变*/</span>
+</pre></figure><br>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  </p>
+<p>
     
   </div>
-</div></div>
-    <aside id="sidebar" class="alignright">
-<div class="search">
-  <form action="http://google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:heroicyang.com">
-  </form>
-</div>
-
-
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
-  
-    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
-  
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget twitter">
-  <h3 class="title">Tweets</h3>
-  <ul id="tweets"></ul>
-</div>
-
-<script type="text/javascript">
-var twitter_stream = ['heroicyang', 5, false];
-var moment_js_path = '/js/moment.min.js';
-</script>
-<script src="/js/twitter.js"></script>
-
-
-</aside>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2012/08/09/to-backbone-tutorial-2/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
     <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2012/08/08/to-backbone-tutorial-1/">Backbone之旅：前端MVC架构初体验（上）</a></h1>
+  
+
+  </header>
+  <div class="entry">
+    
+      <p>最近一段时间来，才算是真正的开始深入学习<code>JavaScript</code>，收获颇丰。也首次领略了前端<code>MVC</code>架构的风采，现在前端<code>MVC</code>的类库和框架越来越多，在经过初步的评估之后，决定先学习备受推崇的<code>Backbone</code>。 </p>
+<p>以前自己做的一些<code>Web</code>应用，基本上都是按照非常传统的方式：1.服务器端渲染模板；2.利用<code>jQuery</code>的<code>ajax</code>进行异步数据交换。所以首次接触前端架构类的东西，难免有点无从下手。经过几天的奋战，以及参阅国外大牛们的各种<code>Tutorial</code>之后，终于拨开迷雾，缕了些头绪，自己也试着从传统的方式过渡（重构）出了所谓的架构性的代码。  </p>
+<p>整个重构的过程让我受益良多，所以决定再认真的记录一遍，加深自己的印象，也再确认一遍自己是否真的搞明白了，文章应该会比较长。  </p>
+
+    
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2012/08/08/to-backbone-tutorial-1/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
   
-  &copy; 2013 Heroic Yang
+
+  <nav id="pagination">
   
+  
+  <div class="clearfix"></div>
+</nav>
+</div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2013 <a href="/">Heroic Yang</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
 </div>
 <div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
 

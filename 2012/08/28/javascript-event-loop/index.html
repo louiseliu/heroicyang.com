@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>JavaScript Event Loop 浅析 | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
@@ -10,27 +11,6 @@
 对于客户端的JavaScript和Nodejs来说其实差距不是很大，这回就从客户端方面来说说Event Loop这个概念吧，算是异步编程的一个切入点吧。其实jQuery的作者John Resig在几年前就写了一篇好文章How JavaScript Timers Work，来讲述timer和事件在浏览器中是怎样工作的，我也是通过这篇文章才“知其所以然”。  
 问题场景
 先来看看一段代码：  
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
 &lt;a href=&quot;#&quot; id=&quot;doBtn&quot;&gt;do something&lt;/a&gt;
 &lt;div id=&quot;status&quot;&gt;&lt;/div&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
@@ -57,7 +37,7 @@
 上面代码主要想完成一个功能：按钮被点击时------&gt;显示一个状态告知用户正在干一些事情------&gt;开始干------&gt;事情干完后状态变更为已完成。">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <meta property="og:title" content="JavaScript Event Loop 浅析"/>
   <meta property="og:site_name" content="Heroic Yang's Blog"/>
@@ -72,11 +52,12 @@
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
+  <div class="wrapper">
+    <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
+  <p><a href="/">Front-Ender, love javascript and node.</a></p>
 </div>
-<nav id="main-nav" class="alignright">
+<nav class="nav">
   <ul>
     
       <li><a href="/">Home</a></li>
@@ -91,51 +72,25 @@
   <div class="clearfix"></div>
 </nav>
 <div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-
-<article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2012-08-28T14:52:00.000Z"><a href="/2012/08/28/javascript-event-loop/">Aug 28 2012</a></time>
-      
-      
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2012-08-28T14:52:00.000Z"><a href="/2012/08/28/javascript-event-loop/">Aug 28 2012</a></time>
+    
+    
   
     <h1 class="title">JavaScript Event Loop 浅析</h1>
   
 
-    </header>
-    <div class="entry">
-      
-        <p>最近在学习<code>Nodejs</code>的过程中深入的了解了<code>异步编程</code>这个概念，为了更好的使用<code>Nodejs</code>，这些概念不可不知。在以前作为一个<code>JavaScript</code>用户的时候，完全是不知道它是怎么运行的，对好些概念也是“知其然不知其所以然”。  </p>
+  </header>
+  <div class="entry">
+    
+      <p>最近在学习<code>Nodejs</code>的过程中深入的了解了<code>异步编程</code>这个概念，为了更好的使用<code>Nodejs</code>，这些概念不可不知。在以前作为一个<code>JavaScript</code>用户的时候，完全是不知道它是怎么运行的，对好些概念也是“知其然不知其所以然”。  </p>
 <p>对于客户端的<code>JavaScript</code>和<code>Nodejs</code>来说其实差距不是很大，这回就从客户端方面来说说<code>Event Loop</code>这个概念吧，算是<code>异步编程</code>的一个切入点吧。其实<code>jQuery</code>的作者John Resig在几年前就写了一篇好文章<a href="http://ejohn.org/blog/how-javascript-timers-work/">How JavaScript Timers Work</a>，来讲述<code>timer</code>和<code>事件</code>在浏览器中是怎样工作的，我也是通过这篇文章才“知其所以然”。  </p>
 <h3>问题场景</h3>
 <p>先来看看一段代码：  </p>
-<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"doBtn"</span>&gt;</span>do something<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<figure class="highlight lang-html"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"doBtn"</span>&gt;</span>do something<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
 <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"status"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">void</span> <span class="keyword">function</span>() {
@@ -156,7 +111,7 @@
     <span class="keyword">while</span> (<span class="keyword">new</span> Date() - start &lt;= ms) {}
   }
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-</pre></td></tr></table></figure>
+</pre></figure>
 
 <p>上面代码主要想完成一个功能：按钮被点击时------&gt;显示一个状态告知用户正在干一些事情------&gt;开始干------&gt;事情干完后状态变更为已完成。<br><a name="more"></a></p>
 <p>看上去没问题，应该是可以工作的，于是在浏览器运行这个页面。可是现实总是残忍的，没有符合预期效果。当点击按钮之后，浏览器就冻结了，用于显示状态的<code>div</code>并没有显示，界面上也没有“doing...”这个提示；经过<code>10s</code>之后，浏览器回过神了，代表耗时较长的计算已经结束，此时用于显示状态的<code>div</code>显示“done”。  </p>
@@ -176,17 +131,7 @@
 <p>于是结果就只看到了&quot;done&quot;。  </p>
 <h3>怎样解决？</h3>
 <p>使用<code>setTimeout()</code>，下面是修改后的<code>onclick</code>事件处理函数：</p>
-<figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre>doBtn.onclick = <span class="keyword">function</span>(e) {
+<figure class="highlight lang-javascript"><pre>doBtn.onclick = <span class="keyword">function</span>(e) {
   e.preventDefault();
 
   status.innerText = <span class="string">'doing...please wait...'</span>;  <span class="comment">//开始啦</span>
@@ -196,32 +141,31 @@
     status.innerText = <span class="string">'done'</span>;  <span class="comment">//完成啦</span>
   }, <span class="number">0</span>);  <span class="comment">// 0ms delay</span>
 };
-</pre></td></tr></table></figure>
+</pre></figure>
 
 <p>为什么这样就解决了呢？还是用上面的队列的图来解释。</p>
 <p><img src="http://img.heroicyang.com/js-event-loop-2.png" alt=""></p>
 
+    
+  </div>
+  <footer>
+    
       
-    </div>
-    <footer>
-      
-        
   
   <div class="categories">
     <a href="/categories/JavaScript/">JavaScript</a>
   </div>
 
-        
+      
   
   <div class="tags">
     <a href="/tags/javascript/">javascript</a>, <a href="/tags/javascript-timer/">javascript timer</a>, <a href="/tags/event-loop/">event-loop</a>
   </div>
 
-        
       
-      <div class="clearfix"></div>
-    </footer>
-  </div>
+    
+    <div class="clearfix"></div>
+  </footer>
 </article>
 
 
@@ -231,74 +175,21 @@
   <div class="ds-thread" data-title="JavaScript Event Loop 浅析">
   </div>
 </section>
-</div></div>
-    <aside id="sidebar" class="alignright">
-<div class="search">
-  <form action="http://google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:heroicyang.com">
-  </form>
 </div>
-
-
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
-  
-    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
-  
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget twitter">
-  <h3 class="title">Tweets</h3>
-  <ul id="tweets"></ul>
-</div>
-
-<script type="text/javascript">
-var twitter_stream = ['heroicyang', 5, false];
-var moment_js_path = '/js/moment.min.js';
-</script>
-<script src="/js/twitter.js"></script>
-
-
-</aside>
-    <div class="clearfix"></div>
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+  <footer id="footer"><div class="copyright">
   
-  &copy; 2013 Heroic Yang
+  &copy; 2013 <a href="/">Heroic Yang</a>
   
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
 </div>
 <div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
 

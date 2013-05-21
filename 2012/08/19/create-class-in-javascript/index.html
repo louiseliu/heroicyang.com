@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>JavaScript中创建类的方式 | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
@@ -11,7 +12,7 @@
 因此，在JavaScript中创建类就唯有使用模拟的方式，而模拟的手法多种多样，何时采用何种方式最合适，需视情况而定。以下就记录下常见的几种模式。">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <meta property="og:title" content="JavaScript中创建类的方式"/>
   <meta property="og:site_name" content="Heroic Yang's Blog"/>
@@ -26,11 +27,12 @@
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
+  <div class="wrapper">
+    <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
+  <p><a href="/">Front-Ender, love javascript and node.</a></p>
 </div>
-<nav id="main-nav" class="alignright">
+<nav class="nav">
   <ul>
     
       <li><a href="/">Home</a></li>
@@ -45,44 +47,27 @@
   <div class="clearfix"></div>
 </nav>
 <div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-
-<article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2012-08-18T17:05:00.000Z"><a href="/2012/08/19/create-class-in-javascript/">Aug 19 2012</a></time>
-      
-      
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2012-08-18T17:05:00.000Z"><a href="/2012/08/19/create-class-in-javascript/">Aug 19 2012</a></time>
+    
+    
   
     <h1 class="title">JavaScript中创建类的方式</h1>
   
 
-    </header>
-    <div class="entry">
-      
-        <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  </p>
+  </header>
+  <div class="entry">
+    
+      <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  </p>
 <p>在<code>JavaScript</code>中是其实不存在所谓“类”的概念，因为它并不是面向对象的语言。在面向对象中，一个最常见的说法就是：“类”是“对象”的模板，基本上都是采用语言内置的<code>Class</code>或<code>class</code>关键字来定义“类”。而<code>JavaScript</code>不存在这个概念，所以也没有提供类似的关键字（虽然<code>class</code>是<code>JavaScript</code>的关键字，但是至今都没有实现，只是被保留而已）。  </p>
 <p>因此，在<code>JavaScript</code>中创建类就唯有使用模拟的方式，而模拟的手法多种多样，何时采用何种方式最合适，需视情况而定。以下就记录下常见的几种模式。
 <a name="more"></a></p>
 <h3>一.工厂模式</h3>
 <p>工厂方法是设计模式中非常基础的，也被广泛用于面向对象编程中。而在<code>JavaScript</code>中，通过工厂方法即能模拟出类的行为。  </p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span>
   <span class="keyword">var</span> obj = {};
   obj.name = name;
   obj.sex = sex;
@@ -94,20 +79,10 @@
 }
 <span class="keyword">var</span> personA = createPerson(<span class="string">'heroicYang'</span>, <span class="string">'male'</span>);
 <span class="keyword">var</span> personB = createPerosn(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
-</pre></td></tr></table></figure><br>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。</p>
+</pre></figure><br>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。</p>
 <h3>二.构造函数模式</h3>
 <p>其实，这应该是很常见的模式了，很多书上基本上一来就是讲这个的，更狠点的可能就只讲这个…</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
   <span class="keyword">this</span>.name = name;
   <span class="keyword">this</span>.sex = sex;
   …
@@ -117,7 +92,7 @@
 }
 <span class="keyword">var</span> personA = <span class="keyword">new</span> Person(<span class="string">'heroic'</span>, <span class="string">'male'</span>);
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
-</pre></td></tr></table></figure><br>这种模拟类方式的特点就是:</p>
+</pre></figure><br>这种模拟类方式的特点就是:</p>
 <ol>
 <li>没有显示的创建对象   </li>
 <li>直接将属性和方法赋给了<code>this</code>对象    </li>
@@ -126,22 +101,7 @@
 <p>在使用这种方式时，创建对象则必须使用<code>new</code>关键字。当然，好处就是完全解决了对象类型识别问题。</p>
 <h3>三.原型模式</h3>
 <p>原型应该是<code>JavaScript</code>中一个很有意思，当然也是很有用的一个概念了。接下来用原型模式来模拟类。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-</pre></td><td class="code"><pre>  
+<p><figure class="highlight lang-javascript"><pre>  
 <span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">()</span> {</span>}
 Person.prototype = {
   name: <span class="literal">null</span>,
@@ -156,23 +116,10 @@ personA.sex = <span class="string">'male'</span>;
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person;
 personB.name = <span class="string">'路人甲'</span>;
 personB.sex = <span class="string">'male'</span>;
-</pre></td></tr></table></figure></p>
+</pre></figure></p>
 <h3>四.组合使用构造函数和原型模式</h3>
 <p>由于只用原型模式的话，会带来一些问题，所以常规情况下，都是采用组合构造函数和原型模式来创建类，这也是使用率最高的一种方式。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
   <span class="keyword">this</span>.name = name;
   <span class="keyword">this</span>.sex = sex;
   …
@@ -185,21 +132,10 @@ Person.prototype.getName = <span class="keyword">function</span>() {
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
 personA.getName(); <span class="comment">//"heroic"</span>
 personB.getName(); <span class="comment">//"路人甲"</span>
-</pre></td></tr></table></figure></p>
+</pre></figure></p>
 <h3>五.寄生构造函数模式</h3>
 <p>这种模式和工厂模式非常相似。</p>
-<p><figure class="highlight lang-javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span>
+<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> values = <span class="keyword">new</span> Array();
   values.push.apply(values, arguments);
     
@@ -210,29 +146,28 @@ personB.getName(); <span class="comment">//"路人甲"</span>
 }
 <span class="keyword">var</span> test = <span class="keyword">new</span> SpecialArray(<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>);
 test.toPipString(); <span class="comment">// "1|2|3"</span>
-</pre></td></tr></table></figure><br>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
+</pre></figure><br>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
 
+    
+  </div>
+  <footer>
+    
       
-    </div>
-    <footer>
-      
-        
   
   <div class="categories">
     <a href="/categories/JavaScript/">JavaScript</a>
   </div>
 
-        
+      
   
   <div class="tags">
     <a href="/tags/javascript/">javascript</a>, <a href="/tags/javascript-class/">javascript class</a>
   </div>
 
-        
       
-      <div class="clearfix"></div>
-    </footer>
-  </div>
+    
+    <div class="clearfix"></div>
+  </footer>
 </article>
 
 
@@ -242,74 +177,21 @@ test.toPipString(); <span class="comment">// "1|2|3"</span>
   <div class="ds-thread" data-title="JavaScript中创建类的方式">
   </div>
 </section>
-</div></div>
-    <aside id="sidebar" class="alignright">
-<div class="search">
-  <form action="http://google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:heroicyang.com">
-  </form>
 </div>
-
-
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
-  
-    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
-  
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget twitter">
-  <h3 class="title">Tweets</h3>
-  <ul id="tweets"></ul>
-</div>
-
-<script type="text/javascript">
-var twitter_stream = ['heroicyang', 5, false];
-var moment_js_path = '/js/moment.min.js';
-</script>
-<script src="/js/twitter.js"></script>
-
-
-</aside>
-    <div class="clearfix"></div>
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+  <footer id="footer"><div class="copyright">
   
-  &copy; 2013 Heroic Yang
+  &copy; 2013 <a href="/">Heroic Yang</a>
   
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
 </div>
 <div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
 

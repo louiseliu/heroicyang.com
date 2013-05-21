@@ -2,12 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
   <title>Archives: 2012/10 | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   
   <meta property="og:site_name" content="Heroic Yang's Blog"/>
@@ -22,11 +23,12 @@
 
 
 <body>
-  <header id="header" class="inner"><div class="alignleft">
+  <div class="wrapper">
+    <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <h2><a href="/">Front-Ender, love javascript and node.</a></h2>
+  <p><a href="/">Front-Ender, love javascript and node.</a></p>
 </div>
-<nav id="main-nav" class="alignright">
+<nav class="nav">
   <ul>
     
       <li><a href="/">Home</a></li>
@@ -41,96 +43,94 @@
   <div class="clearfix"></div>
 </nav>
 <div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-
-
+    <div class="content">
 <h2 class="archive-title">2012/10</h2>
 
 
-  <div class="archive">
+  
+    <article class="post">
+  <header>
     
-      <article class="post">
-        <div class="post-content">
-          <header>
-            <div class="icon"></div>
-            <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
-            
-              <h1 class="title"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">深入理解JavaScript定时器（续）</a></h1>
-            
-          </header>
+      <div class="icon"></div>
+      <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">深入理解JavaScript定时器（续）</a></h1>
+  
+
+  </header>
+  <div class="entry">
+    
+      <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
+<h2>同步事件</h2>
+<h3>DOM改变事件(DOM Mutation events)</h3>
+<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。</p>
+<figure class="highlight lang-html"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://heroicyang.com/"</span>&gt;</span>
+  heroicyang.com
+<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> anchor = document.getElementsByTagName(<span class="string">'a'</span>)[<span class="number">0</span>];
+  anchor.onclick = <span class="keyword">function</span>(e) {
+    alert(<span class="string">'in onclick'</span>);
+    <span class="keyword">this</span>.setAttribute(<span class="string">'href'</span>, <span class="string">'#'</span>);
+    alert(<span class="string">'out onclick'</span>);
+    <span class="keyword">return</span> <span class="literal">false</span>;
+  };
+  <span class="keyword">if</span> (anchor.addEventListener) {  <span class="comment">//Firefox, Opera</span>
+    anchor
+      .addEventListener(<span class="string">'DOMAttrModified'</span>, onpropchange, <span class="literal">false</span>);
+  } <span class="keyword">else</span> <span class="keyword">if</span> (anchor.attachEvent) {  <span class="comment">//IE</span>
+    anchor
+      .attachEvent(<span class="string">'onpropertychange'</span>, onpropchange);
+  }
+  
+  <span class="function"><span class="keyword">function</span> <span class="title">onpropchange</span><span class="params">()</span> {</span>
+    alert(<span class="string">'onpropchange'</span>);
+  }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</pre></figure>
+
+<p>
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2012/10/14/javascript-timer-and-event-in-depth/#more" class="more-link">阅读全文</a>
         </div>
-      </article>
+      
+      
     
-  </div>
-</div></div>
-    <aside id="sidebar" class="alignright">
-<div class="search">
-  <form action="http://google.com/search" method="get" accept-charset="utf-8">
-    <input type="text" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:heroicyang.com">
-  </form>
-</div>
-
-
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/JavaScript/">JavaScript</a><small>8</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
-  
-    <li><a href="/tags/javascript-class/">javascript class</a><small>1</small></li>
-  
-    <li><a href="/tags/backbone/">backbone</a><small>2</small></li>
-  
-    <li><a href="/tags/mvc/">mvc</a><small>2</small></li>
-  
-    <li><a href="/tags/blog/">blog</a><small>1</small></li>
-  
-    <li><a href="/tags/javascript-timer/">javascript timer</a><small>4</small></li>
-  
-    <li><a href="/tags/event-loop/">event-loop</a><small>1</small></li>
-  
-    <li><a href="/tags/design-pattern/">design pattern</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-
-<div class="widget twitter">
-  <h3 class="title">Tweets</h3>
-  <ul id="tweets"></ul>
-</div>
-
-<script type="text/javascript">
-var twitter_stream = ['heroicyang', 5, false];
-var moment_js_path = '/js/moment.min.js';
-</script>
-<script src="/js/twitter.js"></script>
-
-
-</aside>
     <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
+  
+
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
+</div>
   </div>
-  <footer id="footer" class="inner"><div class="alignleft">
+  <footer id="footer"><div class="copyright">
   
-  &copy; 2013 Heroic Yang
+  &copy; 2013 <a href="/">Heroic Yang</a>
   
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
 </div>
 <div class="clearfix"></div></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
 
