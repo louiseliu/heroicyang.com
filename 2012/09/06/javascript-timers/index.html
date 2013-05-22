@@ -63,6 +63,7 @@ setInterval(func|code, delay);
   
 
   </header>
+  
   <div class="entry">
     
       <p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  </p>
@@ -143,7 +144,6 @@ setInterval(count, <span class="number">200</span>);
 </article>
 
 
-
 <section id="comment">
   <h1 class="title">Comments</h1>
   <div class="ds-thread" data-title="理解JavaScript定时器：setTimeout和setInterval">
@@ -167,17 +167,16 @@ setInterval(count, <span class="number">200</span>);
 <script src="/js/gallery.js"></script>
 
 
-
-
 <script type="text/javascript">
-var duoshuoQuery = {short_name: 'heroicyang'};
-(function() {
-  var ds = document.createElement('script');
-  ds.type = 'text/javascript';ds.async = true;
-  ds.src = 'http://static.duoshuo.com/embed.js';
-  ds.charset = 'UTF-8';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
 </script>
 
 
@@ -185,9 +184,9 @@ var duoshuoQuery = {short_name: 'heroicyang'};
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
 </script>
 
 </body>

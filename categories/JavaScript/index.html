@@ -60,6 +60,7 @@
   
 
   </header>
+  
   <div class="entry">
     
       <p>对于浏览器内部，大部分操作都是异步的生成事件并添加到<code>JavaScript引擎线程</code>的队列中，然后由<code>JavaScript引擎线程</code>进行调度执行。因此浏览器的很多事件都是和<code>JavaScript</code>相结合的，但是也有一些内部的限制。  </p>
@@ -83,7 +84,6 @@
 </article>
 
 
-
   
     <article class="post">
   <header>
@@ -97,6 +97,7 @@
   
 
   </header>
+  
   <div class="entry">
     
       <p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  </p>
@@ -122,7 +123,6 @@ setInterval(func|code, delay);
 </article>
 
 
-
   
     <article class="post">
   <header>
@@ -136,6 +136,7 @@ setInterval(func|code, delay);
   
 
   </header>
+  
   <div class="entry">
     
       <p>最近在学习<code>Nodejs</code>的过程中深入的了解了<code>异步编程</code>这个概念，为了更好的使用<code>Nodejs</code>，这些概念不可不知。在以前作为一个<code>JavaScript</code>用户的时候，完全是不知道它是怎么运行的，对好些概念也是“知其然不知其所以然”。  </p>
@@ -182,7 +183,6 @@ setInterval(func|code, delay);
 </article>
 
 
-
   
     <article class="post">
   <header>
@@ -196,6 +196,7 @@ setInterval(func|code, delay);
   
 
   </header>
+  
   <div class="entry">
     
       <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  </p>
@@ -218,7 +219,6 @@ setInterval(func|code, delay);
 </article>
 
 
-
   
     <article class="post">
   <header>
@@ -232,6 +232,7 @@ setInterval(func|code, delay);
   
 
   </header>
+  
   <div class="entry">
     
       <p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  </p>
@@ -289,7 +290,6 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
 </article>
 
 
-
   
 
   <nav id="pagination">
@@ -317,17 +317,16 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
 <script src="/js/gallery.js"></script>
 
 
-
-
 <script type="text/javascript">
-var duoshuoQuery = {short_name: 'heroicyang'};
-(function() {
-  var ds = document.createElement('script');
-  ds.type = 'text/javascript';ds.async = true;
-  ds.src = 'http://static.duoshuo.com/embed.js';
-  ds.charset = 'UTF-8';
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-})();
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
 </script>
 
 
@@ -335,9 +334,9 @@ var duoshuoQuery = {short_name: 'heroicyang'};
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
 <script src="/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
 </script>
 
 </body>

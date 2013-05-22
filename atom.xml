@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-05-21T16:52:42.021Z</updated>
+  <updated>2013-05-22T16:06:39.681Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1138,5 +1138,15 @@ setInterval(count, <span class="number">200</span>);
 ]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
     <category scheme="http://heroicyang.com/tags/design-pattern/" term="design pattern"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[折腾了个新主题]]></title>
+    <link href="http://heroicyang.com/2013/05/22/hexo-theme-modernist/"/>
+    <id>http://heroicyang.com/2013/05/22/hexo-theme-modernist/</id>
+    <published>2013-05-22T15:36:51.000Z</published>
+    <updated>2013-05-22T16:05:59.000Z</updated>
+    <content type="html"><![CDATA[<p>前几天偶然发现了一个Github Page主题：<a href="http://orderedlist.github.io/modernist/">Modernist</a>，觉着很舒服。作者将其开源在Github上的，所以我就fork下来自己折腾了个<a href="https://github.com/tommy351/hexo">Hexo</a>的主题。  </p>
+<p>根据<a href="https://github.com/tommy351/hexo-theme-light">light</a>主题的结构修改而来，但是去掉了侧边栏，变成了一栏，所以随之也就没有了light主题的那些widget了。不过我增加了国内的<a href="http://duoshuo.com/">多说评论框</a>的配置，以及更好的响应式支持。</p>
+]]></content>
   </entry>
 </feed>
