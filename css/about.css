@@ -1,0 +1,72 @@
+.about-header {
+  position: relative;
+  background: url("images/about.png") no-repeat;
+  height: 180px;
+  margin: 30px -20px 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+.about-header .avatar img {
+  width: 96px;
+  border-radius: 55px !important;
+  -webkit-border-radius: 55px !important;
+  box-shadow: 0 1px 1px rgba(0,0,0,.25) !important;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.25) !important;
+}
+
+.about-header .profile h3,
+.about-header .profile h4 {
+  text-shadow: rgba(255,255,255,0.9) 0 1px 0;
+  margin: 0 0 10px;
+}
+
+.about-social {
+  float: right;
+  margin-bottom: 10px;
+}
+@media screen and (max-width:580px) {
+  .about-social {
+    float: none;
+  }
+}
+
+.about-social ul {
+  list-style: none;
+}
+
+.about-social ul li {
+  float: left;
+  margin-left: 10px;
+}
+@media screen and (max-width:580px) {
+  .about-social ul li {
+    margin-left: 0;
+  }
+}
+
+.about-social .github {
+  background: url("images/github.png");
+}
+
+@media screen and (max-width:580px) {
+  .douban-book {
+    display: none;
+  }
+}
+.douban-book td {
+  border-bottom: 0 !important;
+}
+
+.douban-book td img {
+  width: 105px; 
+  height: 110px;
+}
+
+.about-license svg {
+  float: left;
+}
+
+.about-license .license {
+  padding: 12px 0 0 80px;
+}

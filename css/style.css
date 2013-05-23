@@ -158,6 +158,20 @@ article .gallery:hover img {
   -ms-transition: all 0.8s;
   transition: all 0.8s;
 }
+@media screen and (max-width:580px) {
+  article .gallery:hover img {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -o-transform: none;
+    -ms-transform: none;
+    transform: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    -ms-transition: none;
+    transition: none;
+  }
+}
 article .gallery img {
   min-width: 100%;
   max-width: 100%;
