@@ -1,10 +1,10 @@
 .about-header {
   position: relative;
-  background: url("images/about.png") no-repeat;
-  height: 180px;
-  margin: 30px -20px 20px;
-  padding: 10px;
-  text-align: center;
+  margin: 30px 0 10px;
+}
+
+.about-header .avatar {
+  float: left;
 }
 
 .about-header .avatar img {
@@ -13,6 +13,10 @@
   -webkit-border-radius: 55px !important;
   box-shadow: 0 1px 1px rgba(0,0,0,.25) !important;
   -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.25) !important;
+}
+
+.about-header .profile {
+  padding: 2px 0 0 120px;
 }
 
 .about-header .profile h3,
@@ -24,11 +28,6 @@
 .about-social {
   float: right;
   margin-bottom: 10px;
-}
-@media screen and (max-width:580px) {
-  .about-social {
-    float: none;
-  }
 }
 
 .about-social ul {
@@ -47,6 +46,17 @@
 
 .about-social .github {
   background: url("images/github.png");
+}
+
+ul.about-tag {
+  list-style: none;
+  margin-left: -40px !important;
+}
+
+ul.about-tag li {
+  float: left;
+  margin-right: 20px;
+  padding-bottom: 20px;
 }
 
 @media screen and (max-width:580px) {

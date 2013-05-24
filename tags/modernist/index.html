@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   
-  <title>Page 2 | JavaScript | Heroic Yang's Blog</title>
+  <title>modernist | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
   
@@ -45,37 +45,55 @@
 </nav>
 <div class="clearfix"></div></header>
     <div class="content">
-<h2 class="archive-title category">JavaScript</h2>
+<h2 class="archive-title tag">modernist</h2>
 
 
   
-    <article class="post">
+    <article class="photo">
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
+      <time datetime="2013-05-22T15:36:51.000Z"><a href="/2013/05/22/hexo-theme-modernist/">May 22 2013</a></time>
     
     
   
-    <h1 class="title"><a href="/2012/08/08/to-backbone-tutorial-1/">Backbone之旅：前端MVC架构初体验（上）</a></h1>
+    <h1 class="title"><a href="/2013/05/22/hexo-theme-modernist/">折腾了个新主题</a></h1>
   
 
   </header>
   
+    <div class="gallery">
+  <div class="photoset">
+    
+      
+        <img src="http://img.heroicyang.com/hexo-theme-modernist-index.png">
+      
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
   <div class="entry">
     
-      <p>最近一段时间来，才算是真正的开始深入学习<code>JavaScript</code>，收获颇丰。也首次领略了前端<code>MVC</code>架构的风采，现在前端<code>MVC</code>的类库和框架越来越多，在经过初步的评估之后，决定先学习备受推崇的<code>Backbone</code>。 </p>
-<p>以前自己做的一些<code>Web</code>应用，基本上都是按照非常传统的方式：1.服务器端渲染模板；2.利用<code>jQuery</code>的<code>ajax</code>进行异步数据交换。所以首次接触前端架构类的东西，难免有点无从下手。经过几天的奋战，以及参阅国外大牛们的各种<code>Tutorial</code>之后，终于拨开迷雾，缕了些头绪，自己也试着从传统的方式过渡（重构）出了所谓的架构性的代码。  </p>
-<p>整个重构的过程让我受益良多，所以决定再认真的记录一遍，加深自己的印象，也再确认一遍自己是否真的搞明白了，文章应该会比较长。  </p>
-
+      <p>前几天偶然发现了一个Github Page主题：<a href="http://orderedlist.github.io/modernist/">Modernist</a>，觉着很舒服。作者将其开源在Github上的，所以我就fork下来自己折腾了个<a href="https://github.com/tommy351/hexo">Hexo</a>的主题。  </p>
+<p>根据<a href="https://github.com/tommy351/hexo-theme-light">light</a>主题的结构修改而来，但是去掉了侧边栏，变成了一栏，所以随之也就没有了light主题的那些widget了。不过我增加了国内的<a href="http://duoshuo.com/">多说评论框</a>的配置，以及更好的响应式支持。  </p>
+<p>主题已经放到<a href="https://github.com/heroicyang/hexo-theme-modernist">Github</a>上了。为了更好的使用这个主题，可以clone我fork的<a href="https://github.com/heroicyang/hexo">hexo</a>项目到本地，使用<code>/path/to/hexo/bin/hexo</code>来代替之前安装的全局<code>hexo</code>命令，方法见下面。我主要修改了代码块高亮（highlight）生成，以及修复了始终会生成Read more链接的BUG，不过我会尽快发起pull request到hexo的。  </p>
+<p>另外，如果需要使用多说评论框，可以使用我的自定义多说评论框样式，主要保持了和Modernist theme的样式统一。请猛戳这里：<a href="https://gist.github.com/heroicyang/5644407"><a href="https://gist.github.com/heroicyang/5644407">https://gist.github.com/heroicyang/5644407</a></a></p>
+<figure class="highlight lang-bash"><pre>git clone https://github.com/heroicyang/hexo /path/to/hexo
+cd /path/to/hexo
+npm install
+ln -s /path/to/hexo/bin/hexo /usr/bin/hexo  <span class="comment"># 可选</span>
+hexo your command (new/genreate/deploy…)
+<span class="comment"># 或者</span>
+/path/to/hexo/bin/hexo your command (new/genreate/deploy…)
+</pre></figure>
     
   </div>
   <footer class="end-sep">
     
-      
-        <div class="alignleft">
-          <a href="/2012/08/08/to-backbone-tutorial-1/#more" class="more-link">阅读全文</a>
-        </div>
       
       
     
@@ -87,8 +105,6 @@
   
 
   <nav id="pagination">
-  
-    <a href="/categories/JavaScript/" class="prev">Prev</a>
   
   
   <div class="clearfix"></div>
