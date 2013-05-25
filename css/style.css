@@ -467,6 +467,7 @@ article footer .tags:before {
 }
 #comment {
   padding: 0 20px 20px;
+  overflow-x: hidden;
 }
 #comment .title {
   font-weight: normal;
