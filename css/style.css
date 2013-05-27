@@ -245,11 +245,11 @@ article header .icon {
   left: 0px;
   margin-left: -46px;
   color: #fff;
-  background: #5198df;
+  background: #069;
   -webkit-border-radius: 100em;
   border-radius: 100em;
-  -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.4);
-  box-shadow: 0 0 2px rgba(0,0,0,0.4);
+  -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.4);
+  box-shadow: 0 0 4px rgba(0,0,0,0.4);
 }
 @media screen and (max-width: 600px) {
   article header .icon {
