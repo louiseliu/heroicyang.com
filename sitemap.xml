@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://heroicyang.com/about/index.html</loc>
+    <lastmod>2013-05-27T15:01:27.000Z</lastmod>
+  </url>
+  <url>
     <loc>http://heroicyang.com/2013/05/22/hexo-theme-modernist/</loc>
     <lastmod>2013-05-25T08:56:34.000Z</lastmod>
   </url>
@@ -27,10 +31,6 @@
   <url>
     <loc>http://heroicyang.com/2012/08/19/create-class-in-javascript/</loc>
     <lastmod>2013-05-24T15:17:10.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://heroicyang.com/about/index.html</loc>
-    <lastmod>2013-05-24T14:33:15.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/</loc>

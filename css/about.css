@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "fontdiao";
+  src: url("./fonts/fontdiao.eot?#iefix") format("embedded-opentype"),
+       url("./fonts/fontdiao.woff") format("woff"),
+       url("./fonts/fontdiao.ttf") format("truetype"),
+       url("./fonts/fontdiao.svg#fontdiao") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .about-header {
   position: relative;
   margin: 30px 0 10px;
@@ -38,14 +48,52 @@
   float: left;
   margin-left: 10px;
 }
-@media screen and (max-width:580px) {
-  .about-social ul li {
-    margin-left: 0;
-  }
-}
 
-.about-social .github {
-  background: url("images/github.png");
+.about-social .social {
+  background: #333333;
+  color: #ffffff;
+  border-radius: 16px;
+  width: 32px;
+  height: 32px;
+  display: block;
+  position: relative;
+}
+.about-social .social span:before {
+  font: 1.3em FontAwesome;
+  position: absolute;
+  left: 6px;
+  top: 5px;
+}
+.about-social .social span {
+  position: absolute;
+  left: 1px;
+  top: 3px;
+}
+.about-social .github span:before {
+  content: '\f09b';
+}
+.about-social .twitter span:before {
+  content: '\f099';
+}
+.about-social .weibo span:before {
+  font-family: "fontdiao";
+  content: '\f22c';
+}
+.about-social .weibo span {
+  top: 1px;
+  font-size: 18px;
+}
+.about-social .facebook span:before {
+  content: '\f09a';
+}
+.about-social .facebook span {
+  left: 6px;
+}
+.about-social .rss span:before {
+  content: '\f09e';
+}
+.about-social .rss span {
+  left: 3px;
 }
 
 ul.about-tag {
@@ -59,11 +107,6 @@ ul.about-tag li {
   padding-bottom: 20px;
 }
 
-@media screen and (max-width:580px) {
-  .douban-book {
-    display: none;
-  }
-}
 .douban-book td {
   border-bottom: 0 !important;
 }
@@ -73,10 +116,33 @@ ul.about-tag li {
   height: 110px;
 }
 
-.about-license svg {
+.about-license .cc {
   float: left;
 }
 
 .about-license .license {
   padding: 12px 0 0 80px;
+}
+
+@media screen and (max-width:580px) {
+  .about-header .avatar img {
+    width: 64px;
+  }
+
+  .about-header .profile {
+    padding: 2px 0 0 78px;
+  }
+
+  .douban-book {
+    display: none;
+  }
+
+  .about-license .cc {
+    float: none;
+    display: none;
+  }
+
+  .about-license .license {
+    padding: 0;
+  }
 }

@@ -80,7 +80,7 @@ strong {
   background: #c6eafa -ms-linear-gradient(top, #ddfbfc 0%, #c6eafa 100%);
   background: #c6eafa linear-gradient(top, #ddfbfc 0%, #c6eafa 100%);
   position: relative;
-  padding: 15px 20px;
+  padding: 15px 30px;
   border-bottom: 1px solid #b2d2e1;
 }
 #header .title {
@@ -117,12 +117,9 @@ strong {
   font-size: 13px;
 }
 article {
-  padding: 15px 20px;
+  padding: 15px 30px;
   font-size: 15px;
   position: relative;
-}
-article.page {
-  padding-left: 20px;
 }
 article.page .icon {
   display: none;
@@ -137,7 +134,7 @@ article.link .icon:before {
   content: '\f0c1';
 }
 article .gallery {
-  margin: 0 -20px 16px;
+  margin: 0 -30px 16px;
   overflow: hidden;
   position: relative;
 }
@@ -246,11 +243,13 @@ article header .icon {
   position: absolute;
   top: 0px;
   left: 0px;
-  margin-left: -36px;
+  margin-left: -46px;
   color: #fff;
   background: #5198df;
   -webkit-border-radius: 100em;
   border-radius: 100em;
+  -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.4);
+  box-shadow: 0 0 2px rgba(0,0,0,0.4);
 }
 @media screen and (max-width: 600px) {
   article header .icon {
@@ -326,7 +325,7 @@ article .entry h6 {
   color: #494949;
 }
 article .entry blockquote {
-  margin: 0 -20px 20px;
+  margin: 0 -30px 20px;
   padding: 15px 20px 1px 40px;
   font-style: italic;
   background: #ccc;
@@ -502,7 +501,7 @@ article footer .tags:before {
 .archive-title {
   font-weight: normal;
   margin-bottom: 10px;
-  padding: 0 20px;
+  padding: 0 30px;
   text-shadow: 0 0 1px #fff;
 }
 .archive-title:before {
@@ -559,6 +558,9 @@ article footer .tags:before {
   }
 }
 @media screen and (max-width:580px) {
+  #header {
+    padding: 15px 20px;
+  }
   #header .title {
     float: none;
   }
@@ -568,12 +570,30 @@ article footer .tags:before {
   #header p {
     width: 100%;
   }
+  .archive-title {
+    padding: 0 20px;
+  }
+  article {
+    padding: 15px 20px;
+  }
+  article .gallery {
+    margin: 0 -20px 16px;
+  }
+  article .entry blockquote {
+    margin: 0 -20px 20px;
+  }
 }
 figure.highlight {
   position: relative;
-  padding: 10px;
+  padding: 10px 20px;
   background: #3a3c42;
-  margin: 0 -20px 16px;
+  margin: 0 -30px 16px;
+}
+@media screen and (max-width:580px) {
+  figure.highlight {
+    margin: 0 -20px 16px;
+    padding: 10px;
+  }
 }
 figure.highlight pre {
   border: none;
