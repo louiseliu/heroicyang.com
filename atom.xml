@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-05-29T13:45:17.744Z</updated>
+  <updated>2013-05-29T15:25:55.834Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1144,7 +1144,7 @@ setInterval(count, <span class="number">200</span>);
     <link href="http://heroicyang.com/2013/05/22/hexo-theme-modernist/"/>
     <id>http://heroicyang.com/2013/05/22/hexo-theme-modernist/</id>
     <published>2013-05-22T15:36:51.000Z</published>
-    <updated>2013-05-25T08:56:34.000Z</updated>
+    <updated>2013-05-29T15:25:25.000Z</updated>
     <content type="html"><![CDATA[<p>前几天偶然发现了一个Github Page主题：<a href="http://orderedlist.github.io/modernist/">Modernist</a>，觉着很舒服。作者将其开源在Github上的，所以我就fork下来自己折腾了个<a href="https://github.com/tommy351/hexo">Hexo</a>的主题。  </p>
 <p>根据<a href="https://github.com/tommy351/hexo-theme-light">light</a>主题的结构修改而来，但是去掉了侧边栏，改成一栏，所以随之也就没有了light主题的那些widget了。不过我增加了国内的<a href="http://duoshuo.com/">多说评论框</a>的配置，以及更好的响应式支持。  </p>
 <p>主题已经放到<a href="https://github.com/heroicyang/hexo-theme-modernist">Github</a>上了。为了更好的使用这个主题，建议clone我fork的<a href="https://github.com/heroicyang/hexo">hexo</a>项目到本地，使用<code>/path/to/hexo/bin/hexo</code>来代替之前安装的全局<code>hexo</code>命令，方法见下面。我主要修改了代码块高亮（highlight）生成，以及修复了始终会生成Read more链接的BUG，不过我会尽快发起pull request到hexo的。  </p>
@@ -1153,7 +1153,7 @@ setInterval(count, <span class="number">200</span>);
 cd /path/to/hexo
 npm install
 <span class="comment"># 方法1</span>
-ln -s /path/to/hexo/bin/hexo /usr/bin/hexo
+ln -s /path/to/hexo/bin/hexo /usr/local/bin/hexo
 hexo your command (new/generate/deploy…)
 <span class="comment"># 方法2</span>
 /path/to/hexo/bin/hexo your command (new/generate/deploy…)
