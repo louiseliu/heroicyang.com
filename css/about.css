@@ -89,6 +89,15 @@
 .about-social .facebook span {
   left: 6px;
 }
+.about-social .tqq span:before {
+  font-family: "fontdiao";
+  content: '\f227';
+}
+.about-social .tqq span {
+  left: 1px;
+  top: 0px;
+  font-size: 18px;
+}
 .about-social .rss span:before {
   content: '\f09e';
 }
