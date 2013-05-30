@@ -49,6 +49,45 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2012-09-06T14:56:00.000Z"><a href="/2012/09/06/javascript-timers/">Sep 6 2012</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2012/09/06/javascript-timers/">理解JavaScript定时器：setTimeout和setInterval</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  </p>
+<p>这两个方法所接收的参数都一样：  </p>
+<p><figure class="highlight lang-javascript"><pre>setTimeout(func|code, delay);
+setInterval(func|code, delay);
+</pre></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
+<p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  </p>
+<p>后者：按照指定的周期（以毫秒计），将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。<br>
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2012/09/06/javascript-timers/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
+  <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2012-08-28T14:52:00.000Z"><a href="/2012/08/28/javascript-event-loop/">Aug 28 2012</a></time>
     
     
@@ -246,47 +285,13 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
 
 
 
-  <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
-    
-    
-  
-    <h1 class="title"><a href="/2012/08/08/to-backbone-tutorial-1/">Backbone之旅：前端MVC架构初体验（上）</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>最近一段时间来，才算是真正的开始深入学习<code>JavaScript</code>，收获颇丰。也首次领略了前端<code>MVC</code>架构的风采，现在前端<code>MVC</code>的类库和框架越来越多，在经过初步的评估之后，决定先学习备受推崇的<code>Backbone</code>。 </p>
-<p>以前自己做的一些<code>Web</code>应用，基本上都是按照非常传统的方式：1.服务器端渲染模板；2.利用<code>jQuery</code>的<code>ajax</code>进行异步数据交换。所以首次接触前端架构类的东西，难免有点无从下手。经过几天的奋战，以及参阅国外大牛们的各种<code>Tutorial</code>之后，终于拨开迷雾，缕了些头绪，自己也试着从传统的方式过渡（重构）出了所谓的架构性的代码。  </p>
-<p>整个重构的过程让我受益良多，所以决定再认真的记录一遍，加深自己的印象，也再确认一遍自己是否真的搞明白了，文章应该会比较长。  </p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-        <div class="alignleft">
-          <a href="/2012/08/08/to-backbone-tutorial-1/#more" class="more-link">阅读全文</a>
-        </div>
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-
 
 <nav id="pagination">
   
     <a href="/" class="prev">Prev</a>
   
+  
+    <a href="/page/3/" class="next">Next</a>
   
   <div class="clearfix"></div>
 </nav></div>
