@@ -131,13 +131,13 @@ Parent.prototype.printName = <span class="function"><span class="keyword">functi
 child.printName();  <span class="comment">// 'parent'</span>
 </pre></figure>
 
-<p>正如前面所述，我们可能并不想继承对象自己的属性，上面的例子我们也并不希望它打印出<code>parent</code>。  </p>
-<p>而前面也描述过，使用<code>object()</code>函数我们就可以从一个对象继承得出另一个新对象，而上面的<code>Parent.prototype</code>也是一个对象，所以  </p>
+<p>正如前面所述，我们可能并不想继承原对象自己的属性，如上面的例子我们也并不希望它打印出<code>parent</code>。  </p>
+<p>原型式继承的规则就是：对象从对象继承，不管父对象是如何而来。而<code>Parent.prototype</code>也是一个对象，所以  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = object(Parent.prototype);
 child.printName();  <span class="comment">// undefined</span>
 </pre></figure>
 
-<p>改写之后，打印<code>child</code>自己的名字时得到的是<code>undefined</code>，因为我们创建<code>child</code>对象后，还没有给它赋予任何的属性，所以这恰是我们想要的结果。  </p>
+<p>改写之后，打印<code>child</code>自己的名字时得到的是<code>undefined</code>，因为创建<code>child</code>对象后，还没有给它赋予任何的属性，所以这恰是我们想要的结果。  </p>
 <p>而在<code>ECMAScript 5</code>中，原型式继承已经成为了语言特性，为我们增加了<code>Object.create()</code>方法，也就是说可以不用自己实现上面的<code>object</code>方法了。而且<code>Object.create()</code>方法更加强劲、适用。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
   name: <span class="string">'parent'</span>,
