@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-06-02T16:11:41.432Z</updated>
+  <updated>2013-06-02T16:14:59.792Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1302,7 +1302,7 @@ parent.print();  <span class="comment">// name:  heroic , tags:  coder</span>
     <link href="http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/"/>
     <id>http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/</id>
     <published>2013-06-02T14:52:19.000Z</published>
-    <updated>2013-06-02T16:10:09.000Z</updated>
+    <updated>2013-06-02T16:14:44.000Z</updated>
     <content type="html"><![CDATA[<p>JavaScript中本没有类，所以凡事也不要强求，强扭的瓜总是不填的嘛。继承也无非就是一个对象拥有另外一个对象的特性，所以完全不需要复杂的去模拟面向对象中的类式继承，而借助JavaScript独特的原型机制就可以实现了。同样，需要创建一个对象时也不再采用模拟<strong>类-对象</strong>的方式，而是直接使用JavaScript的对象字面量就好了。因为对于对象来说我们关系的无非也就是它具备哪些属性、有哪些行为而已。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
   printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
@@ -1330,7 +1330,7 @@ child.name = <span class="string">'child'</span>;
 child.printName();  <span class="comment">// 'child'</span>
 </pre></figure>
 
-<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造器，然后修改这个构造器的原型，最后再返回这个构造器的一个实例。</p>
+<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造函数，然后修改这个构造函数的原型，最后再返回这个构造函数的一个实例。</p>
 <a name="more"></a>
 
 <p>当然，<code>parent</code>对象也并不一定要使用对象字面量，你可以选择任何你能想到的创建对象的方式，如构造函数等。  </p>

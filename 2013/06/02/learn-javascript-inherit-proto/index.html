@@ -34,7 +34,7 @@ child.name = 'child';
 child.printName();  // 'child'
 
 
-通过一个object()函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在object()函数内部创建一个临时的构造器，然后修改这个构造器的原型，最后再返回这个构造器的一个实例。">
+通过一个object()函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在object()函数内部创建一个临时的构造函数，然后修改这个构造函数的原型，最后再返回这个构造函数的一个实例。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,7 +115,7 @@ child.name = <span class="string">'child'</span>;
 child.printName();  <span class="comment">// 'child'</span>
 </pre></figure>
 
-<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造器，然后修改这个构造器的原型，最后再返回这个构造器的一个实例。</p>
+<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造函数，然后修改这个构造函数的原型，最后再返回这个构造函数的一个实例。</p>
 <a name="more"></a>
 
 <p>当然，<code>parent</code>对象也并不一定要使用对象字面量，你可以选择任何你能想到的创建对象的方式，如构造函数等。  </p>
