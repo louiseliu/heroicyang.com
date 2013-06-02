@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-06-02T14:42:06.816Z</updated>
+  <updated>2013-06-02T16:10:47.902Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1301,6 +1301,94 @@ parent.print();  <span class="comment">// name:  heroic , tags:  coder</span>
 </pre></figure>
 
 <p>近乎完美的实现，子对象继承了父对象的成员，但拥有自己的一份拷贝，不会担心修改自己而影响到父对象；子对象也复用了父对象原型中的方法；且子对象也可以传递任意参数给父对象的构造函数。可谓是面向对象中“类式继承”的准确诠释。</p>
+]]></content>
+    <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
+    <category scheme="http://heroicyang.com/tags/inherit/" term="inherit"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[关于JavaScript中的继承（二）：原型式继承]]></title>
+    <link href="http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/"/>
+    <id>http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/</id>
+    <published>2013-06-02T14:52:19.000Z</published>
+    <updated>2013-06-02T16:10:09.000Z</updated>
+    <content type="html"><![CDATA[<p>JavaScript中本没有类，所以凡事也不要强求，强扭的瓜总是不填的嘛。继承也无非就是一个对象拥有另外一个对象的特性，所以完全不需要复杂的去模拟面向对象中的类式继承，而借助JavaScript独特的原型机制就可以实现了。同样，需要创建一个对象时也不再采用模拟<strong>类-对象</strong>的方式，而是直接使用JavaScript的对象字面量就好了。因为对于对象来说我们关系的无非也就是它具备哪些属性、有哪些行为而已。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
+  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="keyword">this</span>.name || <span class="string">'parent'</span>);
+  }
+};
+
+<span class="keyword">var</span> child = {};  <span class="comment">// 暂时这样</span>
+child.name = <span class="string">'child'</span>;  <span class="comment">// 在很多情况下我们并不希望继承原对象自己的属性，而是在我们需要时，直接添加就好</span>
+child.printName();  <span class="comment">// 重点的是我们希望child具备打印自己名字的行为</span>
+</pre></figure>
+
+<p>上面的代码目前还不能工作，<a href="http://heroicyang.com/2013/05/30/learn-javascript-inherit-class/">上一篇文章</a>中谈到过JavaScript中对象属性查找机制，如果<code>child</code>对象本身没有<code>printName()</code>这个方法，那我们保证其原型上有这个方法，它就能正常工作了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* var parent... */</span>
+
+<span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
+  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  F.prototype = obj;
+  <span class="keyword">return</span> <span class="keyword">new</span> F;
+};
+
+<span class="comment">// 改变child对象的创建方式，不直接采用字面量了，而是用`object`方法来创建</span>
+<span class="keyword">var</span> child = object(parent);
+child.name = <span class="string">'child'</span>;
+child.printName();  <span class="comment">// 'child'</span>
+</pre></figure>
+
+<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造器，然后修改这个构造器的原型，最后再返回这个构造器的一个实例。</p>
+<a name="more"></a>
+
+<p>当然，<code>parent</code>对象也并不一定要使用对象字面量，你可以选择任何你能想到的创建对象的方式，如构造函数等。  </p>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span> <span class="params">()</span> {</span>
+  <span class="keyword">this</span>.name = <span class="string">'parent'</span>;
+};
+Parent.prototype.printName = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  console.log(<span class="keyword">this</span>.name);
+};
+
+<span class="keyword">var</span> parent = <span class="keyword">new</span> Parent();
+<span class="keyword">var</span> child = object(parent);
+child.printName();  <span class="comment">// 'parent'</span>
+</pre></figure>
+
+<p>正如前面所述，我们可能并不想继承对象自己的属性，上面的例子我们也并不希望它打印出<code>parent</code>。  </p>
+<p>而前面也描述过，使用<code>object()</code>函数我们就可以从一个对象继承得出另一个新对象，而上面的<code>Parent.prototype</code>也是一个对象，所以  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = object(Parent.prototype);
+child.printName();  <span class="comment">// undefined</span>
+</pre></figure>
+
+<p>改写之后，打印<code>child</code>自己的名字时得到的是<code>undefined</code>，因为我们创建<code>child</code>对象后，还没有给它赋予任何的属性，所以这恰是我们想要的结果。  </p>
+<p>而在<code>ECMAScript 5</code>中，原型式继承已经成为了语言特性，为我们增加了<code>Object.create()</code>方法，也就是说可以不用自己实现上面的<code>object</code>方法了。而且<code>Object.create()</code>方法更加强劲、适用。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
+  name: <span class="string">'parent'</span>,
+  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="keyword">this</span>.name);
+  }
+};
+
+<span class="comment">// 第二个参数接收一个对象，而该对象的属性将作为`child`对象的属性</span>
+<span class="keyword">var</span> child = Object.create(parent, {
+  name: { value: <span class="string">'child'</span> }
+});
+
+child.printName();  <span class="comment">// 'child'</span>
+</pre></figure>
+
+<p>最后，再谈谈最开始实现的<code>object()</code>方法吧，其实还可以做一点点简单的优化。那就是每次调用<code>object()</code>方法时都要创建一个临时的代理构造函数<code>F</code>，而事实上仅需要创建一次就足够了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  
+  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
+    F.prototype = obj;
+    <span class="keyword">return</span> <span class="keyword">new</span> F;  
+  };
+}();
+</pre></figure>
+
+<p>我们把代理构造函数放到一个立即执行的函数中创建，然后这个函数返回一个新的、真正实现继承逻辑的函数。</p>
 ]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
     <category scheme="http://heroicyang.com/tags/inherit/" term="inherit"/>

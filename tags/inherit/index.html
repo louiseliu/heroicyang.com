@@ -53,6 +53,67 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2013-06-02T14:52:19.000Z"><a href="/2013/06/02/learn-javascript-inherit-proto/">Jun 2 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中的继承（二）：原型式继承</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>JavaScript中本没有类，所以凡事也不要强求，强扭的瓜总是不填的嘛。继承也无非就是一个对象拥有另外一个对象的特性，所以完全不需要复杂的去模拟面向对象中的类式继承，而借助JavaScript独特的原型机制就可以实现了。同样，需要创建一个对象时也不再采用模拟<strong>类-对象</strong>的方式，而是直接使用JavaScript的对象字面量就好了。因为对于对象来说我们关系的无非也就是它具备哪些属性、有哪些行为而已。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
+  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="keyword">this</span>.name || <span class="string">'parent'</span>);
+  }
+};
+
+<span class="keyword">var</span> child = {};  <span class="comment">// 暂时这样</span>
+child.name = <span class="string">'child'</span>;  <span class="comment">// 在很多情况下我们并不希望继承原对象自己的属性，而是在我们需要时，直接添加就好</span>
+child.printName();  <span class="comment">// 重点的是我们希望child具备打印自己名字的行为</span>
+</pre></figure>
+
+<p>上面的代码目前还不能工作，<a href="http://heroicyang.com/2013/05/30/learn-javascript-inherit-class/">上一篇文章</a>中谈到过JavaScript中对象属性查找机制，如果<code>child</code>对象本身没有<code>printName()</code>这个方法，那我们保证其原型上有这个方法，它就能正常工作了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* var parent... */</span>
+
+<span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
+  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  F.prototype = obj;
+  <span class="keyword">return</span> <span class="keyword">new</span> F;
+};
+
+<span class="comment">// 改变child对象的创建方式，不直接采用字面量了，而是用`object`方法来创建</span>
+<span class="keyword">var</span> child = object(parent);
+child.name = <span class="string">'child'</span>;
+child.printName();  <span class="comment">// 'child'</span>
+</pre></figure>
+
+<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造器，然后修改这个构造器的原型，最后再返回这个构造器的一个实例。</p>
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/06/02/learn-javascript-inherit-proto/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2013-05-30T14:19:21.000Z"><a href="/2013/05/30/learn-javascript-inherit-class/">May 30 2013</a></time>
     
     
