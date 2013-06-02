@@ -421,6 +421,9 @@ article .entry hr {
   height: 1px;
   margin: 0 0 20px;
 }
+article .entry .text-lt {
+  text-decoration: line-through;
+}
 article footer {
   border-top: 1px solid #aaa;
   padding: 10px 0 0 0;
