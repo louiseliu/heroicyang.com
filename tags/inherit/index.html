@@ -53,6 +53,78 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2013-06-07T14:23:30.000Z"><a href="/2013/06/07/javascript-class-inherit-optimized/">Jun 7 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>在<a href="/2013/05/30/learn-javascript-inherit-class/">《关于JavaScript中的继承（一）：类式继承》</a>中已经基本上实现了类式继承，但仍然还存在一些问题，接下来对之前的实现进一步进行完善。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Parent = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>
+  <span class="keyword">this</span>.name = name || <span class="string">'heroic'</span>;
+};
+Parent.prototype.print = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  console.log(<span class="string">'name: '</span>, <span class="keyword">this</span>.name);
+};
+
+<span class="keyword">var</span> parent = <span class="keyword">new</span> Parent();
+
+<span class="keyword">var</span> Child = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>
+  Parent.apply(<span class="keyword">this</span>, arguments);
+};
+Child.prototype = parent;
+Child.prototype.setChildAge = <span class="function"><span class="keyword">function</span> <span class="params">(age)</span> {</span>
+  <span class="keyword">this</span>.age = age;
+};
+
+parent.setChildAge(<span class="number">10</span>);
+console.log(parent.age);  <span class="comment">// 10</span>
+</pre></figure>
+
+<p>正如代码所见，在为子对象原型添加自己独有方法的时候，父对象也受到了影响，这可不是期望的结果。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = <span class="keyword">new</span> Child(<span class="string">'child'</span>);
+console.log(child.name);  <span class="comment">// 'child'</span>
+
+<span class="keyword">delete</span> child.name;
+console.log(child.name);  <span class="comment">// 'heroic'</span>
+</pre></figure>
+
+<p>同样如代码所示，<code>child</code>对象持有了两个<code>name</code>属性，一个是通过构造函数拷贝的，另一个是原型链上的，当删除掉本身的<code>name</code>属性后，便访问到了原型链上的了。对于这个问题，解决方案很简单直接：  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* ... */</span>
+Child.prototype = Parent.prototype;  <span class="comment">// 只继承父对象原型链上的属性</span>
+<span class="comment">/* ... */</span>
+<span class="keyword">delete</span> child.name;
+console.log(child.name);  <span class="comment">// undefined</span>
+</pre></figure>
+
+<p>但是这种方法也并没有解决最开始的那个问题，即添加或删除子对象原型上的属性时，会一并反映到父对象中。这个时候就需要用到<a href="/2013/06/02/learn-javascript-inherit-proto/">《关于JavaScript中的继承（二）：原型式继承》</a>中用到的临时构造函数了。  </p>
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/06/07/javascript-class-inherit-optimized/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2013-06-02T14:52:19.000Z"><a href="/2013/06/02/learn-javascript-inherit-proto/">Jun 2 2013</a></time>
     
     
