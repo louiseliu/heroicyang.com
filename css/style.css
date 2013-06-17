@@ -375,7 +375,6 @@ article .entry pre {
   font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
   color: #333;
   font-size: 0.8em;
-  overflow: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -386,7 +385,6 @@ article .entry code {
 }
 article .entry pre {
   color: #f8f8f2;
-  overflow-x: auto;
 }
 article .entry pre code {
   color: #f8f8f2;
@@ -420,9 +418,6 @@ article .entry hr {
   background: #aaa;
   height: 1px;
   margin: 0 0 20px;
-}
-article .entry .text-lt {
-  text-decoration: line-through;
 }
 article footer {
   border-top: 1px solid #aaa;
@@ -518,22 +513,81 @@ article footer .tags:before {
 .archive-title.category:before {
   content: '\f07b';
 }
+#sidebar {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 10px 0;
+  color: #fff;
+}
+@media screen and (max-width: 600px) {
+  #sidebar {
+    padding: 5px 10px;
+  }
+}
+#sidebar a {
+  color: #fff;
+}
+#sidebar .widget {
+  float: left;
+  width: 30%;
+  margin-left: 5%;
+  word-wrap: break-word;
+}
+@media screen and (max-width: 600px) {
+  #sidebar .widget {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+#sidebar .widget.first {
+  margin-left: 0;
+}
+#sidebar .widget.newline {
+  clear: both;
+}
+#sidebar .widget ul,
+#sidebar .widget ol,
+#sidebar .widget dl {
+  list-style: none;
+}
+#sidebar .widget .entry {
+  padding-left: 2px;
+}
+#sidebar .widget .title {
+  padding: 4px 2px;
+  font-size: 20px;
+  font-weight: normal;
+  border-bottom: 1px solid #000;
+  -webkit-box-shadow: rgba(255,255,255,0.25) 0 1px 0;
+  box-shadow: rgba(255,255,255,0.25) 0 1px 0;
+  text-shadow: rgba(0,0,0,0.4) 0 2px 2px;
+}
+#sidebar .tag small {
+  margin-left: 15px;
+  color: #ccc;
+}
+#sidebar .tag small:before {
+  content: '(';
+}
+#sidebar .tag small:after {
+  content: ')';
+}
+#sidebar .tagcloud a {
+  margin-right: 10px;
+  display: inline-block;
+}
 #footer {
   width: 680px;
-  margin: 0 auto;
+  margin: 20px auto 0;
   padding: 20px 0 0;
   color: #ccc;
   overflow: hidden;
+  text-align: center;
 }
 #footer a {
   color: #fff;
   font-weight: 900;
-}
-#footer .copyright {
-  float: left;
-}
-#footer .theme-copyright {
-  float: right;
 }
 @media screen and (max-width: 740px) {
   body {
@@ -549,15 +603,10 @@ article footer .tags:before {
   #footer {
     -webkit-border-radius: 0;
     border-radius: 0;
-    padding: 20px;
+    margin: 0 auto;
+    padding: 10px;
     width: auto;
-  }
-  #footer .copyright {
-    float: none;
-    margin: 0;
-  }
-  #footer .theme-copyright {
-    float: none;
+    text-align: left;
   }
 }
 @media screen and (max-width:580px) {
