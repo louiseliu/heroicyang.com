@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700");
+@import url("https://fonts.googleapis.com/css?family=Droid+Serif:400italic,700italic,400,700");
 @font-face {
   font-family: 'FontAwesome';
   font-style: normal;
@@ -17,7 +17,7 @@ html {
 body {
   padding: 50px 0;
   margin: 0;
-  font: 14px/1.5 "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
+  font: 14px/1.5 "Droid Serif", Helvetica Neue, Helvetica, Arial, sans-serif;
   color: #555;
   font-weight: 300;
   background: url("images/checker.png") fixed;
@@ -88,21 +88,21 @@ strong {
 }
 #header .nav {
   float: right;
-  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: "Droid Serif", Helvetica Neue, Helvetica, Arial, sans-serif;
   line-height: 2.5em;
 }
 #header .nav ul {
   list-style: none;
-  font-weight: 900;
 }
 #header .nav ul li {
   float: left;
-  margin-left: 30px;
+  margin-left: 26px;
 }
 #header h1 {
   margin: 0;
   padding: 0;
   font-size: 24px;
+  font-weight: normal;
   line-height: 1.2;
   color: #069;
   text-shadow: rgba(255,255,255,0.9) 0 1px 0;
@@ -115,6 +115,7 @@ strong {
   color: #61778b;
   width: 300px;
   font-size: 13px;
+  font-style: italic;
 }
 article {
   padding: 15px 30px;
@@ -265,7 +266,7 @@ article header .icon:before {
   text-align: center;
 }
 article header time {
-  font: 0.9em "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
+  font: 0.9em "Droid Serif", Helvetica Neue, Helvetica, Arial, sans-serif;
   margin-bottom: 5px;
   display: block;
   line-height: 1;
@@ -419,6 +420,9 @@ article .entry hr {
   height: 1px;
   margin: 0 0 20px;
 }
+article .entry .text-lt {
+  text-decoration: line-through;
+}
 article footer {
   border-top: 1px solid #aaa;
   padding: 10px 0 0 0;
@@ -475,7 +479,7 @@ article footer .tags:before {
 #pagination a {
   display: block;
   padding: 5px 10px;
-  font-family: "Lato", Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: "Droid Serif", Helvetica Neue, Helvetica, Arial, sans-serif;
   background: #069;
   color: #fff;
   text-decoration: none;
@@ -518,6 +522,7 @@ article footer .tags:before {
   margin: 0 auto;
   padding: 10px 0;
   color: #fff;
+  text-shadow: rgba(0,0,0,0.4) 0 2px 0;
 }
 @media screen and (max-width: 600px) {
   #sidebar {
@@ -556,12 +561,11 @@ article footer .tags:before {
 }
 #sidebar .widget .title {
   padding: 4px 2px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: normal;
   border-bottom: 1px solid #000;
   -webkit-box-shadow: rgba(255,255,255,0.25) 0 1px 0;
   box-shadow: rgba(255,255,255,0.25) 0 1px 0;
-  text-shadow: rgba(0,0,0,0.4) 0 2px 2px;
 }
 #sidebar .tag small {
   margin-left: 15px;
@@ -587,7 +591,7 @@ article footer .tags:before {
 }
 #footer a {
   color: #fff;
-  font-weight: 900;
+  font-style: italic;
 }
 @media screen and (max-width: 740px) {
   body {
