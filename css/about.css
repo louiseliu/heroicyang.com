@@ -1,9 +1,10 @@
 @font-face {
-  font-family: "fontdiao";
-  src: url("./fonts/fontdiao.eot?#iefix") format("embedded-opentype"),
-       url("./fonts/fontdiao.woff") format("woff"),
-       url("./fonts/fontdiao.ttf") format("truetype"),
-       url("./fonts/fontdiao.svg#fontdiao") format("svg");
+  font-family: 'wlige';
+  src: url('fonts/wlige.eot');
+  src: url('fonts/wlige.eot?#iefix') format('embedded-opentype'),
+    url('fonts/wlige.woff') format('woff'),
+    url('fonts/wlige.ttf') format('truetype'),
+    url('fonts/wlige.svg#wlige') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -76,12 +77,12 @@
   content: '\f099';
 }
 .about-social .weibo span:before {
-  font-family: "fontdiao";
-  content: '\f22c';
+  font-family: "wlige";
+  content: '\21';
 }
 .about-social .weibo span {
-  top: 1px;
-  font-size: 18px;
+  left: 0px;
+  top: 0px;
 }
 .about-social .facebook span:before {
   content: '\f09a';
@@ -90,13 +91,12 @@
   left: 6px;
 }
 .about-social .tqq span:before {
-  font-family: "fontdiao";
-  content: '\f227';
+  font-family: "wlige";
+  content: '\29';
 }
 .about-social .tqq span {
-  left: 1px;
+  left: 0px;
   top: 0px;
-  font-size: 18px;
 }
 .about-social .rss span:before {
   content: '\f09e';
