@@ -49,6 +49,76 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2013-06-20T13:59:46.000Z"><a href="/2013/06/20/random-record-in-mongodb/">Jun 20 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>在实际应用场景中，几乎都会有随机获取数据记录的需求。而这个需求在Mongodb却不是很好实现，就目前而言，大致上有三种解决方案：</p>
+<ol>
+<li>先计算出一个从<code>0</code>到记录总数之间的随机数，然后采用<code>skip(yourRandomNumber)</code>方法。</li>
+<li>为每一条记录增设<code>random</code>字段，插入数据时赋值为<code>Math.random()</code>，查询时采用<code>$gte</code>和<code>$lte</code>。</li>
+<li>借助Mongodb对地理空间索引（<code>geospatial indexes</code>）的支持，从而可以在第二种方法的基础上来实现随机记录的获取。</li>
+</ol>
+<p>因为Mongodb是不建议使用<code>skip</code>方法的，所以这里就略去第一种方法吧。</p>
+<h3>方法二</h3>
+<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala0...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala1...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala2...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala3...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala4...'</span> })
+<span class="comment">/* more records... */</span>
+
+<span class="comment">/* create index */</span>
+&gt; db.docs.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
+
+&gt; rand = Math.random()
+&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $gte: rand } })
+&gt; <span class="keyword">if</span> (result == <span class="literal">null</span>) {
+&gt;   result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $lte: rand } })
+&gt;}
+</pre></figure>
+
+<h3>方法三</h3>
+<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala0...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala1...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala2...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala3...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala4...'</span> })
+<span class="comment">/* more records... */</span>
+
+<span class="comment">/* create index */</span>
+&gt; db.docs.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
+
+&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $near: [Math.random(), <span class="number">0</span>] } })
+</pre></figure>
+
+<p>更多关于Mongodb地理空间索引资料，请参见<a href="http://docs.mongodb.org/manual/core/2d/">这里</a>。</p>
+<p>目前这几种方案似乎都不是很理想，但是也没有其他办法了，所以广大程序员们就相约到Mongodb的官方jira提了相应的需求，但是目前仍然没有任何的响应。可以参见<a href="https://jira.mongodb.org/browse/SERVER-533">这里</a>，围观一下。</p>
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
+  <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2013-06-07T14:23:30.000Z"><a href="/2013/06/07/javascript-class-inherit-optimized/">Jun 7 2013</a></time>
     
     
@@ -278,43 +348,6 @@ Child.inherit(Parent);
 
 
 
-  <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <time datetime="2013-03-26T15:42:35.000Z"><a href="/2013/03/26/javascript-design-pattern-notes/">Mar 26 2013</a></time>
-    
-    
-  
-    <h1 class="title"><a href="/2013/03/26/javascript-design-pattern-notes/">《JavaScript设计模式》阅读笔记</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>最近总算是把《JavaScript设计模式》这本书给认认真真啃完了，受益匪浅。虽然已经是几年前的出版物了，而且也没得地方可以买到，但是我个人觉得这本书是JavaScript程序员必读书籍之一。如果没有读过，建议一读，绝对不会让你失望。  </p>
-<p>而可能有一些地方的翻译让人一开始有点迷糊，比如我们常说的“单例模式”被译为“单体模式”，而“mixin class”被译为“掺元类”。但是对于我这种E文能力弱的人来说，完全没有挑剔的地方。  </p>
-<p>我在读这本书的时候，采取了一些阅读方式来加深理解，个人感觉还过得去，就简单的分享下。我每两天完成一章节，第一天阅读整个章节的内容，边理解边对照着写实例代码；之后若是一有时间，大脑就温习这次的内容；第二天则主动回忆前一天所阅读的内容，整理简要的笔记纲要，并按照个人的理解和笔记纲要再写一次实例代码。  </p>
-<p>因此这本书读完之后，我的笔记也就随即产出了。我没有采用很长的篇幅记录，而是思维导图来整理每一章的内容，这样也方便日后温习。  </p>
-<p>呃，好久也没有写博客了，所以将笔记也一并分享出来，也欢迎大家分享自己的学习方法和笔记方法。<br>
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-        <div class="alignleft">
-          <a href="/2013/03/26/javascript-design-pattern-notes/#more" class="more-link">阅读全文</a>
-        </div>
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-
 
 <nav id="pagination">
   
@@ -334,7 +367,7 @@ Child.inherit(Parent);
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.83px;">backbone</a><a href="/tags/blog/" style="font-size: 10.83px;">blog</a><a href="/tags/design-pattern/" style="font-size: 13.33px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 10.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 14.17px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.50px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.17px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.50px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.33px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 11.67px;">modernist</a><a href="/tags/mvc/" style="font-size: 16.67px;">mvc</a><a href="/tags/theme/" style="font-size: 15.00px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 16.92px;">backbone</a><a href="/tags/blog/" style="font-size: 13.08px;">blog</a><a href="/tags/design-pattern/" style="font-size: 15.38px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 10.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.85px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.69px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.23px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.62px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.46px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 11.54px;">modernist</a><a href="/tags/mongodb/" style="font-size: 10.77px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.15px;">mvc</a><a href="/tags/theme/" style="font-size: 12.31px;">theme</a>
   </div>
 </div>
 
@@ -367,6 +400,10 @@ Child.inherit(Parent);
   <ul class="entry">
     
       <li>
+        <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
+      </li>
+    
+      <li>
         <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
@@ -380,10 +417,6 @@ Child.inherit(Parent);
     
       <li>
         <a href="/2013/05/22/hexo-theme-modernist/">折腾了个新主题</a>
-      </li>
-    
-      <li>
-        <a href="/2013/03/26/javascript-design-pattern-notes/">《JavaScript设计模式》阅读笔记</a>
       </li>
     
   </ul>
