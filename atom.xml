@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-06-23T15:58:36.993Z</updated>
+  <updated>2013-06-23T16:14:17.703Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1500,7 +1500,7 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
     <link href="http://heroicyang.com/2013/06/20/random-record-in-mongodb/"/>
     <id>http://heroicyang.com/2013/06/20/random-record-in-mongodb/</id>
     <published>2013-06-20T13:59:46.000Z</published>
-    <updated>2013-06-20T14:50:16.000Z</updated>
+    <updated>2013-06-23T16:14:07.000Z</updated>
     <content type="html"><![CDATA[<p>在实际应用场景中，几乎都会有随机获取数据记录的需求。而这个需求在Mongodb却不是很好实现，就目前而言，大致上有三种解决方案：</p>
 <ol>
 <li>先计算出一个从<code>0</code>到记录总数之间的随机数，然后采用<code>skip(yourRandomNumber)</code>方法。</li>
@@ -1517,7 +1517,7 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
 <span class="comment">/* more records... */</span>
 
 <span class="comment">/* create index */</span>
-&gt; db.docs.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
 
 &gt; rand = Math.random()
 &gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $gte: rand } })
@@ -1535,7 +1535,7 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
 <span class="comment">/* more records... */</span>
 
 <span class="comment">/* create index */</span>
-&gt; db.docs.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
 
 &gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $near: [Math.random(), <span class="number">0</span>] } })
 </pre></figure>

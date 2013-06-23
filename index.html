@@ -76,7 +76,7 @@
 <span class="comment">/* more records... */</span>
 
 <span class="comment">/* create index */</span>
-&gt; db.docs.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
 
 &gt; rand = Math.random()
 &gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $gte: rand } })
@@ -94,7 +94,7 @@
 <span class="comment">/* more records... */</span>
 
 <span class="comment">/* create index */</span>
-&gt; db.docs.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
 
 &gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $near: [Math.random(), <span class="number">0</span>] } })
 </pre></figure>
