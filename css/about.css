@@ -116,6 +116,15 @@ ul.about-tag li {
   padding-bottom: 20px;
 }
 
+.about-updated {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.douban-book {
+  margin-top: 10px;
+}
+
 .douban-book td {
   border-bottom: 0 !important;
 }
