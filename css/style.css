@@ -517,6 +517,31 @@ article footer .tags:before {
 .archive-title.category:before {
   content: '\f07b';
 }
+.archive-year {
+  font-size: 2.4em;
+  font-family: Candara, arial;
+  font-style: italic;
+  color: #069;
+  text-shadow: rgba(255,255,255,0.9) 0 1px 0;
+  padding: 0 30px;
+  margin: 0 0 10px 0;
+}
+@media screen and (max-width:580px) {
+  .archive-year {
+    padding: 0 20px;
+  }
+}
+.archive-year a:after {
+  content: '\f08e';
+  font: 12px FontAwesome;
+  padding-left: 10px;
+  vertical-align: super;
+}
+.archive-year .sep {
+  border-bottom: 1px solid #aaa;
+  -webkit-box-shadow: rgba(255,255,255,0.3) 0 1px 0;
+  box-shadow: rgba(255,255,255,0.3) 0 1px 0;
+}
 #sidebar {
   max-width: 750px;
   margin: 0 auto;
