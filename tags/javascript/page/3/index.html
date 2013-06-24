@@ -53,6 +53,77 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">Aug 9 2012</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2012/08/09/to-backbone-tutorial-2/">Backbone之旅：前端MVC架构初体验（下）</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  </p>
+<p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  </p>
+<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> events = _.clone(Backbone.Events);
+
+<span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+
+TodoList.prototype.add = <span class="keyword">function</span>(options){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: options.todoContent },
+    success: options.success
+  });
+};
+
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+  $(<span class="string">'#new-todo form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+
+  <span class="keyword">this</span>.todoList.add({
+    todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+    success: <span class="keyword">function</span>(data){
+      events.trigger(<span class="string">'todo:add'</span>, data.todoContent);
+    }
+  });
+};
+
+<span class="comment">/*后面不变*/</span>
+</pre></figure><br>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  </p>
+<p>
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2012/08/09/to-backbone-tutorial-2/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
     
     
@@ -138,6 +209,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2013/06/24/bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
       </li>
     
@@ -151,10 +226,6 @@
     
       <li>
         <a href="/2013/05/30/learn-javascript-inherit-class/">关于JavaScript中的继承（一）：类式继承</a>
-      </li>
-    
-      <li>
-        <a href="/2013/05/22/hexo-theme-modernist/">折腾了个新主题</a>
       </li>
     
   </ul>

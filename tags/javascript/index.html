@@ -53,6 +53,66 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2013-06-24T13:04:39.000Z"><a href="/2013/06/24/bind-function-in-javascript-web-application-book/">Jun 24 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/06/24/bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>去年底就草草了了的翻过《JavaScript Web Application》这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
+<p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（P16）：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
+  Function.prototype.bind = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
+    <span class="keyword">var</span> slice = [].slice
+      , args = slice.call(arguments, <span class="number">1</span>)
+      , self = <span class="keyword">this</span>
+      , nop = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>}  <span class="comment">// ① `nop`（函数）的作用？</span>
+      , bound = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          <span class="comment">// ② 为什么要做`instanceof`判断？</span>
+          <span class="keyword">return</span> self.apply(<span class="keyword">this</span> <span class="keyword">instanceof</span> nop ? <span class="keyword">this</span> : (context || {}),
+                              args.concat(slice.call(arguments)));
+      };
+
+    <span class="comment">// ③ 为什么要设置它俩的原型？</span>
+    nop.prototype = self.prototype;
+    bound.prototype = <span class="keyword">new</span> nop();
+
+    <span class="keyword">return</span> bound;
+  };
+}
+</pre></figure>
+
+<blockquote>
+<p><code>bind()</code>：用来动态改变函数调用时其内部<code>this</code>对象的引用，使目标函数基于正确的上下文进行调用。jQuery中实现为<code>$.proxy()</code>方法，ES5则自带了。</p>
+</blockquote>
+<p>上面代码中① ② ③都是我此前不明白的地方，不过在这次阅读的过程中，就豁然开朗了。</p>
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/06/24/bind-function-in-javascript-web-application-book/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2013-06-07T14:23:30.000Z"><a href="/2013/06/07/javascript-class-inherit-optimized/">Jun 7 2013</a></time>
     
     
@@ -272,68 +332,6 @@ Child.inherit(Parent);
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
-    
-    
-  
-    <h1 class="title"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">深入理解JavaScript定时器（续）</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
-<h2>同步事件</h2>
-<h3>DOM改变事件(DOM Mutation events)</h3>
-<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。</p>
-<figure class="highlight lang-html"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://heroicyang.com/"</span>&gt;</span>
-  heroicyang.com
-<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
-  <span class="keyword">var</span> anchor = document.getElementsByTagName(<span class="string">'a'</span>)[<span class="number">0</span>];
-  anchor.onclick = <span class="keyword">function</span>(e) {
-    alert(<span class="string">'in onclick'</span>);
-    <span class="keyword">this</span>.setAttribute(<span class="string">'href'</span>, <span class="string">'#'</span>);
-    alert(<span class="string">'out onclick'</span>);
-    <span class="keyword">return</span> <span class="literal">false</span>;
-  };
-  <span class="keyword">if</span> (anchor.addEventListener) {  <span class="comment">//Firefox, Opera</span>
-    anchor
-      .addEventListener(<span class="string">'DOMAttrModified'</span>, onpropchange, <span class="literal">false</span>);
-  } <span class="keyword">else</span> <span class="keyword">if</span> (anchor.attachEvent) {  <span class="comment">//IE</span>
-    anchor
-      .attachEvent(<span class="string">'onpropertychange'</span>, onpropchange);
-  }
-  
-  <span class="function"><span class="keyword">function</span> <span class="title">onpropchange</span><span class="params">()</span> {</span>
-    alert(<span class="string">'onpropchange'</span>);
-  }
-</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-</pre></figure>
-
-<p>
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-        <div class="alignleft">
-          <a href="/2012/10/14/javascript-timer-and-event-in-depth/#more" class="more-link">阅读全文</a>
-        </div>
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
 
   <nav id="pagination">
   
@@ -387,6 +385,10 @@ Child.inherit(Parent);
   <ul class="entry">
     
       <li>
+        <a href="/2013/06/24/bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
       </li>
     
@@ -400,10 +402,6 @@ Child.inherit(Parent);
     
       <li>
         <a href="/2013/05/30/learn-javascript-inherit-class/">关于JavaScript中的继承（一）：类式继承</a>
-      </li>
-    
-      <li>
-        <a href="/2013/05/22/hexo-theme-modernist/">折腾了个新主题</a>
       </li>
     
   </ul>
