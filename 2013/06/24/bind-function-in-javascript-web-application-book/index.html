@@ -153,11 +153,11 @@ console.log(newFun1 <span class="keyword">instanceof</span> fun1);  <span class=
 console.log(newFun1 <span class="keyword">instanceof</span> func);  <span class="comment">// false</span>
 </pre></figure>
 
-<p>如此可见，在实现<code>bind()</code>方法的时候，除了考虑一般的函数调用以外，还得考虑其结合<code>new</code>关键字使用时的构造函数的特性。因此以我在第一次看这本书时的认知，看不明白也就不奇怪了。。  </p>
+<p>如此可见，在实现<code>bind()</code>方法的时候，除了考虑一般的函数调用以外，还得考虑其结合<code>new</code>关键字使用时的构造函数的特性。因此以我在第一次看这本书时的认知，看不明白也就不奇怪了，嚯嚯。。  </p>
 <p>那就来继续解最开始的那三个圈住的迷惑：</p>
 <ul>
 <li>① <code>var nop = function () {}</code> ：这并是一个普通的函数，而是一个构造函数，把它用作返回的<code>bound</code>函数的原型，以便于代码中做<code>instanceof</code>判断。</li>
-<li>② 了解了第一个问题，这里做<code>instanceof</code>判断就无可厚非了。</li>
+<li>② 鉴于前面的解释，这里做<code>instanceof</code>判断就无可厚非了。</li>
 <li>③ 先设置临时构造函数的原型为调用<code>bind()</code>方法时的上下文对象的原型，即目标函数的原型。然后将临时构造函数的一个实例设置为<code>bound</code>函数的原型，原型就链起来了。这样，在对bind后的函数进行<code>new</code>关键字操作的时候，就可以获得原目标函数的特性了。</li>
 </ul>
 <blockquote>
