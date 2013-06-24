@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-06-24T15:16:48.473Z</updated>
+  <updated>2013-06-24T15:31:47.902Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1550,7 +1550,7 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
     <link href="http://heroicyang.com/2013/06/24/bind-function-in-javascript-web-application-book/"/>
     <id>http://heroicyang.com/2013/06/24/bind-function-in-javascript-web-application-book/</id>
     <published>2013-06-24T13:04:39.000Z</published>
-    <updated>2013-06-24T15:16:30.000Z</updated>
+    <updated>2013-06-24T15:31:41.000Z</updated>
     <content type="html"><![CDATA[<p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/">《JavaScript Web Application》</a>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
 <p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（中文版P16）：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
@@ -1580,7 +1580,7 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
 <p>上面代码中① ② ③都是我此前不明白的地方，不过在这次阅读的过程中，就豁然开朗了。</p>
 <a name="more"></a>
 
-<p>我想如果让我来实现这个方法的话，应该是这样子的：</p>
+<p>让我来实现这个方法的话，或许应该是这样子的：</p>
 <figure class="highlight lang-javascript"><pre><span class="comment">// 取名为`bind1`好了，方便后面对比</span>
 Function.prototype.bind1 = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
   <span class="keyword">var</span> slice = [].slice
@@ -1593,7 +1593,7 @@ Function.prototype.bind1 = <span class="function"><span class="keyword">function
 };
 </pre></figure>
 
-<p>也就是不会引入<code>nop</code>这个空函数，不会做<code>intanceof</code>判断，也就不会有原型设置了。当然，我的这个实现是没有啥问题的，也可以正常工作，不就是改变函数调用时的上下文环境么，貌似妥妥的呢。  </p>
+<p>也就是不会引入<code>nop</code>这个空函数，不会做<code>intanceof</code>判断，不会有原型设置。当然，这个实现是没有啥大问题的，不就是改变函数调用时的上下文环境么，貌似妥妥的呢。  </p>
 <p>但是现在仔细想想，这个实现是没错，但不完善。因为JavaScript中一个函数除了可以做普通的函数调用以外，还充当了构造函数的作用，所以就可能会有下面这样的代码。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> obj = {
   name: <span class="string">'test'</span>
@@ -1627,7 +1627,7 @@ console.log(newFun1 <span class="keyword">instanceof</span> func);  <span class=
 <blockquote>
 <p>关于继承和原型，可以参见我的前几篇<a href="http://heroicyang.com/2013/06/07/javascript-class-inherit-optimized/">文章</a>。</p>
 </blockquote>
-<p>最后，再补一个<code>bind()</code>和<code>bind1()</code>方法的例子吧：</p>
+<p>最后，再补一个例子吧：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>
   <span class="keyword">this</span>.name = name;
 };
