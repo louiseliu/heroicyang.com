@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-06-24T15:06:10.994Z</updated>
+  <updated>2013-06-24T15:09:02.243Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1550,9 +1550,9 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
     <link href="http://heroicyang.com/2013/06/24/bind-function-in-javascript-web-application-book/"/>
     <id>http://heroicyang.com/2013/06/24/bind-function-in-javascript-web-application-book/</id>
     <published>2013-06-24T13:04:39.000Z</published>
-    <updated>2013-06-24T15:05:58.000Z</updated>
+    <updated>2013-06-24T15:08:58.000Z</updated>
     <content type="html"><![CDATA[<p>去年底就草草了了的翻过《JavaScript Web Application》这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
-<p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（P16）：</p>
+<p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（中文版P16）：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
   Function.prototype.bind = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
     <span class="keyword">var</span> slice = [].slice
