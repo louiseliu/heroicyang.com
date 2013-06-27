@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-06-24T16:32:36.970Z</updated>
+  <updated>2013-06-27T14:15:26.981Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -806,12 +806,14 @@ $(<span class="keyword">function</span>(){
     <link href="http://heroicyang.com/2012/09/06/javascript-timers/"/>
     <id>http://heroicyang.com/2012/09/06/javascript-timers/</id>
     <published>2012-09-06T14:56:00.000Z</published>
-    <updated>2013-05-24T15:17:38.000Z</updated>
+    <updated>2013-06-27T14:14:01.000Z</updated>
     <content type="html"><![CDATA[<p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  </p>
 <p>这两个方法所接收的参数都一样：  </p>
-<p><figure class="highlight lang-javascript"><pre>setTimeout(func|code, delay);
+<figure class="highlight lang-javascript"><pre>setTimeout(func|code, delay);
 setInterval(func|code, delay);
-</pre></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
+</pre></figure>
+
+<p>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
 <p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  </p>
 <p>后者：按照指定的周期（以毫秒计），将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。<br><a name="more"></a>
 下面分别使用了<code>setInterval</code>和<code>setTimeout</code>来实现同一个功能，可运行查看效果。 </p>
@@ -822,7 +824,7 @@ setInterval(func|code, delay);
 <p>假设定时器的上一个回调执行完到下一个回调开始的这段时间为时间间隔，那么对于<code>setTimeout</code>来说，这个时间间隔理论上是应该<code>&gt;=delay</code>；而对于<code>setInterval</code>来说，这个时间间隔理论上是应该<code>&lt;=delay</code>的。</p>
 <p>但事实总会有出人意料的地方，<code>setInterval</code>就是那个制造意外的东西。   </p>
 <p>以下是常规的代码：   </p>
-<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> endTime = <span class="literal">null</span>;
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> endTime = <span class="literal">null</span>;
 setInterval(count, <span class="number">200</span>);
 <span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
@@ -830,10 +832,12 @@ setInterval(count, <span class="number">200</span>);
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
   endTime = <span class="keyword">new</span> Date();
 }
-</pre></figure><br>其执行结果也比较符合理论时间，见下图。</p>
+</pre></figure>
+
+<p>其执行结果也比较符合理论时间，见下图。</p>
 <p><img src="http://img.heroicyang.com/setInterval1.png" alt="">   </p>
 <p>接下来修改代码，让<code>count()</code>方法的执行时间变长一点：  </p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
   i++;
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
@@ -841,19 +845,22 @@ setInterval(count, <span class="number">200</span>);
   endTime = <span class="keyword">new</span> Date();
 }
 </pre></figure>
-执行结果如下：</p>
+
+<p>执行结果如下：</p>
 <p><img src="http://img.heroicyang.com/setInterval2.png" alt=""></p>
 <p>结合执行队列，可以用下图对上面两种情况进行直观的解释：</p>
 <p><img src="http://img.heroicyang.com/setInterval1-explain.png" alt="">   </p>
 <p>接下来再次修改代码，让<code>count()</code>方法的执行时间更长，设定为<code>setInterval</code>中<code>delay</code>的<code>2</code>倍，即<code>400ms</code>：  </p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
   i++;
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
   sleep(<span class="number">400</span>); <span class="comment">//sleep 400ms</span>
   endTime = <span class="keyword">new</span> Date();
 }
-</pre></figure><br>其执行效果变为如下：</p>
+</pre></figure>
+
+<p>其执行效果变为如下：</p>
 <p><img src="http://img.heroicyang.com/setInterval3.png" alt="">  </p>
 <p>意外发生了，每个回调之间的时间间隔竟然没有了，或者说缩短到非常小的间隔。事情大概是这样的：如果<code>setInterval</code>的定时时间到了，而前一个回调还没有执行完时，就会把这次的回调放在执行队列的队尾；如果<code>setInterval</code>的定时时间已经多次触发，而此时最前一个回调仍然还在执行，那么就会丢弃掉本次的回调。还是用图来直观说明吧。  </p>
 <p>这是回调处理时间比定时时间稍微长一点点的情况：</p>
@@ -870,11 +877,11 @@ setInterval(count, <span class="number">200</span>);
     <link href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth/"/>
     <id>http://heroicyang.com/2012/09/22/javascript-timer-in-depth/</id>
     <published>2012-09-22T10:57:00.000Z</published>
-    <updated>2013-05-24T15:17:42.000Z</updated>
+    <updated>2013-06-27T14:14:23.000Z</updated>
     <content type="html"><![CDATA[<p>对于浏览器内部，大部分操作都是异步的生成事件并添加到<code>JavaScript引擎线程</code>的队列中，然后由<code>JavaScript引擎线程</code>进行调度执行。因此浏览器的很多事件都是和<code>JavaScript</code>相结合的，但是也有一些内部的限制。  </p>
 <p>首先我们非常确定<code>JavaScript</code>是单线程的，对于浏览器来说，一个窗体中只有一个<code>JavaScript引擎线程</code>。而其他的行为，如：渲染、下载等是由单独的线程进行管理的，且具有不同的优先级。  </p>
 <h2>异步事件</h2>
-<p>前面提到大多数事件都是异步的，触发的时候就将回调函数添加到事件队列。浏览器提供了一个内部的回路，也就是之前所谈到的<code>Event Loop</code>，由它来负责检查队列和处理事件、执行函数等。详细可参考我的<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">前一篇博文</a>。而<code>setTimeout</code>和<code>setInterval</code>也是将其需要执行的函数添加到事件队列。  </p>
+<p>前面提到大多数事件都是异步的，触发的时候就将回调函数添加到事件队列。浏览器提供了一个内部的回路，也就是之前所谈到的<code>Event Loop</code>，由它来负责检查队列和处理事件、执行函数等。详细可参考我的<a href="http://heroicyang.com/2012/08/28/javascript-event-loop">前一篇博文</a>。而<code>setTimeout</code>和<code>setInterval</code>也是将其需要执行的函数添加到事件队列。  </p>
 <p><strong>事实上，大多数交互和活动都得通过事件循环。</strong><br><a name="more"></a>  </p>
 <h2>事件重叠</h2>
 <p>一些情况下，会有多个事件在同一时间附加到事件队列里。  </p>
@@ -889,7 +896,7 @@ setInterval(count, <span class="number">200</span>);
 <p>因此，我们可以利用<code>setTimeout(func, 0)</code>来解决事件重叠所产生的负面效果，修正执行顺序。 </p>
 <h3>奇巧淫技之一：模拟浏览器的事件捕获</h3>
 <p>众所周知，浏览器的DOM事件都是采用冒泡的方式，只有个别浏览器是支持事件捕获的。而在实际的开发过程中可能存在需要事件捕获的需求，要求子元素的事件在父元素触发之后才能触发。为了兼容各个浏览器，我们不能使用事件捕获，而<code>setTimeout(func, 0)</code>在这个时候就很乐意帮忙了。  </p>
-<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click"</span> id=<span class="string">"cbtn"</span>&gt;
+<figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click"</span> id=<span class="string">"cbtn"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"result"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> cbtn = document.getElementById(<span class="string">'cbtn'</span>)
@@ -905,35 +912,41 @@ setInterval(count, <span class="number">200</span>);
     result.innerHTML += <span class="string">'body click -&gt; '</span>;
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></figure><br>点击查看运行效果：  </p>
+</pre></figure>
+
+<p>点击查看运行效果：  </p>
 <iframe src="http://sample.heroicyang.com/setTimeout01.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:80px; padding: 1px;"></iframe>
 
 <h3>奇巧淫技之二：让浏览器更好的工作</h3>
 <p>大多数情况下，我们可以在浏览器的默认行为之前对事件进行处理，但是有时我们按照常规的思路去做的时候，往往事与愿违。比如下面的例子。  </p>
-<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
+<figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> wordInput = document.getElementById(<span class="string">'wordInput'</span>);
   wordInput.onkeypress = <span class="keyword">function</span>(e) {
     <span class="keyword">this</span>.value = <span class="keyword">this</span>.value.toUpperCase();
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></figure><br>看似一个很简单的需求：每输入一个字符，就将其转换为大写。但是上面的代码完全没有按照指示去做，不信你试试看：  </p>
+</pre></figure>
+
+<p>看似一个很简单的需求：每输入一个字符，就将其转换为大写。但是上面的代码完全没有按照指示去做，不信你试试看：  </p>
 <iframe src="http://sample.heroicyang.com/setTimeout-toUpper-01.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; height:45px; padding: 1px;"></iframe>  
 
 <p>如果没有下一次输入，文本框中的小写字母永远都不会转换为大写。Why? 因为浏览器在<code>keypress</code>事件处理的时候，还没有将我们输入的值添加到文本框。于是乎换一个事件来handle然后再处理吧，既然键按下的时候还木有值，那就等键弹起来之后再处理。  </p>
-<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
+<figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> wordInput = document.getElementById(<span class="string">'wordInput'</span>);
   wordInput.onkeyup = <span class="keyword">function</span>(e) {
     <span class="keyword">this</span>.value = <span class="keyword">this</span>.value.toUpperCase();
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></figure><br>运行试试吧。</p>
+</pre></figure>
+
+<p>运行试试吧。</p>
 <iframe src="http://sample.heroicyang.com/setTimeout-toUpper-02.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; height:45px; padding: 1px;"></iframe>  
 
 <p>大概似乎是可行了，可是仔细观察就看出问题了。<code>keyup</code>事件触发时，文本框已经具备完整的值了，但先是一个小写的值，键完全释放之后转变为大写。这不科学…这太丑陋...  </p>
 <p>是时候关门放出<code>setTimeout(func, 0)</code>了。。。</p>
-<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
+<figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"text"</span> id=<span class="string">"wordInput"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> wordInput = document.getElementById(<span class="string">'wordInput'</span>);
   wordInput.onkeypress = <span class="keyword">function</span>(e) {
@@ -943,7 +956,8 @@ setInterval(count, <span class="number">200</span>);
     }, <span class="number">0</span>);
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></figure>  </p>
+</pre></figure>
+
 <iframe src="http://sample.heroicyang.com/setTimeout-toUpper-03.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; height:45px; padding: 1px;"></iframe>  
 
 <p>已经完美了。<code>keypress</code>事件触发时，将转换大写的操作添加到事件队列，紧接着浏览器添加我们输入的值，然后近乎0延迟的执行我们的转换大写操作函数。  </p>
@@ -957,7 +971,7 @@ setInterval(count, <span class="number">200</span>);
     <link href="http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/"/>
     <id>http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/</id>
     <published>2012-10-14T14:50:00.000Z</published>
-    <updated>2013-05-21T12:41:55.000Z</updated>
+    <updated>2013-06-27T14:14:58.000Z</updated>
     <content type="html"><![CDATA[<p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
 <h2>同步事件</h2>
 <h3>DOM改变事件(DOM Mutation events)</h3>
@@ -987,6 +1001,7 @@ setInterval(count, <span class="number">200</span>);
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
 </pre></figure>
 
+
 <p><a name="more"></a>
 当<code>click</code>事件触发时，其处理的顺序依次为：</p>
 <ol>
@@ -997,7 +1012,7 @@ setInterval(count, <span class="number">200</span>);
 <p><img src="http://img.heroicyang.com/synchronous-mutation-events.png" alt=""><br>关于<code>DOM Mutation events</code>，详情请参见：<br><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events"><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events">https://developer.mozilla.org/en-US/docs/DOM/Mutation_events</a></a><br><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents"><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents</a></a>  </p>
 <h3>嵌套的DOM事件</h3>
 <p>在浏览器端，有一些方法会立即触发某类事件，而这类事件也是同步的。比如<code>element.focus()</code>，下面是演示代码。  </p>
-<p><figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click me"</span>&gt;
+<figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click me"</span>&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
   <span class="keyword">var</span> btn = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">0</span>]
@@ -1013,12 +1028,14 @@ setInterval(count, <span class="number">200</span>);
     console.log(<span class="string">'onfocus'</span>);
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></figure><br>执行结果如下：</p>
+</pre></figure>
+
+<p>执行结果如下：</p>
 <p><img src="http://img.heroicyang.com/synchronous-focus-event.png" alt="">  </p>
-<p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  </p>
+<p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  </p>
 <h2>JavaScript执行与页面渲染</h2>
 <p>大多数浏览器中，JavaScript的执行和页面渲染是互斥的，于是JavaScript执行时，浏览器就不会做任何的页面渲染。比如下面的Demo...  </p>
-<p><figure class="highlight lang-javascript"><pre>&lt;!DOCTYPE HTML&gt;
+<figure class="highlight lang-javascript"><pre>&lt;!DOCTYPE HTML&gt;
 <span class="xml"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en-US"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">head</span>&gt;</span>
   <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
@@ -1047,7 +1064,8 @@ setInterval(count, <span class="number">200</span>);
   </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">body</span>&gt;</span>
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span></span>
-</pre></figure></p>
+</pre></figure>
+
 <iframe src="http://sample.heroicyang.com/repaint.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>
 
 <p>运行上面的Demo后，大多数浏览器都会假死了，直到<code>container</code>的背景颜色变更为<code>#FFFFFF</code>后才恢复。而有的浏览器(如Firefox)还会弹出警告，告知JavaScript没有响应，是终止还是等待。但是Opera却能正常运行，并不断更改背景颜色。因此不同浏览器对页面渲染和JavaScript执行的实现方式是不一样的。  </p>
@@ -1055,7 +1073,7 @@ setInterval(count, <span class="number">200</span>);
 <h3>模式对话框的同步调用</h3>
 <p>浏览器提供的如<code>alert</code>等的模式对话框是同步调用的，所以当这类对话框工作时，会停止<code>JavaScript线程</code>，当然如页面渲染等活动也将被冻结。继续下面的Demo…当运行代码下面的<code>iframe</code>中的进度条后，无论是点击<code>主窗体中的alert</code>按钮，还是点击<code>iframe中的alert</code>按钮，都会导致进度条挂起。  </p>
 <p><input type="button" value="主窗体中的alert" onclick="alert('主窗体对话框');"></p>
-<p><figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span> style=<span class="string">"width: 0px; height: 20px; background-color: #A00000;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span> style=<span class="string">"width: 0px; height: 20px; background-color: #A00000;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"iframe中的alert"</span> <span class="attribute">onclick</span>=<span class="value">"alert('iframe中的对话框');"</span>&gt;</span>
@@ -1075,15 +1093,16 @@ setInterval(count, <span class="number">200</span>);
     clearInterval(timer);
   };
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></figure></p>
+</pre></figure>
+
 <iframe src="http://sample.heroicyang.com/modal-sync.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:70px; padding: 1px;"></iframe>  
 
 <p>因此，浏览器所提供的<code>alert</code>、<code>confirm</code>、<code>prompt</code>这三类模式对话框，都会阻塞<code>JavaScript线程</code>和<code>UI线程</code>。  </p>
 <p><strong>依旧，Opera有一点点的例外。。。</strong>  </p>
 <p>在Opera中，点击<code>主窗体中的alert</code>按钮不会阻塞<code>iframe</code>中的进度条。。。又打破我们的常规认识啊：同一个页面上，<code>iframe</code>是和主窗体同一个线程的。但Opera的设计并非如此。。。  </p>
 <h2>当脚本需要花很长的时间干复杂的工作时</h2>
-<p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth.html">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  </p>
-<p><figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  </p>
+<figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
 <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
@@ -1107,7 +1126,8 @@ setInterval(count, <span class="number">200</span>);
     clearTimeout(timer);
   }
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
-</pre></figure></p>
+</pre></figure>
+
 <iframe src="http://sample.heroicyang.com/heavy-jobs.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>  
 
 <p>最后，总结一下<code>setTimeout(func, 0)</code>的使用场景吧：</p>

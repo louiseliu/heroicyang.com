@@ -11,6 +11,8 @@
 这两个方法所接收的参数都一样：  
 setTimeout(func|code, delay);
 setInterval(func|code, delay);
+
+
 这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合上篇文章中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。
 前者：在指定的毫秒数后，将定时任务处理函数（func|code）添加到执行队列的队尾。  
 后者：按照指定的周期（以毫秒计），将定时任务处理函数（func|code）添加到执行队列的队尾。">
@@ -69,9 +71,11 @@ setInterval(func|code, delay);
     
       <p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  </p>
 <p>这两个方法所接收的参数都一样：  </p>
-<p><figure class="highlight lang-javascript"><pre>setTimeout(func|code, delay);
+<figure class="highlight lang-javascript"><pre>setTimeout(func|code, delay);
 setInterval(func|code, delay);
-</pre></figure><br>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop.html">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
+</pre></figure>
+
+<p>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
 <p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  </p>
 <p>后者：按照指定的周期（以毫秒计），将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。<br><a name="more"></a>
 下面分别使用了<code>setInterval</code>和<code>setTimeout</code>来实现同一个功能，可运行查看效果。 </p>
@@ -82,7 +86,7 @@ setInterval(func|code, delay);
 <p>假设定时器的上一个回调执行完到下一个回调开始的这段时间为时间间隔，那么对于<code>setTimeout</code>来说，这个时间间隔理论上是应该<code>&gt;=delay</code>；而对于<code>setInterval</code>来说，这个时间间隔理论上是应该<code>&lt;=delay</code>的。</p>
 <p>但事实总会有出人意料的地方，<code>setInterval</code>就是那个制造意外的东西。   </p>
 <p>以下是常规的代码：   </p>
-<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> endTime = <span class="literal">null</span>;
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> endTime = <span class="literal">null</span>;
 setInterval(count, <span class="number">200</span>);
 <span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
@@ -90,10 +94,12 @@ setInterval(count, <span class="number">200</span>);
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
   endTime = <span class="keyword">new</span> Date();
 }
-</pre></figure><br>其执行结果也比较符合理论时间，见下图。</p>
+</pre></figure>
+
+<p>其执行结果也比较符合理论时间，见下图。</p>
 <p><img src="http://img.heroicyang.com/setInterval1.png" alt="">   </p>
 <p>接下来修改代码，让<code>count()</code>方法的执行时间变长一点：  </p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
   i++;
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
@@ -101,19 +107,22 @@ setInterval(count, <span class="number">200</span>);
   endTime = <span class="keyword">new</span> Date();
 }
 </pre></figure>
-执行结果如下：</p>
+
+<p>执行结果如下：</p>
 <p><img src="http://img.heroicyang.com/setInterval2.png" alt=""></p>
 <p>结合执行队列，可以用下图对上面两种情况进行直观的解释：</p>
 <p><img src="http://img.heroicyang.com/setInterval1-explain.png" alt="">   </p>
 <p>接下来再次修改代码，让<code>count()</code>方法的执行时间更长，设定为<code>setInterval</code>中<code>delay</code>的<code>2</code>倍，即<code>400ms</code>：  </p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> elapsedTime = endTime ? (<span class="keyword">new</span> Date() - endTime) : <span class="number">200</span>;
   i++;
   console.log(<span class="string">'current count: '</span> + i + <span class="string">'.'</span> + <span class="string">'elapsed time: '</span> + elapsedTime + <span class="string">'ms'</span>);
   sleep(<span class="number">400</span>); <span class="comment">//sleep 400ms</span>
   endTime = <span class="keyword">new</span> Date();
 }
-</pre></figure><br>其执行效果变为如下：</p>
+</pre></figure>
+
+<p>其执行效果变为如下：</p>
 <p><img src="http://img.heroicyang.com/setInterval3.png" alt="">  </p>
 <p>意外发生了，每个回调之间的时间间隔竟然没有了，或者说缩短到非常小的间隔。事情大概是这样的：如果<code>setInterval</code>的定时时间到了，而前一个回调还没有执行完时，就会把这次的回调放在执行队列的队尾；如果<code>setInterval</code>的定时时间已经多次触发，而此时最前一个回调仍然还在执行，那么就会丢弃掉本次的回调。还是用图来直观说明吧。  </p>
 <p>这是回调处理时间比定时时间稍微长一点点的情况：</p>
