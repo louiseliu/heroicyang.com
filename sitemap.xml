@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://heroicyang.com/about/index.html</loc>
+    <lastmod>2013-07-06T13:09:32.000Z</lastmod>
+  </url>
+  <url>
     <loc>http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/</loc>
     <lastmod>2013-06-27T14:14:58.000Z</lastmod>
   </url>
@@ -19,10 +23,6 @@
   <url>
     <loc>http://heroicyang.com/2013/06/20/random-record-in-mongodb/</loc>
     <lastmod>2013-06-23T16:14:07.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://heroicyang.com/about/index.html</loc>
-    <lastmod>2013-06-23T15:58:08.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2013/06/07/javascript-class-inherit-optimized/</loc>

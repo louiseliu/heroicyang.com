@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title><![CDATA[Heroic Yang's Blog]]></title>
-  <subtitle><![CDATA[Front-Ender, love javascript and node.]]></subtitle>
+  <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-06-27T14:15:26.981Z</updated>
+  <updated>2013-07-06T13:10:48.760Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
