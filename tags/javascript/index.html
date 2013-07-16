@@ -53,6 +53,68 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2013-07-14T14:11:36.000Z"><a href="/2013/07/14/javascript-variable-scope/">Jul 14 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/07/14/javascript-variable-scope/">JavaScript变量作用域</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>所谓作用域，也就是变量和函数起作用的区域，不同的语言有着不同的实现。而在JavaScript中，这也是往往让人迷糊的地方，也是JavaScript中必须理解的特性之一。  </p>
+<p>首先来看看下面的代码：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+    <span class="keyword">var</span> foo = <span class="string">'bar'</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  console.log(i); <span class="comment">// 10</span>
+  console.log(foo); <span class="comment">// 'bar'</span>
+}
+foo();
+</pre></figure>
+
+
+<p>从运行结果不难看出，变量<code>i</code>在循环体结束之后仍然可以访问。而诸如Java、C#等语言中，循环结束之后便不能再访问到循环体中的变量了。继续看下面代码：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  console.log(name); <span class="comment">// 'foo'</span>
+}
+
+foo();
+console.log(name); <span class="comment">// 'heroic'</span>
+</pre></figure>
+
+
+<p><strong>结合两段代码可以知道，在JavaScript中是不存在块级作用域的，只存在函数作用域（也称“本地作用域”）和全局作用域。</strong>而作用域中的变量我们分别称其为：局部变量和全局变量。  </p>
+<p>接下来从局部变量和全局变量来继续谈谈变量作用域。</p>
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/07/14/javascript-variable-scope/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2013-06-24T13:04:39.000Z"><a href="/2013/06/24/bind-function-in-javascript-web-application-book/">Jun 24 2013</a></time>
     
     
@@ -295,43 +357,6 @@ Child.inherit(Parent);
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <time datetime="2013-03-26T15:42:35.000Z"><a href="/2013/03/26/javascript-design-pattern-notes/">Mar 26 2013</a></time>
-    
-    
-  
-    <h1 class="title"><a href="/2013/03/26/javascript-design-pattern-notes/">《JavaScript设计模式》阅读笔记</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>最近总算是把《JavaScript设计模式》这本书给认认真真啃完了，受益匪浅。虽然已经是几年前的出版物了，而且也没得地方可以买到，但是我个人觉得这本书是JavaScript程序员必读书籍之一。如果没有读过，建议一读，绝对不会让你失望。  </p>
-<p>而可能有一些地方的翻译让人一开始有点迷糊，比如我们常说的“单例模式”被译为“单体模式”，而“mixin class”被译为“掺元类”。但是对于我这种E文能力弱的人来说，完全没有挑剔的地方。  </p>
-<p>我在读这本书的时候，采取了一些阅读方式来加深理解，个人感觉还过得去，就简单的分享下。我每两天完成一章节，第一天阅读整个章节的内容，边理解边对照着写实例代码；之后若是一有时间，大脑就温习这次的内容；第二天则主动回忆前一天所阅读的内容，整理简要的笔记纲要，并按照个人的理解和笔记纲要再写一次实例代码。  </p>
-<p>因此这本书读完之后，我的笔记也就随即产出了。我没有采用很长的篇幅记录，而是思维导图来整理每一章的内容，这样也方便日后温习。  </p>
-<p>呃，好久也没有写博客了，所以将笔记也一并分享出来，也欢迎大家分享自己的学习方法和笔记方法。<br>
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-        <div class="alignleft">
-          <a href="/2013/03/26/javascript-design-pattern-notes/#more" class="more-link">阅读全文</a>
-        </div>
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
 
   <nav id="pagination">
   
@@ -385,6 +410,10 @@ Child.inherit(Parent);
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/14/javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
         <a href="/2013/06/24/bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
       </li>
     
@@ -398,10 +427,6 @@ Child.inherit(Parent);
     
       <li>
         <a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中的继承（二）：原型式继承</a>
-      </li>
-    
-      <li>
-        <a href="/2013/05/30/learn-javascript-inherit-class/">关于JavaScript中的继承（一）：类式继承</a>
       </li>
     
   </ul>

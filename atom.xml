@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-07-06T13:20:52.884Z</updated>
+  <updated>2013-07-16T15:47:27.185Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1665,6 +1665,147 @@ Person.prototype.printName = <span class="function"><span class="keyword">functi
 p1.printName();  <span class="comment">// 'heroic'</span>
 p2.printName();  <span class="comment">// TypeError: Object [object Object] has no method 'printName'</span>
 </pre></figure>]]></content>
+    <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[JavaScript变量作用域]]></title>
+    <link href="http://heroicyang.com/2013/07/14/javascript-variable-scope/"/>
+    <id>http://heroicyang.com/2013/07/14/javascript-variable-scope/</id>
+    <published>2013-07-14T14:11:36.000Z</published>
+    <updated>2013-07-16T15:46:01.000Z</updated>
+    <content type="html"><![CDATA[<p>所谓作用域，也就是变量和函数起作用的区域，不同的语言有着不同的实现。而在JavaScript中，这也是往往让人迷糊的地方，也是JavaScript中必须理解的特性之一。  </p>
+<p>首先来看看下面的代码：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+    <span class="keyword">var</span> foo = <span class="string">'bar'</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  console.log(i); <span class="comment">// 10</span>
+  console.log(foo); <span class="comment">// 'bar'</span>
+}
+foo();
+</pre></figure>
+
+
+<p>从运行结果不难看出，变量<code>i</code>在循环体结束之后仍然可以访问。而诸如Java、C#等语言中，循环结束之后便不能再访问到循环体中的变量了。继续看下面代码：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  console.log(name); <span class="comment">// 'foo'</span>
+}
+
+foo();
+console.log(name); <span class="comment">// 'heroic'</span>
+</pre></figure>
+
+
+<p><strong>结合两段代码可以知道，在JavaScript中是不存在块级作用域的，只存在函数作用域（也称“本地作用域”）和全局作用域。</strong>而作用域中的变量我们分别称其为：局部变量和全局变量。  </p>
+<p>接下来从局部变量和全局变量来继续谈谈变量作用域。</p>
+<a name="more"></a>
+
+<h3>谨慎使用全局变量</h3>
+<ul>
+<li>任何地方都可以访问并修改这些全局变量，代码变得不可控。</li>
+<li>命名冲突，很难保证引入的多个模块间不出现相同名称的变量，代码也会变的不可控。</li>
+<li>局部变量的访问优先级高于全局变量，所以在某种特殊情况下（JavaScript变量声明提前特性），代码同样变的不可控。</li>
+</ul>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  name = <span class="string">'foo'</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span> {</span>
+  console.log(name); <span class="comment">// 'foo'</span>
+  name = <span class="string">'bar'</span>;
+}
+
+foo();
+bar();
+console.log(name); <span class="comment">// 'bar'</span>
+</pre></figure>
+
+
+<p>上面这个例子很好理解，由于在<code>foo</code>中没有使用<code>var</code>关键字来声明<code>name</code>变量，所以就成全局变量了。  </p>
+<h3>声明提前</h3>
+<p>接下来看看这个可能对于初学者来说会有点迷糊的例子。</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  console.log(name);
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  console.log(name);
+}
+
+foo();
+<span class="comment">// undefined</span>
+<span class="comment">// 'foo'</span>
+</pre></figure>
+
+
+<p>结果可能跟编写代码的初衷有点不一致：或许是希望在调用<code>foo</code>函数时，如果<code>name</code>变量未定义就使用全局的，然后再定义局部的<code>name</code>变量，之后再赋值并使用局部的变量。  </p>
+<p>但由于JavaScript的<strong>声明提前</strong>特性，使得执行时的逻辑违背了初衷。究其原因：JavaScript中变量和函数以及函数的参数的申明都是在一个类似于预编译的时期就做了，而在运行时期才是创建变量赋值表达式和函数表达式等。所以上面的代码等同于：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name;
+  console.log(name);
+  name = <span class="string">'foo'</span>;
+  console.log(name);
+}
+
+foo();
+</pre></figure>
+
+
+<p>以及下面这种看上去是先调用后定义的写法，也是不会报错的：</p>
+<figure class="highlight lang-javascript"><pre>foo();
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+
+<span class="comment">// 等同于</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+foo();
+</pre></figure>
+
+
+<p>在声明提前这种情况下，有两点需要特别注意：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> foo;
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+
+<span class="comment">// 最后变量`foo`到底是谁？</span>
+console.log(<span class="keyword">typeof</span> foo); <span class="comment">// 'function'</span>
+</pre></figure>
+
+
+<ul>
+<li>也就是说，函数声明会覆盖变量声明</li>
+</ul>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> foo = <span class="string">'bar'</span>;
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+
+<span class="comment">// 这次又会是谁呢？</span>
+console.log(<span class="keyword">typeof</span> foo);  <span class="comment">// 'string'</span>
+</pre></figure>
+
+
+<ul>
+<li>而变量赋值表达式会覆盖函数声明</li>
+</ul>
+<p>最后，大家来猜猜下面这段代码的结果吧~</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'global'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  bar();
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span> {</span>
+  console.log(name);
+}
+
+foo();
+</pre></figure>
+]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
   </entry>
 </feed>

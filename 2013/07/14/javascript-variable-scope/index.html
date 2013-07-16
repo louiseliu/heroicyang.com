@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>JavaScript变量作用域 | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  <meta name="description" content="所谓作用域，也就是变量和函数起作用的区域，不同的语言有着不同的实现。而在JavaScript中，这也是往往让人迷糊的地方，也是JavaScript中必须理解的特性之一。  
+首先来看看下面的代码：
+for (var i = 0; i &lt; 10; i++) {
+    var foo = 'bar';
+}
+
+function foo() {
+  console.log(i); // 10
+  console.log(foo); // 'bar'
+}
+foo();
+
+
+
+从运行结果不难看出，变量i在循环体结束之后仍然可以访问。而诸如Java、C#等语言中，循环结束之后便不能再访问到循环体中的变量了。继续看下面代码：
+var name = 'heroic';
+
+function foo() {
+  var name = 'foo';
+  console.log(name); // 'foo'
+}
+
+foo();
+console.log(name); // 'heroic'
+
+
+
+结合两段代码可以知道，在JavaScript中是不存在块级作用域的，只存在函数作用域（也称“本地作用域”）和全局作用域。而作用域中的变量我们分别称其为：局部变量和全局变量。  
+接下来从局部变量和全局变量来继续谈谈变量作用域。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta property="og:title" content="JavaScript变量作用域"/>
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/about.css" media="screen" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <header id="header"><div class="title">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <p><a href="/">Web developer, love javascript and node.</a></p>
+</div>
+<nav class="nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2013-07-14T14:11:36.000Z"><a href="/2013/07/14/javascript-variable-scope/">Jul 14 2013</a></time>
+    
+    
+  
+    <h1 class="title">JavaScript变量作用域</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>所谓作用域，也就是变量和函数起作用的区域，不同的语言有着不同的实现。而在JavaScript中，这也是往往让人迷糊的地方，也是JavaScript中必须理解的特性之一。  </p>
+<p>首先来看看下面的代码：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+    <span class="keyword">var</span> foo = <span class="string">'bar'</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  console.log(i); <span class="comment">// 10</span>
+  console.log(foo); <span class="comment">// 'bar'</span>
+}
+foo();
+</pre></figure>
+
+
+<p>从运行结果不难看出，变量<code>i</code>在循环体结束之后仍然可以访问。而诸如Java、C#等语言中，循环结束之后便不能再访问到循环体中的变量了。继续看下面代码：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  console.log(name); <span class="comment">// 'foo'</span>
+}
+
+foo();
+console.log(name); <span class="comment">// 'heroic'</span>
+</pre></figure>
+
+
+<p><strong>结合两段代码可以知道，在JavaScript中是不存在块级作用域的，只存在函数作用域（也称“本地作用域”）和全局作用域。</strong>而作用域中的变量我们分别称其为：局部变量和全局变量。  </p>
+<p>接下来从局部变量和全局变量来继续谈谈变量作用域。</p>
+<a name="more"></a>
+
+<h3>谨慎使用全局变量</h3>
+<ul>
+<li>任何地方都可以访问并修改这些全局变量，代码变得不可控。</li>
+<li>命名冲突，很难保证引入的多个模块间不出现相同名称的变量，代码也会变的不可控。</li>
+<li>局部变量的访问优先级高于全局变量，所以在某种特殊情况下（JavaScript变量声明提前特性），代码同样变的不可控。</li>
+</ul>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  name = <span class="string">'foo'</span>;
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span> {</span>
+  console.log(name); <span class="comment">// 'foo'</span>
+  name = <span class="string">'bar'</span>;
+}
+
+foo();
+bar();
+console.log(name); <span class="comment">// 'bar'</span>
+</pre></figure>
+
+
+<p>上面这个例子很好理解，由于在<code>foo</code>中没有使用<code>var</code>关键字来声明<code>name</code>变量，所以就成全局变量了。  </p>
+<h3>声明提前</h3>
+<p>接下来看看这个可能对于初学者来说会有点迷糊的例子。</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  console.log(name);
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  console.log(name);
+}
+
+foo();
+<span class="comment">// undefined</span>
+<span class="comment">// 'foo'</span>
+</pre></figure>
+
+
+<p>结果可能跟编写代码的初衷有点不一致：或许是希望在调用<code>foo</code>函数时，如果<code>name</code>变量未定义就使用全局的，然后再定义局部的<code>name</code>变量，之后再赋值并使用局部的变量。  </p>
+<p>但由于JavaScript的<strong>声明提前</strong>特性，使得执行时的逻辑违背了初衷。究其原因：JavaScript中变量和函数以及函数的参数的申明都是在一个类似于预编译的时期就做了，而在运行时期才是创建变量赋值表达式和函数表达式等。所以上面的代码等同于：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name;
+  console.log(name);
+  name = <span class="string">'foo'</span>;
+  console.log(name);
+}
+
+foo();
+</pre></figure>
+
+
+<p>以及下面这种看上去是先调用后定义的写法，也是不会报错的：</p>
+<figure class="highlight lang-javascript"><pre>foo();
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+
+<span class="comment">// 等同于</span>
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+foo();
+</pre></figure>
+
+
+<p>在声明提前这种情况下，有两点需要特别注意：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> foo;
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+
+<span class="comment">// 最后变量`foo`到底是谁？</span>
+console.log(<span class="keyword">typeof</span> foo); <span class="comment">// 'function'</span>
+</pre></figure>
+
+
+<ul>
+<li>也就是说，函数声明会覆盖变量声明</li>
+</ul>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> foo = <span class="string">'bar'</span>;
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
+
+<span class="comment">// 这次又会是谁呢？</span>
+console.log(<span class="keyword">typeof</span> foo);  <span class="comment">// 'string'</span>
+</pre></figure>
+
+
+<ul>
+<li>而变量赋值表达式会覆盖函数声明</li>
+</ul>
+<p>最后，大家来猜猜下面这段代码的结果吧~</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'global'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  bar();
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span> {</span>
+  console.log(name);
+}
+
+foo();
+</pre></figure>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>
+  </div>
+
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+  <div class="ds-thread" data-title="JavaScript变量作用域">
+  </div>
+</section>
+</div>
+  </div>
+  <div class="widget-wrapper">
+    <aside id="sidebar">
+  
+  
+    
+    
+
+<div class="widget tagcloud first">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/backbone/" style="font-size: 16.92px;">backbone</a><a href="/tags/blog/" style="font-size: 13.08px;">blog</a><a href="/tags/design-pattern/" style="font-size: 15.38px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 10.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.85px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.69px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.23px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.62px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.46px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 11.54px;">modernist</a><a href="/tags/mongodb/" style="font-size: 10.77px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.15px;">mvc</a><a href="/tags/theme/" style="font-size: 12.31px;">theme</a>
+  </div>
+</div>
+
+  
+    
+    
+
+<div class="widget blogroll">
+  <h3 class="title">Links</h3>
+  <ul class="entry">
+  
+    
+    <li><a href="http://veryb.us/" target="_blank">fiture</a></li>
+  
+    
+    <li><a href="http://www.crossyou.cn/" target="_blank">crossyou</a></li>
+  
+    
+    <li><a href="http://island205.com/" target="_blank">island205</a></li>
+  
+  </ul>
+</div>
+
+  
+    
+    
+
+<div class="widget recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2013/07/14/javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/24/bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中的继承（二）：原型式继承</a>
+      </li>
+    
+  </ul>
+</div>
+
+  
+</aside>
+<div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2013 <a href="/">Heroic Yang</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>

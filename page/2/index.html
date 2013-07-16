@@ -45,6 +45,59 @@
 </nav>
 <div class="clearfix"></div></header>
     <div class="content">
+  <article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2013-05-30T14:19:21.000Z"><a href="/2013/05/30/learn-javascript-inherit-class/">May 30 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/05/30/learn-javascript-inherit-class/">关于JavaScript中的继承（一）：类式继承</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>“继承”是面向对象中的一个概念，说开去无非就是代码重用的一种方式罢了。  </p>
+<p>虽然JavaScript并不是一门真正的面向对象语言，甚至连类的概念都没有。但得益于构造器的存在，在JavaScript中是可以完全模拟出 <strong>类-对象</strong> 行为的。如：  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> person = <span class="keyword">new</span> Person();
+</pre></figure>
+
+<p>看上去除了变量声明时不是强类型之外，完全与面向对象如出一辙。所以谈及继承时，大家首推的也是一种叫“类式继承”的手法了。  </p>
+<h3>类式继承之基于原型链</h3>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Parent = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>
+  <span class="keyword">this</span>.name = name || <span class="string">'heroic'</span>;
+};
+Parent.prototype.printName = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  console.log(<span class="keyword">this</span>.name);
+};
+<span class="keyword">var</span> Child = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>};
+
+inherit(Child, Parent);
+<span class="comment">// or</span>
+Child.inherit(Parent);
+</pre></figure>
+
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/05/30/learn-javascript-inherit-class/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+
   <article class="photo">
   <header>
     
@@ -229,47 +282,6 @@
 
 
 
-  <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <time datetime="2012-09-06T14:56:00.000Z"><a href="/2012/09/06/javascript-timers/">Sep 6 2012</a></time>
-    
-    
-  
-    <h1 class="title"><a href="/2012/09/06/javascript-timers/">理解JavaScript定时器：setTimeout和setInterval</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p><strong>定时器其实并不是<code>JavaScript</code>提供的，而是由浏览器（对于前端来说）提供的。</strong>所以<code>setTimeout()</code>和<code>setInterval()</code>这两个方法均是通过浏览器的顶层对象<code>window</code>进行调用，可能平时大家在使用的过程中也会省去<code>window</code>而直接使用这两个方法。  </p>
-<p>这两个方法所接收的参数都一样：  </p>
-<figure class="highlight lang-javascript"><pre>setTimeout(func|code, delay);
-setInterval(func|code, delay);
-</pre></figure>
-
-<p>这两个方法总是被简单的认为：在多少毫秒之后就执行里面的函数或者每间隔多少毫秒就执行里面的函数，基于这种理解的话会遇到很多匪夷所思的坑。而结合<a href="http://heroicyang.com/2012/08/28/javascript-event-loop">上篇文章</a>中所提到的执行队列来解释的话，很多疑问都可以迎刃而解。</p>
-<p>前者：在指定的毫秒数后，将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。  </p>
-<p>后者：按照指定的周期（以毫秒计），将定时任务处理函数（<code>func|code</code>）添加到执行队列的队尾。<br>
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-        <div class="alignleft">
-          <a href="/2012/09/06/javascript-timers/#more" class="more-link">阅读全文</a>
-        </div>
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-
 
 <nav id="pagination">
   
@@ -324,6 +336,10 @@ setInterval(func|code, delay);
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/14/javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
         <a href="/2013/06/24/bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
       </li>
     
@@ -337,10 +353,6 @@ setInterval(func|code, delay);
     
       <li>
         <a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中的继承（二）：原型式继承</a>
-      </li>
-    
-      <li>
-        <a href="/2013/05/30/learn-javascript-inherit-class/">关于JavaScript中的继承（一）：类式继承</a>
       </li>
     
   </ul>
