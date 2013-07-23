@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-07-23T16:18:08.942Z</updated>
+  <updated>2013-07-23T16:19:04.601Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1810,11 +1810,11 @@ foo();
     <category scheme="http://heroicyang.com/tags/scope/" term="scope"/>
   </entry>
   <entry>
-    <title type="html"><![CDATA[JavaScript变量作用域(续)]]></title>
+    <title type="html"><![CDATA[JavaScript变量作用域（续）]]></title>
     <link href="http://heroicyang.com/2013/07/22/javascript-scope-sequel/"/>
     <id>http://heroicyang.com/2013/07/22/javascript-scope-sequel/</id>
     <published>2013-07-22T14:14:06.000Z</published>
-    <updated>2013-07-23T16:17:58.000Z</updated>
+    <updated>2013-07-23T16:19:01.000Z</updated>
     <content type="html"><![CDATA[<p>接<a href="http://heroicyang.com/2013/07/14/javascript-variable-scope/" title=" 上篇" target="_blank"> 上篇</a>
 ，已经大致明确了以下几点：</p>
 <ol>
