@@ -153,29 +153,29 @@ barScopeChain = [globalScopeChain]
 
 <p><em>2.调用<code>foo</code>函数，进入<code>foo</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>、<code>name</code>，并将活动对象添加到作用域链的前端。</em></p>
 <figure class="highlight lang-javascript"><pre>fooScopeChain = [
-    {
+  {
     arguments: [],
     name: <span class="string">'foo'</span>
-    },
-    {
+  },
+  {
     name: <span class="string">'global'</span>,
     foo: [Function],
     bar: [Function]
-    }
+  }
 ]
 </pre></figure>
 
 
 <p><em>3.调用<code>bar</code>函数，进入<code>bar</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>，然后也将活动对象添加到作用域链的前端。</em></p>
 <figure class="highlight lang-javascript"><pre>barScopeChain = [
-    {
+  {
     arguments: []
-    },
-    {
+  },
+  {
     name: <span class="string">'global'</span>,
     foo: [Function],
     bar: [Function]
-    }
+  }
 ]
 </pre></figure>
 
