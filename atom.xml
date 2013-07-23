@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-07-23T16:14:45.566Z</updated>
+  <updated>2013-07-23T16:16:14.218Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1814,7 +1814,7 @@ foo();
     <link href="http://heroicyang.com/2013/07/22/javascript-scope-sequel/"/>
     <id>http://heroicyang.com/2013/07/22/javascript-scope-sequel/</id>
     <published>2013-07-22T14:14:06.000Z</published>
-    <updated>2013-07-23T16:14:41.000Z</updated>
+    <updated>2013-07-23T16:16:09.000Z</updated>
     <content type="html"><![CDATA[<p>接<a href="http://heroicyang.com/2013/07/14/javascript-variable-scope/" title=" 上篇" target="_blank"> 上篇</a>
 ，已经大致明确了以下几点：</p>
 <ol>
@@ -1868,7 +1868,7 @@ foo();
 </pre></figure>
 
 
-<p><strong>1.代码运行开始，在全局执行环境中，全局环境关联了一个作用域链，变量对象包含<code>name</code>、<code>foo</code>、<code>bar</code>。然后<code>foo</code>函数和<code>bar</code>函数也各自关联了自己作用域链。</strong></p>
+<p><em>1.代码运行开始，在全局执行环境中，全局环境关联了一个作用域链，变量对象包含<code>name</code>、<code>foo</code>、<code>bar</code>。然后<code>foo</code>函数和<code>bar</code>函数也各自关联了自己作用域链。</em></p>
 <figure class="highlight lang-javascript"><pre>globalScopeChain = {
     name: <span class="string">'global'</span>,
     foo: [Function],
@@ -1880,7 +1880,7 @@ barScopeChain = [globalScopeChain]
 </pre></figure>
 
 
-<p><strong>2.调用<code>foo</code>函数，进入<code>foo</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>、<code>name</code>，并将活动对象添加到作用域链的前端。</strong></p>
+<p><em>2.调用<code>foo</code>函数，进入<code>foo</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>、<code>name</code>，并将活动对象添加到作用域链的前端。</em></p>
 <figure class="highlight lang-javascript"><pre>fooScopeChain = [
     {
     arguments: [],
@@ -1895,7 +1895,7 @@ barScopeChain = [globalScopeChain]
 </pre></figure>
 
 
-<p><strong>3.调用<code>bar</code>函数，进入<code>bar</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>，然后也将活动对象添加到作用域链的前端。</strong></p>
+<p><em>3.调用<code>bar</code>函数，进入<code>bar</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>，然后也将活动对象添加到作用域链的前端。</em></p>
 <figure class="highlight lang-javascript"><pre>barScopeChain = [
     {
     arguments: []
