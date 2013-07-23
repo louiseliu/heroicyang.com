@@ -53,6 +53,65 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2013-07-22T14:14:06.000Z"><a href="/2013/07/22/javascript-scope-sequel/">Jul 22 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域(续)</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>接<a href="http://heroicyang.com/2013/07/14/javascript-variable-scope/" title=" 上篇" target="_blank"> 上篇</a>
+，已经大致明确了以下几点：</p>
+<ol>
+<li>JavaScript没有块级作用域，只有函数(局部)作用域和全局作用域</li>
+<li>函数中未使用<code>var</code>关键字声明的变量会成为全局变量</li>
+<li>同名时局部变量访问优先级高于全局变量 </li>
+<li>JavaScript具有变量声明提前的特性</li>
+</ol>
+<p>接下来根据上篇留下的最后一段代码，继续谈谈变量作用域。</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'global'</span>;
+
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  bar();
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span> {</span>
+  console.log(name);
+}
+
+foo();
+</pre></figure>
+
+
+<p>这段代码最终会在控制台打印出<code>&#39;global&#39;</code>，而并非<code>&#39;foo&#39;</code>。可以看出，函数运行时能访问到的作用域是它被定义时的作用域，不是被调用时的作用域。</p>
+<p>每当谈及JavaScript作用域的时候，基本上都会提到“词法作用域”、“执行环境”、“活动对象”、“作用域链”这几个概念。当然，了解这些概念将有助于理解JavaScript中的闭包。</p>
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/07/22/javascript-scope-sequel/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2013-07-14T14:11:36.000Z"><a href="/2013/07/14/javascript-variable-scope/">Jul 14 2013</a></time>
     
     
@@ -304,59 +363,6 @@ child.printName();  <span class="comment">// 'child'</span>
 
 
   
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <time datetime="2013-05-30T14:19:21.000Z"><a href="/2013/05/30/learn-javascript-inherit-class/">May 30 2013</a></time>
-    
-    
-  
-    <h1 class="title"><a href="/2013/05/30/learn-javascript-inherit-class/">关于JavaScript中的继承（一）：类式继承</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>“继承”是面向对象中的一个概念，说开去无非就是代码重用的一种方式罢了。  </p>
-<p>虽然JavaScript并不是一门真正的面向对象语言，甚至连类的概念都没有。但得益于构造器的存在，在JavaScript中是可以完全模拟出 <strong>类-对象</strong> 行为的。如：  </p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> person = <span class="keyword">new</span> Person();
-</pre></figure>
-
-<p>看上去除了变量声明时不是强类型之外，完全与面向对象如出一辙。所以谈及继承时，大家首推的也是一种叫“类式继承”的手法了。  </p>
-<h3>类式继承之基于原型链</h3>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Parent = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>
-  <span class="keyword">this</span>.name = name || <span class="string">'heroic'</span>;
-};
-Parent.prototype.printName = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  console.log(<span class="keyword">this</span>.name);
-};
-<span class="keyword">var</span> Child = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>};
-
-inherit(Child, Parent);
-<span class="comment">// or</span>
-Child.inherit(Parent);
-</pre></figure>
-
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-        <div class="alignleft">
-          <a href="/2013/05/30/learn-javascript-inherit-class/#more" class="more-link">阅读全文</a>
-        </div>
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
 
   <nav id="pagination">
   
@@ -377,7 +383,7 @@ Child.inherit(Parent);
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 16.92px;">backbone</a><a href="/tags/blog/" style="font-size: 13.08px;">blog</a><a href="/tags/design-pattern/" style="font-size: 15.38px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 10.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.85px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.69px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.23px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.62px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.46px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 11.54px;">modernist</a><a href="/tags/mongodb/" style="font-size: 10.77px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.15px;">mvc</a><a href="/tags/theme/" style="font-size: 12.31px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
   </div>
 </div>
 
@@ -410,6 +416,10 @@ Child.inherit(Parent);
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域(续)</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/14/javascript-variable-scope/">JavaScript变量作用域</a>
       </li>
     
@@ -423,10 +433,6 @@ Child.inherit(Parent);
     
       <li>
         <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中的继承（二）：原型式继承</a>
       </li>
     
   </ul>
