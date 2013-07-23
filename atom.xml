@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-07-23T16:19:04.601Z</updated>
+  <updated>2013-07-23T16:21:31.949Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1814,7 +1814,7 @@ foo();
     <link href="http://heroicyang.com/2013/07/22/javascript-scope-sequel/"/>
     <id>http://heroicyang.com/2013/07/22/javascript-scope-sequel/</id>
     <published>2013-07-22T14:14:06.000Z</published>
-    <updated>2013-07-23T16:19:01.000Z</updated>
+    <updated>2013-07-23T16:21:21.000Z</updated>
     <content type="html"><![CDATA[<p>接<a href="http://heroicyang.com/2013/07/14/javascript-variable-scope/" title=" 上篇" target="_blank"> 上篇</a>
 ，已经大致明确了以下几点：</p>
 <ol>
@@ -1840,7 +1840,7 @@ foo();
 
 
 <p>这段代码最终会在控制台打印出<code>&#39;global&#39;</code>，而并非<code>&#39;foo&#39;</code>。可以看出，函数运行时能访问到的作用域是它被定义时的作用域，不是被调用时的作用域。</p>
-<p>每当谈及JavaScript作用域的时候，基本上都会提到“词法作用域”、“执行环境”、“活动对象”、“作用域链”这几个概念。当然，了解这些概念将有助于理解JavaScript中的闭包。</p>
+<p>每当谈及JavaScript作用域的时候，基本上都会提到“词法作用域”、“执行环境”、“活动对象”、“作用域链”这几个概念，而了解这些概念将有助于理解JavaScript中的闭包。我也谈谈我对此的理解，如误欢迎指正，不胜感激。</p>
 <a name="more"></a>
 
 <h3>词法作用域</h3>
