@@ -139,59 +139,47 @@ foo();
 </pre></figure>
 
 
-<ol>
-<li><p>代码运行开始，在全局执行环境中，全局环境关联了一个作用域链，变量对象包含<code>name</code>、<code>foo</code>、<code>bar</code>。然后<code>foo</code>函数和<code>bar</code>函数也各自关联了自己作用域链。</p>
- <figure class="highlight lang-javascript"><pre>    globalScopeChain = {
-      name: <span class="string">'global'</span>,
-      foo: [Function],
-      bar: [Function]
-    };
-    
-    fooScopeChain = [globalScopeChain]
-    barScopeChain = [globalScopeChain]
-    
+<p><strong>1.代码运行开始，在全局执行环境中，全局环境关联了一个作用域链，变量对象包含<code>name</code>、<code>foo</code>、<code>bar</code>。然后<code>foo</code>函数和<code>bar</code>函数也各自关联了自己作用域链。</strong></p>
+<figure class="highlight lang-javascript"><pre>globalScopeChain = {
+    name: <span class="string">'global'</span>,
+    foo: [Function],
+    bar: [Function]
+};
+
+fooScopeChain = [globalScopeChain]
+barScopeChain = [globalScopeChain]
 </pre></figure>
 
 
-</li>
-</ol>
-<ol>
-<li><p>调用<code>foo</code>函数，进入<code>foo</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>、<code>name</code>，并将活动对象添加到作用域链的前端</p>
- <figure class="highlight lang-javascript"><pre>    fooScopeChain = [
-      {
-        arguments: [],
-        name: <span class="string">'foo'</span>
-      },
-      {
-        name: <span class="string">'global'</span>,
-        foo: [Function],
-        bar: [Function]
-      }
-    ]
-    
+<p><strong>2.调用<code>foo</code>函数，进入<code>foo</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>、<code>name</code>，并将活动对象添加到作用域链的前端。</strong></p>
+<figure class="highlight lang-javascript"><pre>fooScopeChain = [
+    {
+    arguments: [],
+    name: <span class="string">'foo'</span>
+    },
+    {
+    name: <span class="string">'global'</span>,
+    foo: [Function],
+    bar: [Function]
+    }
+]
 </pre></figure>
 
 
-</li>
-</ol>
-<ol>
-<li><p>调用<code>bar</code>函数，进入<code>bar</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>，然后也将活动对象添加到作用域链的前端</p>
- <figure class="highlight lang-javascript"><pre>    barScopeChain = [
-      {
-        arguments: []
-      },
-      {
-        name: <span class="string">'global'</span>,
-        foo: [Function],
-        bar: [Function]
-      }
-    ]
-    
+<p><strong>3.调用<code>bar</code>函数，进入<code>bar</code>函数的局部执行环境，创建活动对象包含<code>arguments</code>，然后也将活动对象添加到作用域链的前端。</strong></p>
+<figure class="highlight lang-javascript"><pre>barScopeChain = [
+    {
+    arguments: []
+    },
+    {
+    name: <span class="string">'global'</span>,
+    foo: [Function],
+    bar: [Function]
+    }
+]
 </pre></figure>
 
 
-</li>
-</ol>
 <p>而变量的查找，就是在整个作用域链上进行，从第一个对象开始，直到作用域链的顶端（即全局）。这也就是实例代码中打印出<code>&#39;global&#39;</code>的原因。</p>
 
     
