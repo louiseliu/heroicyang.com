@@ -112,7 +112,7 @@ foo();
 
 <p>这段代码最终会在控制台打印出<code>&#39;global&#39;</code>，而并非<code>&#39;foo&#39;</code>。可以看出，函数运行时能访问到的作用域是它被定义时的作用域，不是被调用时的作用域。</p>
 <p>每当谈及JavaScript作用域的时候，基本上都会提到“词法作用域”、“执行环境”、“活动对象”、“作用域链”这几个概念，而了解这些概念将有助于理解JavaScript中的闭包。我也谈谈我对此的理解，如误欢迎指正，不胜感激。</p>
-<a name="more"></a>
+<a id="more"></a>
 
 <h3>词法作用域</h3>
 <p>词法作用域，也称静态作用域，也即是说函数的作用域是定义时决定的，而非运行时。最开始的代码就阐明了这一点，所以在源码时期就可以通过分析得出一个函数的作用域。JavaScript正是基于词法作用域的语言。</p>
@@ -216,7 +216,7 @@ barScopeChain = [globalScopeChain]
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -249,6 +249,10 @@ barScopeChain = [globalScopeChain]
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -262,10 +266,6 @@ barScopeChain = [globalScopeChain]
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

@@ -66,10 +66,10 @@
       <p>现在<code>JavaScript</code>这门技术已经到了一个引爆点，一年前我对它的了解都只停留在肤浅的网页客户端脚本语言，只会简单的玩玩<code>jQuery</code>和<code>ExtJs</code>，其实都算不上开发者，而是一个<code>JavaScript</code>用户。但今年的目标是做一个合格的前端攻城湿，所以恶补是必须的。  </p>
 <p>在<code>JavaScript</code>中是其实不存在所谓“类”的概念，因为它并不是面向对象的语言。在面向对象中，一个最常见的说法就是：“类”是“对象”的模板，基本上都是采用语言内置的<code>Class</code>或<code>class</code>关键字来定义“类”。而<code>JavaScript</code>不存在这个概念，所以也没有提供类似的关键字（虽然<code>class</code>是<code>JavaScript</code>的关键字，但是至今都没有实现，只是被保留而已）。  </p>
 <p>因此，在<code>JavaScript</code>中创建类就唯有使用模拟的方式，而模拟的手法多种多样，何时采用何种方式最合适，需视情况而定。以下就记录下常见的几种模式。
-<a name="more"></a></p>
+<a id="more"></a></p>
 <h3>一.工厂模式</h3>
 <p>工厂方法是设计模式中非常基础的，也被广泛用于面向对象编程中。而在<code>JavaScript</code>中，通过工厂方法即能模拟出类的行为。  </p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span><span class="params">(name, sex, …)</span> {</span>
   <span class="keyword">var</span> obj = {};
   obj.name = name;
   obj.sex = sex;
@@ -81,10 +81,12 @@
 }
 <span class="keyword">var</span> personA = createPerson(<span class="string">'heroicYang'</span>, <span class="string">'male'</span>);
 <span class="keyword">var</span> personB = createPerosn(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
-</pre></figure><br>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。</p>
+</pre></figure>
+
+<p>通过这样类似的工厂方法，就可以创建出多个相似的对象了，但是这样的方式其抽象度极低。面向对象编程中，对象是可以检测出类型的，但是采用上面这种方式，是没有办法进行对象类型识别的。</p>
 <h3>二.构造函数模式</h3>
 <p>其实，这应该是很常见的模式了，很多书上基本上一来就是讲这个的，更狠点的可能就只讲这个…</p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
   <span class="keyword">this</span>.name = name;
   <span class="keyword">this</span>.sex = sex;
   …
@@ -94,7 +96,9 @@
 }
 <span class="keyword">var</span> personA = <span class="keyword">new</span> Person(<span class="string">'heroic'</span>, <span class="string">'male'</span>);
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
-</pre></figure><br>这种模拟类方式的特点就是:</p>
+</pre></figure>
+
+<p>这种模拟类方式的特点就是:</p>
 <ol>
 <li>没有显示的创建对象   </li>
 <li>直接将属性和方法赋给了<code>this</code>对象    </li>
@@ -103,7 +107,7 @@
 <p>在使用这种方式时，创建对象则必须使用<code>new</code>关键字。当然，好处就是完全解决了对象类型识别问题。</p>
 <h3>三.原型模式</h3>
 <p>原型应该是<code>JavaScript</code>中一个很有意思，当然也是很有用的一个概念了。接下来用原型模式来模拟类。</p>
-<p><figure class="highlight lang-javascript"><pre>  
+<figure class="highlight lang-javascript"><pre>  
 <span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">()</span> {</span>}
 Person.prototype = {
   name: <span class="literal">null</span>,
@@ -118,10 +122,11 @@ personA.sex = <span class="string">'male'</span>;
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person;
 personB.name = <span class="string">'路人甲'</span>;
 personB.sex = <span class="string">'male'</span>;
-</pre></figure></p>
+</pre></figure>
+
 <h3>四.组合使用构造函数和原型模式</h3>
 <p>由于只用原型模式的话，会带来一些问题，所以常规情况下，都是采用组合构造函数和原型模式来创建类，这也是使用率最高的一种方式。</p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, sex)</span> {</span>
   <span class="keyword">this</span>.name = name;
   <span class="keyword">this</span>.sex = sex;
   …
@@ -134,10 +139,11 @@ Person.prototype.getName = <span class="keyword">function</span>() {
 <span class="keyword">var</span> personB = <span class="keyword">new</span> Person(<span class="string">'路人甲'</span>, <span class="string">'male'</span>);
 personA.getName(); <span class="comment">//"heroic"</span>
 personB.getName(); <span class="comment">//"路人甲"</span>
-</pre></figure></p>
+</pre></figure>
+
 <h3>五.寄生构造函数模式</h3>
 <p>这种模式和工厂模式非常相似。</p>
-<p><figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> values = <span class="keyword">new</span> Array();
   values.push.apply(values, arguments);
     
@@ -148,7 +154,9 @@ personB.getName(); <span class="comment">//"路人甲"</span>
 }
 <span class="keyword">var</span> test = <span class="keyword">new</span> SpecialArray(<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>);
 test.toPipString(); <span class="comment">// "1|2|3"</span>
-</pre></figure><br>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
+</pre></figure>
+
+<p>这种模式主要用来扩展一些对象的行为，而又不会对这个对象造成污染。当然，上面的代码也是可以直接为<code>Array.prototype</code>原型对象添加一个<code>toPipString()</code>方法来完成的，但是这样就造成了对<code>JavaScript</code>原生对象的污染。</p>
 
     
   </div>
@@ -184,7 +192,7 @@ test.toPipString(); <span class="comment">// "1|2|3"</span>
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -217,6 +225,10 @@ test.toPipString(); <span class="comment">// "1|2|3"</span>
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -230,10 +242,6 @@ test.toPipString(); <span class="comment">// "1|2|3"</span>
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

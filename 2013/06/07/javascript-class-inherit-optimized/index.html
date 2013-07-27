@@ -29,6 +29,7 @@ parent.setChildAge(10);
 console.log(parent.age);  // 10
 
 
+
 正如代码所见，在为子对象原型添加自己独有方法的时候，父对象也受到了影响，这可不是期望的结果。  
 var child = new Child('child');
 console.log(child.name);  // 'child'
@@ -37,12 +38,14 @@ delete child.name;
 console.log(child.name);  // 'heroic'
 
 
+
 同样如代码所示，child对象持有了两个name属性，一个是通过构造函数拷贝的，另一个是原型链上的，当删除掉本身的name属性后，便访问到了原型链上的了。对于这个问题，解决方案很简单直接：  
 /* ... */
 Child.prototype = Parent.prototype;  // 只继承父对象原型链上的属性
 /* ... */
 delete child.name;
 console.log(child.name);  // undefined
+
 
 
 但是这种方法也并没有解决最开始的那个问题，即添加或删除子对象原型上的属性时，会一并反映到父对象中。这个时候就需要用到《关于JavaScript中的继承（二）：原型式继承》中用到的临时构造函数了。">
@@ -121,6 +124,7 @@ parent.setChildAge(<span class="number">10</span>);
 console.log(parent.age);  <span class="comment">// 10</span>
 </pre></figure>
 
+
 <p>正如代码所见，在为子对象原型添加自己独有方法的时候，父对象也受到了影响，这可不是期望的结果。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = <span class="keyword">new</span> Child(<span class="string">'child'</span>);
 console.log(child.name);  <span class="comment">// 'child'</span>
@@ -128,6 +132,7 @@ console.log(child.name);  <span class="comment">// 'child'</span>
 <span class="keyword">delete</span> child.name;
 console.log(child.name);  <span class="comment">// 'heroic'</span>
 </pre></figure>
+
 
 <p>同样如代码所示，<code>child</code>对象持有了两个<code>name</code>属性，一个是通过构造函数拷贝的，另一个是原型链上的，当删除掉本身的<code>name</code>属性后，便访问到了原型链上的了。对于这个问题，解决方案很简单直接：  </p>
 <figure class="highlight lang-javascript"><pre><span class="comment">/* ... */</span>
@@ -137,8 +142,9 @@ Child.prototype = Parent.prototype;  <span class="comment">// 只继承父对象
 console.log(child.name);  <span class="comment">// undefined</span>
 </pre></figure>
 
+
 <p>但是这种方法也并没有解决最开始的那个问题，即添加或删除子对象原型上的属性时，会一并反映到父对象中。这个时候就需要用到<a href="/2013/06/02/learn-javascript-inherit-proto/">《关于JavaScript中的继承（二）：原型式继承》</a>中用到的临时构造函数了。  </p>
-<a name="more"></a>
+<a id="more"></a>
 
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> inherit = <span class="function"><span class="keyword">function</span> <span class="params">(subClass, superClass)</span> {</span>
   <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
@@ -156,6 +162,7 @@ Child.prototype.setChildAge = <span class="function"><span class="keyword">funct
 
 parent.setChildAge(<span class="number">10</span>);  <span class="comment">// TypeError: Object [object Object] has no method 'setChildAge'</span>
 </pre></figure>
+
 
 <p>不再影响父对象的行为了，而且还可以为<code>inherit</code>方法增加子对象访问父对象行为的特性。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> inherit = <span class="function"><span class="keyword">function</span> <span class="params">(subClass, superClass)</span> {</span>
@@ -176,9 +183,11 @@ child.print();  <span class="comment">// 'before print...balabala...'</span>
                 <span class="comment">// 'name:  child'</span>
 </pre></figure>
 
+
 <p>最后，如果说这个类式继承模式还有哪点不够完美的话，那就是在子对象继承父对象之后，子对象的构造函数指向被改写了。  </p>
 <figure class="highlight lang-javascript"><pre>console.log(child.constructor === Parent);  <span class="comment">// true</span>
 </pre></figure>
+
 
 <p>没办法，只有在继承的最后，把<code>constructor</code>修正回来就是。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> inherit = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
@@ -196,6 +205,7 @@ child.print();  <span class="comment">// 'before print...balabala...'</span>
 console.log(child.constructor === Child);  <span class="comment">// true</span>
 console.log(child.constructor === Parent);  <span class="comment">// false</span>
 </pre></figure>
+
 
 <p>同时，也如<a href="/2013/06/02/learn-javascript-inherit-proto/">《关于JavaScript中的继承（二）：原型式继承》</a>中提到的那样，利用闭包来减少每次调用<code>inherit()</code>都会生成一个临时构造函数的开销。  </p>
 <p>写在最后，类式继承为我们带来了JavaScript中不存在的完整的类的概念，这对于从面向对象语言转过来的程序员来说，可能是很好的方式。但是它也有可能让我们忽略了JavaScript真正的原型式继承。不过这些模式都没有好与坏之分，应该在适合的场景使用合适的方法才是。</p>
@@ -234,7 +244,7 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -267,6 +277,10 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -280,10 +294,6 @@ console.log(child.constructor === Parent);  <span class="comment">// false</span
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

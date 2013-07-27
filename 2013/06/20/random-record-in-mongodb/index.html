@@ -89,6 +89,7 @@
 &gt; }
 </pre></figure>
 
+
 <h3>方法三</h3>
 <figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala0...'</span> })
 &gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala1...'</span> })
@@ -102,6 +103,7 @@
 
 &gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $near: [Math.random(), <span class="number">0</span>] } })
 </pre></figure>
+
 
 <p>更多关于Mongodb地理空间索引资料，请参见<a href="http://docs.mongodb.org/manual/core/2d/">这里</a>。</p>
 <p>目前这几种方案似乎都不是很理想，但是也没有其他办法了，所以广大程序员们就相约到Mongodb的官方jira提了相应的需求，但是目前仍然没有任何的响应。可以参见<a href="https://jira.mongodb.org/browse/SERVER-533">这里</a>，围观一下。</p>
@@ -140,7 +142,7 @@
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -173,6 +175,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -186,10 +192,6 @@
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

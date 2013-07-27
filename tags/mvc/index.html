@@ -66,7 +66,7 @@
     
       <p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  </p>
 <p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  </p>
-<p><figure class="highlight lang-javascript"><pre><span class="keyword">var</span> events = _.clone(Backbone.Events);
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> events = _.clone(Backbone.Events);
 
 <span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
 
@@ -101,7 +101,9 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
 };
 
 <span class="comment">/*后面不变*/</span>
-</pre></figure><br>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  </p>
+</pre></figure>
+
+<p>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  </p>
 <p>
     
   </div>
@@ -174,7 +176,7 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -207,6 +209,10 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -220,10 +226,6 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

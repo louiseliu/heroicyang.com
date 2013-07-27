@@ -53,6 +53,57 @@
   <header>
     
       <div class="icon"></div>
+      <time datetime="2013-07-27T10:20:35.000Z"><a href="/2013/07/27/javascript-closure/">Jul 27 2013</a></time>
+    
+    
+  
+    <h1 class="title"><a href="/2013/07/27/javascript-closure/">JavaScript闭包</a></h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>闭包是JavaScript中的重要特性之一，大多数用过JavaScript的程序员也基本上都接触过闭包，不管是否知道或了解闭包这个概念。比如在用jQuery的时候：</p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> count = <span class="number">0</span>;
+$(<span class="string">'.btn'</span>).onclick = <span class="keyword">function</span>(e) {
+  count += <span class="number">1</span>;
+};
+</pre></figure>
+
+
+<p>闭包，<a href="http://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)" title=" 维基百科" target="_blank"> 维基百科</a>
+的解释是：指引用了自由变量的函数。而我个人认为前端大牛<a href="http://weibo.com/haxy" title=" johnhax" target="_blank"> johnhax</a>
+的解释更加容易理解：闭包就是内部函数能访问外部的变量。</p>
+<p>所以，要理解闭包，只要理清楚<strong>变量作用域</strong>这个概念就差不多了。我也把对<strong>变量作用域</strong>的一些个人理解记录在了前两篇文章中，故这里就只简单说说一个函数它可以访问哪些作用域中的变量：</p>
+<ol>
+<li>该函数自己内部声明的变量</li>
+<li>global作用域中的全局变量</li>
+<li>如果该函数是内部函数，那它还可以访问其外部函数内声明的变量</li>
+</ol>
+<p>而对于第三点，就是闭包的行为了，用一个简单的例子来说明。</p>
+
+    
+  </div>
+  <footer class="end-sep">
+    
+      
+        <div class="alignleft">
+          <a href="/2013/07/27/javascript-closure/#more" class="more-link">阅读全文</a>
+        </div>
+      
+      
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+  
+    <article class="post">
+  <header>
+    
+      <div class="icon"></div>
       <time datetime="2013-07-22T14:14:06.000Z"><a href="/2013/07/22/javascript-scope-sequel/">Jul 22 2013</a></time>
     
     
@@ -185,7 +236,8 @@ console.log(name); <span class="comment">// 'heroic'</span>
   
   <div class="entry">
     
-      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" title=" 《JavaScript Web Application》" target="_blank"> 《JavaScript Web Application》</a>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
+      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" title=" 《JavaScript Web Application》" target="_blank"> 《JavaScript Web Application》</a>
+这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
 <p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（中文版P16）：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
   Function.prototype.bind = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
@@ -207,6 +259,7 @@ console.log(name); <span class="comment">// 'heroic'</span>
   };
 }
 </pre></figure>
+
 
 <blockquote>
 <p><code>bind()</code>：用来动态改变函数调用时其内部<code>this</code>对象的引用，使目标函数基于正确的上下文进行调用。jQuery中实现为<code>$.proxy()</code>方法，ES5则自带了。</p>
@@ -267,6 +320,7 @@ parent.setChildAge(<span class="number">10</span>);
 console.log(parent.age);  <span class="comment">// 10</span>
 </pre></figure>
 
+
 <p>正如代码所见，在为子对象原型添加自己独有方法的时候，父对象也受到了影响，这可不是期望的结果。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = <span class="keyword">new</span> Child(<span class="string">'child'</span>);
 console.log(child.name);  <span class="comment">// 'child'</span>
@@ -275,6 +329,7 @@ console.log(child.name);  <span class="comment">// 'child'</span>
 console.log(child.name);  <span class="comment">// 'heroic'</span>
 </pre></figure>
 
+
 <p>同样如代码所示，<code>child</code>对象持有了两个<code>name</code>属性，一个是通过构造函数拷贝的，另一个是原型链上的，当删除掉本身的<code>name</code>属性后，便访问到了原型链上的了。对于这个问题，解决方案很简单直接：  </p>
 <figure class="highlight lang-javascript"><pre><span class="comment">/* ... */</span>
 Child.prototype = Parent.prototype;  <span class="comment">// 只继承父对象原型链上的属性</span>
@@ -282,6 +337,7 @@ Child.prototype = Parent.prototype;  <span class="comment">// 只继承父对象
 <span class="keyword">delete</span> child.name;
 console.log(child.name);  <span class="comment">// undefined</span>
 </pre></figure>
+
 
 <p>但是这种方法也并没有解决最开始的那个问题，即添加或删除子对象原型上的属性时，会一并反映到父对象中。这个时候就需要用到<a href="/2013/06/02/learn-javascript-inherit-proto/">《关于JavaScript中的继承（二）：原型式继承》</a>中用到的临时构造函数了。  </p>
 
@@ -292,67 +348,6 @@ console.log(child.name);  <span class="comment">// undefined</span>
       
         <div class="alignleft">
           <a href="/2013/06/07/javascript-class-inherit-optimized/#more" class="more-link">阅读全文</a>
-        </div>
-      
-      
-    
-    <div class="clearfix"></div>
-  </footer>
-</article>
-
-
-  
-    <article class="post">
-  <header>
-    
-      <div class="icon"></div>
-      <time datetime="2013-06-02T14:52:19.000Z"><a href="/2013/06/02/learn-javascript-inherit-proto/">Jun 2 2013</a></time>
-    
-    
-  
-    <h1 class="title"><a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中的继承（二）：原型式继承</a></h1>
-  
-
-  </header>
-  
-  <div class="entry">
-    
-      <p>JavaScript中本没有类，所以凡事也不要强求，强扭的瓜总是不填的嘛。继承也无非就是一个对象拥有另外一个对象的特性，所以完全不需要复杂的去模拟面向对象中的类式继承，而借助JavaScript独特的原型机制就可以实现了。同样，需要创建一个对象时也不再采用模拟<strong>类-对象</strong>的方式，而是直接使用JavaScript的对象字面量就好了。因为对于对象来说我们关系的无非也就是它具备哪些属性、有哪些行为而已。  </p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
-  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="keyword">this</span>.name || <span class="string">'parent'</span>);
-  }
-};
-
-<span class="keyword">var</span> child = {};  <span class="comment">// 暂时这样</span>
-child.name = <span class="string">'child'</span>;  <span class="comment">// 在很多情况下我们并不希望继承原对象自己的属性，而是在我们需要时，直接添加就好</span>
-child.printName();  <span class="comment">// 重点的是我们希望child具备打印自己名字的行为</span>
-</pre></figure>
-
-<p>上面的代码目前还不能工作，<a href="http://heroicyang.com/2013/05/30/learn-javascript-inherit-class/">上一篇文章</a>中谈到过JavaScript中对象属性查找机制，如果<code>child</code>对象本身没有<code>printName()</code>这个方法，那我们保证其原型上有这个方法，它就能正常工作了。  </p>
-<figure class="highlight lang-javascript"><pre><span class="comment">/* var parent... */</span>
-
-<span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
-  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
-  F.prototype = obj;
-  <span class="keyword">return</span> <span class="keyword">new</span> F;
-};
-
-<span class="comment">// 改变child对象的创建方式，不直接采用字面量了，而是用`object`方法来创建</span>
-<span class="keyword">var</span> child = object(parent);
-child.name = <span class="string">'child'</span>;
-child.printName();  <span class="comment">// 'child'</span>
-</pre></figure>
-
-<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造函数，然后修改这个构造函数的原型，最后再返回这个构造函数的一个实例。</p>
-
-    
-  </div>
-  <footer class="end-sep">
-    
-      
-        <div class="alignleft">
-          <a href="/2013/06/02/learn-javascript-inherit-proto/#more" class="more-link">阅读全文</a>
         </div>
       
       
@@ -383,7 +378,7 @@ child.printName();  <span class="comment">// 'child'</span>
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -416,6 +411,10 @@ child.printName();  <span class="comment">// 'child'</span>
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -429,10 +428,6 @@ child.printName();  <span class="comment">// 'child'</span>
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

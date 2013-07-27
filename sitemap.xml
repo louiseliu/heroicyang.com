@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://heroicyang.com/2013/07/27/javascript-closure/</loc>
+    <lastmod>2013-07-27T11:10:21.000Z</lastmod>
+  </url>
+  <url>
     <loc>http://heroicyang.com/2013/05/22/hexo-theme-modernist/</loc>
     <lastmod>2013-07-25T13:33:45.000Z</lastmod>
   </url>

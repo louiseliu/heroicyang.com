@@ -12,6 +12,7 @@
 var person = new Person();
 
 
+
 看上去除了变量声明时不是强类型之外，完全与面向对象如出一辙。所以谈及继承时，大家首推的也是一种叫“类式继承”的手法了。  
 类式继承之基于原型链
 var Parent = function (name) {
@@ -83,6 +84,7 @@ Child.inherit(Parent);">
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> person = <span class="keyword">new</span> Person();
 </pre></figure>
 
+
 <p>看上去除了变量声明时不是强类型之外，完全与面向对象如出一辙。所以谈及继承时，大家首推的也是一种叫“类式继承”的手法了。  </p>
 <h3>类式继承之基于原型链</h3>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Parent = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>
@@ -98,7 +100,8 @@ inherit(Child, Parent);
 Child.inherit(Parent);
 </pre></figure>
 
-<a name="more"></a>
+
+<a id="more"></a>
 
 <p>上面的伪代码是类式继承的理想状态，但<code>inherit</code>方法并不存在，需要由自己实现。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> inherit = <span class="function"><span class="keyword">function</span> <span class="params">(subClass, superClass)</span> {</span>
@@ -110,11 +113,13 @@ Function.prototype.inherit = <span class="function"><span class="keyword">functi
 };
 </pre></figure>
 
+
 <p>和计划中的一样，子对象不仅继承了父对象的属性，也继承了父对象原型上的方法。  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = <span class="keyword">new</span> Child();
 child.name = <span class="string">'test'</span>;
 child.printName();  <span class="comment">// 'test'</span>
 </pre></figure>
+
 
 <p>但是这种方式却存在一些问题：</p>
 <ol>
@@ -143,6 +148,7 @@ child.printName();  <span class="comment">// 'test'</span>
 parent.printName();  <span class="comment">// 'heroic'</span>
 </pre></figure>
 
+
 <p>首先来谈谈这种机制相对于第一种的优点，Talk is cheap, Show me the code.  </p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Parent = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
   <span class="keyword">this</span>.tags = [<span class="string">'.NETer'</span>];
@@ -169,6 +175,7 @@ console.log(parent.tags.join(<span class="string">', '</span>));  <span class="c
 <span class="comment">// WTF...Why is my tags contains `Javaer` ?</span>
 </pre></figure>
 
+
 <p>显而易见，借用构造函数方式在继承时是采取一份单独的拷贝，而原型链方式则是指向同一个引用。（但是由此可见，原型链上的属性或方法不会在每个实例中都创建一次。）  </p>
 <p>接下来则是谈谈缺陷了。</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Parent = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
@@ -184,6 +191,7 @@ Parent.prototype.papapa = <span class="function"><span class="keyword">function<
 child.papapa();  <span class="comment">// TypeError: Object [object Object] has no method 'papapa'</span>
 <span class="comment">// Yeah, you're too young, so...</span>
 </pre></figure>
+
 
 <p>借用构造函数其实是在构造时，通过改写方法调用上下文来实现属性的拷贝，所以并未涉及到<code>prototype</code>，所以就没有办法继承原型了。  </p>
 <p>由于原型链上的属性或方法不会在每个实例中都创建一次，所以是我们放置需要重用的属性和方法的理想地方；而借用构造函数则可以使子对象拥有自己一份独立的拷贝，不存在意外改写父对象属性的风险。所以两者互补产生了第三种比较完美的继承方式。  </p>
@@ -209,6 +217,7 @@ child.tags.push(<span class="string">'player'</span>);
 child.print();  <span class="comment">// name:  test , tags:  coder, player</span>
 parent.print();  <span class="comment">// name:  heroic , tags:  coder</span>
 </pre></figure>
+
 
 <p>近乎完美的实现，子对象继承了父对象的成员，但拥有自己的一份拷贝，不会担心修改自己而影响到父对象；子对象也复用了父对象原型中的方法；且子对象也可以传递任意参数给父对象的构造函数。可谓是面向对象中“类式继承”的准确诠释。</p>
 
@@ -246,7 +255,7 @@ parent.print();  <span class="comment">// name:  heroic , tags:  coder</span>
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -279,6 +288,10 @@ parent.print();  <span class="comment">// name:  heroic , tags:  coder</span>
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -292,10 +305,6 @@ parent.print();  <span class="comment">// name:  heroic , tags:  coder</span>
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

@@ -34,6 +34,7 @@
 &lt;/script&gt;
 
 
+
 上面代码主要想完成一个功能：按钮被点击时------&gt;显示一个状态告知用户正在干一些事情------&gt;开始干------&gt;事情干完后状态变更为已完成。">
   
   
@@ -115,7 +116,8 @@
 </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
 </pre></figure>
 
-<p>上面代码主要想完成一个功能：按钮被点击时------&gt;显示一个状态告知用户正在干一些事情------&gt;开始干------&gt;事情干完后状态变更为已完成。<br><a name="more"></a></p>
+
+<p>上面代码主要想完成一个功能：按钮被点击时------&gt;显示一个状态告知用户正在干一些事情------&gt;开始干------&gt;事情干完后状态变更为已完成。<br><a id="more"></a></p>
 <p>看上去没问题，应该是可以工作的，于是在浏览器运行这个页面。可是现实总是残忍的，没有符合预期效果。当点击按钮之后，浏览器就冻结了，用于显示状态的<code>div</code>并没有显示，界面上也没有“doing...”这个提示；经过<code>10s</code>之后，浏览器回过神了，代表耗时较长的计算已经结束，此时用于显示状态的<code>div</code>显示“done”。  </p>
 <p>究其原因：JavaScript引擎是单线程的。而此时还有必要再了解下浏览器内核都有哪些主要的常驻线程，才能解上面的疑惑。浏览器内核常驻线程大致包含以下：  </p>
 <ol>
@@ -144,6 +146,7 @@
   }, <span class="number">0</span>);  <span class="comment">// 0ms delay</span>
 };
 </pre></figure>
+
 
 <p>为什么这样就解决了呢？还是用上面的队列的图来解释。</p>
 <p><img src="http://img.heroicyang.com/js-event-loop-2.png" alt=""></p>
@@ -182,7 +185,7 @@
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -215,6 +218,10 @@
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -228,10 +235,6 @@
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>

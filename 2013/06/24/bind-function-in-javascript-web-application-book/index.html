@@ -7,7 +7,8 @@
   <title>关于《JavaScript Web Application》中的bind方法 | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
-  <meta name="description" content="去年底就草草了了的翻过 《JavaScript Web Application》这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  
+  <meta name="description" content="去年底就草草了了的翻过 《JavaScript Web Application》
+这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  
 记得此前书中对ES5 bind()方法的实现就是一个让我感到迷糊的地方（中文版P16）：
 if (!Function.prototype.bind) {
   Function.prototype.bind = function (context) {
@@ -28,6 +29,7 @@ if (!Function.prototype.bind) {
     return bound;
   };
 }
+
 
 
 
@@ -87,7 +89,8 @@ bind()：用来动态改变函数调用时其内部this对象的引用，使目�
   
   <div class="entry">
     
-      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" title=" 《JavaScript Web Application》" target="_blank"> 《JavaScript Web Application》</a>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
+      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" title=" 《JavaScript Web Application》" target="_blank"> 《JavaScript Web Application》</a>
+这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
 <p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（中文版P16）：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
   Function.prototype.bind = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
@@ -110,11 +113,12 @@ bind()：用来动态改变函数调用时其内部this对象的引用，使目�
 }
 </pre></figure>
 
+
 <blockquote>
 <p><code>bind()</code>：用来动态改变函数调用时其内部<code>this</code>对象的引用，使目标函数基于正确的上下文进行调用。jQuery中实现为<code>$.proxy()</code>方法，ES5则自带了。</p>
 </blockquote>
 <p>上面代码中① ② ③都是我此前不明白的地方，不过在这次阅读的过程中，就豁然开朗了。</p>
-<a name="more"></a>
+<a id="more"></a>
 
 <p>让我来实现这个方法的话，或许应该是这样子的：</p>
 <figure class="highlight lang-javascript"><pre><span class="comment">// 取名为`bind1`好了，方便后面对比</span>
@@ -128,6 +132,7 @@ Function.prototype.bind1 = <span class="function"><span class="keyword">function
   };
 };
 </pre></figure>
+
 
 <p>也就是不会引入<code>nop</code>这个空函数，不会做<code>intanceof</code>判断，不会有原型设置。当然，这个实现是没有啥大问题的，不就是改变函数调用时的上下文环境么，貌似妥妥的呢。  </p>
 <p>但是现在仔细想想，这个实现是没错，但不完善。因为JavaScript中一个函数除了可以做普通的函数调用以外，还充当了构造函数的作用，所以就可能会有下面这样的代码。  </p>
@@ -152,6 +157,7 @@ console.log(newFun <span class="keyword">instanceof</span> func);  <span class="
 console.log(newFun1 <span class="keyword">instanceof</span> fun1);  <span class="comment">// true</span>
 console.log(newFun1 <span class="keyword">instanceof</span> func);  <span class="comment">// false</span>
 </pre></figure>
+
 
 <p>如此可见，在实现<code>bind()</code>方法的时候，除了考虑一般的函数调用以外，还得考虑其结合<code>new</code>关键字使用时的构造函数的特性。因此以我在第一次看这本书时的认知，看不明白也就不奇怪了，嚯嚯。。  </p>
 <p>那就来继续解最开始的那三个圈住的迷惑：</p>
@@ -181,6 +187,7 @@ Person.prototype.printName = <span class="function"><span class="keyword">functi
 p1.printName();  <span class="comment">// 'heroic'</span>
 p2.printName();  <span class="comment">// TypeError: Object [object Object] has no method 'printName'</span>
 </pre></figure>
+
     
   </div>
   <footer>
@@ -215,7 +222,7 @@ p2.printName();  <span class="comment">// TypeError: Object [object Object] has 
 <div class="widget tagcloud first">
   <h3 class="title">Tag Cloud</h3>
   <div class="entry">
-    <a href="/tags/backbone/" style="font-size: 15.71px;">backbone</a><a href="/tags/blog/" style="font-size: 10.71px;">blog</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.14px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.57px;">hexo</a><a href="/tags/inherit/" style="font-size: 17.86px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.29px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 12.86px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.57px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 15.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.43px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.43px;">mvc</a><a href="/tags/scope/" style="font-size: 17.14px;">scope</a><a href="/tags/theme/" style="font-size: 14.29px;">theme</a>
+    <a href="/tags/backbone/" style="font-size: 17.33px;">backbone</a><a href="/tags/blog/" style="font-size: 12.67px;">blog</a><a href="/tags/closure/" style="font-size: 10.67px;">closure</a><a href="/tags/design-pattern/" style="font-size: 10.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 14.00px;">event-loop</a><a href="/tags/hexo/" style="font-size: 15.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 18.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 19.33px;">javascript</a><a href="/tags/javascript-class/" style="font-size: 14.67px;">javascript class</a><a href="/tags/javascript-timer/" style="font-size: 18.67px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 12.00px;">modernist</a><a href="/tags/mongodb/" style="font-size: 11.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 16.00px;">mvc</a><a href="/tags/scope/" style="font-size: 16.67px;">scope</a><a href="/tags/theme/" style="font-size: 13.33px;">theme</a>
   </div>
 </div>
 
@@ -248,6 +255,10 @@ p2.printName();  <span class="comment">// TypeError: Object [object Object] has 
   <ul class="entry">
     
       <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
         <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
       </li>
     
@@ -261,10 +272,6 @@ p2.printName();  <span class="comment">// TypeError: Object [object Object] has 
     
       <li>
         <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
-      </li>
-    
-      <li>
-        <a href="/2013/06/07/javascript-class-inherit-optimized/">关于JavaScript中的继承（三）：再谈类式继承</a>
       </li>
     
   </ul>
