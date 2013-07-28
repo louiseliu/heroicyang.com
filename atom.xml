@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-07-28T14:58:48.983Z</updated>
+  <updated>2013-07-28T15:01:31.642Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1997,7 +1997,7 @@ barScopeChain = [globalScopeChain]
     <link href="http://heroicyang.com/2013/07/27/javascript-closure/"/>
     <id>http://heroicyang.com/2013/07/27/javascript-closure/</id>
     <published>2013-07-27T10:20:35.000Z</published>
-    <updated>2013-07-28T14:58:44.000Z</updated>
+    <updated>2013-07-28T15:01:24.000Z</updated>
     <content type="html"><![CDATA[<p>闭包是JavaScript中的重要特性之一，大多数用过JavaScript的程序员也基本上都接触过闭包，不管是否知道或了解闭包这个概念。比如在用jQuery的时候：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> count = <span class="number">0</span>;
 $(<span class="string">'.btn'</span>).onclick = <span class="keyword">function</span>(e) {
@@ -2090,7 +2090,7 @@ barScopeChain = [{
 </pre></figure>
 
 
-<p>5.第二次调用<code>test</code>，与第4步相同，所以变量<code>i</code>的值一直在递增。  </p>
+<p>5.第二次调用<code>test</code>，与第4步相同。只是本次调用时，其作用域链上的<code>i</code>值已经在上一次调用后变成<code>1</code>了，所以增量赋值操作之后，得到结果为<code>2</code>。  </p>
 <p>因此，只有理解了作用域链，再来看闭包就很清晰了。不过对于闭包的解释，我仍然推荐开篇所提到的：<strong>内部函数能访问外部的变量</strong>，简单易懂。</p>
 ]]></content>
     <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
