@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-07-28T14:53:50.329Z</updated>
+  <updated>2013-07-28T14:57:41.144Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1997,7 +1997,7 @@ barScopeChain = [globalScopeChain]
     <link href="http://heroicyang.com/2013/07/27/javascript-closure/"/>
     <id>http://heroicyang.com/2013/07/27/javascript-closure/</id>
     <published>2013-07-27T10:20:35.000Z</published>
-    <updated>2013-07-28T14:53:35.000Z</updated>
+    <updated>2013-07-28T14:57:28.000Z</updated>
     <content type="html"><![CDATA[<p>闭包是JavaScript中的重要特性之一，大多数用过JavaScript的程序员也基本上都接触过闭包，不管是否知道或了解闭包这个概念。比如在用jQuery的时候：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">var</span> count = <span class="number">0</span>;
 $(<span class="string">'.btn'</span>).onclick = <span class="keyword">function</span>(e) {
@@ -2054,12 +2054,12 @@ fooScopeChain = [globalScopeChain];
 <p>2.调用<code>foo</code>函数。</p>
 <figure class="highlight lang-javascript"><pre><span class="comment">// 首先，`foo`函数的作用域链变为：</span>
 fooScopeChain = [{
-  test: <span class="literal">undefined</span>,
-  foo: [Function]
-}, {
   arguments: [],
   i: <span class="number">0</span>,
   bar: [Function]
+}, {
+  test: <span class="literal">undefined</span>,
+  foo: [Function]
 }];
 
 <span class="comment">// 声明了`bar`函数，并初始化其作用域链为：</span>
@@ -2079,12 +2079,13 @@ globalScopeChain = [{
 <p>4.第一次调用<code>test</code>，也就是<code>bar</code>函数。<code>bar</code>函数作用域链上有变量<code>i</code>，且值为<code>0</code>。</p>
 <figure class="highlight lang-javascript"><pre><span class="comment">// 作用域上进行变量查找，找到后做增量赋值操作，所以`i = 1`</span>
 barScopeChain = [{
-  test: <span class="literal">undefined</span>,
-  foo: [Function]
+  arguments: []
 }, {
-  arguments: [],
   i: <span class="number">1</span>,
   bar: [Function]
+}, {
+  test: <span class="literal">undefined</span>,
+  foo: [Function]
 }];
 </pre></figure>
 

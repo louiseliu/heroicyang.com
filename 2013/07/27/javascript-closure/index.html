@@ -134,12 +134,12 @@ fooScopeChain = [globalScopeChain];
 <p>2.调用<code>foo</code>函数。</p>
 <figure class="highlight lang-javascript"><pre><span class="comment">// 首先，`foo`函数的作用域链变为：</span>
 fooScopeChain = [{
-  test: <span class="literal">undefined</span>,
-  foo: [Function]
-}, {
   arguments: [],
   i: <span class="number">0</span>,
   bar: [Function]
+}, {
+  test: <span class="literal">undefined</span>,
+  foo: [Function]
 }];
 
 <span class="comment">// 声明了`bar`函数，并初始化其作用域链为：</span>
@@ -159,12 +159,13 @@ globalScopeChain = [{
 <p>4.第一次调用<code>test</code>，也就是<code>bar</code>函数。<code>bar</code>函数作用域链上有变量<code>i</code>，且值为<code>0</code>。</p>
 <figure class="highlight lang-javascript"><pre><span class="comment">// 作用域上进行变量查找，找到后做增量赋值操作，所以`i = 1`</span>
 barScopeChain = [{
-  test: <span class="literal">undefined</span>,
-  foo: [Function]
+  arguments: []
 }, {
-  arguments: [],
   i: <span class="number">1</span>,
   bar: [Function]
+}, {
+  test: <span class="literal">undefined</span>,
+  foo: [Function]
 }];
 </pre></figure>
 
