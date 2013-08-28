@@ -1,0 +1,607 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>Backbone之旅：前端MVC架构初体验（下） | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  <meta name="description" content="Heroic Yang, web developer, javascript, node, Node.js">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta property="og:title" content="Backbone之旅：前端MVC架构初体验（下）"/>
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/about.css" media="screen" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <header id="header"><div class="title">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <p><a href="/">Web developer, love javascript and node.</a></p>
+</div>
+<nav class="nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">Aug 9 2012</a></time>
+    
+    
+  
+    <h1 class="title">Backbone之旅：前端MVC架构初体验（下）</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>继<a href="http://heroicyang.com/2012/08/08/to-backbone-tutorial-1">《Backbone之旅：前端MVC架构初体验（上）》</a>，上篇中最后的代码已经完全达到最初提出的几点要求，现在就结合<code>Backbone</code>提供的能力，来继续精简代码。最后的目标就是将上篇中的代码全部重构为<code>Backbone</code>的<code>MVC</code>模式。  </p>
+<p>上篇中最后一次改造就已经使用到了<code>callback</code>的方式，所以我们索性再加上<code>Event</code>机制吧，因为<code>Backbone</code>内置了这个能力。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> events = _.clone(Backbone.Events);
+
+<span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+
+TodoList.prototype.add = <span class="keyword">function</span>(options){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: options.todoContent },
+    success: options.success
+  });
+};
+
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+  $(<span class="string">'#new-todo form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+
+  <span class="keyword">this</span>.todoList.add({
+    todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+    success: <span class="keyword">function</span>(data){
+      events.trigger(<span class="string">'todo:add'</span>, data.todoContent);
+    }
+  });
+};
+
+<span class="comment">/*后面不变*/</span>
+</pre></figure>
+
+<p>现在既然调用<code>add()</code>时传入的<code>success</code>属性已经完全不涉及到<code>DOM</code>操作了，而是单纯的事件触发，那完全可以把这个行为放置到<code>TodoList</code>原型的<code>add()</code>方法中去了，这样重用性更高。  </p>
+<p><a id="more"></a></p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
+TodoList.prototype.add = <span class="keyword">function</span>(todoContent){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: todoContent },
+    success: <span class="keyword">function</span>(data){
+      events.trigger(<span class="string">'todo:add'</span>, data.todoContent);
+    }
+  });
+};
+<span class="comment">/* … */</span>
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+
+  <span class="keyword">this</span>.todoList.add($(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val());
+};
+<span class="comment">/* … */</span>
+</pre></figure>
+
+<p>接下来，咱看看在<code>NewTodoView</code>这个视图中事件订阅所触发的对应方法<code>appendTodo()</code>和<code>clearTextArea()</code>中，涉及到的是处在同一级别的不同的<code>DOM</code>元素节点，也就是说在<code>NewTodoView</code>这个视图中，我们处理了两个<code>DOM</code>元素，这似乎和我们之前提到的“单一职责原则”相违背了，所以还有待进一步的改进。  </p>
+<p>我们分别把新增<code>Todo</code>的视图和负责展示<code>Todo Item</code>的视图分开定义，使其符合“单一职责原则”。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* 前面不变 */</span>
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+  $(<span class="string">'#new-todo form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+
+  <span class="keyword">this</span>.todoList.add($(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val());
+};
+
+NewTodoView.prototype.clearTextArea = <span class="keyword">function</span>(){
+  $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+};
+
+<span class="comment">/* 用于展示Todo Item */</span>
+<span class="keyword">var</span> TodoView = <span class="keyword">function</span>(){
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+};
+
+TodoView.prototype.appendTodo = <span class="keyword">function</span>(todoContent){
+  $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
+};
+
+<span class="comment">/* 应用程序启动 */</span>
+$(<span class="keyword">function</span>(){
+  <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
+  <span class="keyword">new</span> NewTodoView({ todoList: todoList });
+  <span class="keyword">new</span> TodoView();
+});
+</pre></figure>
+
+<p>现在每个<code>View</code>里面只依赖一个顶层的<code>HTML Element</code>了，而在各自的<code>View</code>里面多次使用到了<code>$(&#39;#new-todo&#39;)</code>这样的代码，所以干脆将其在初始化的时候作为<code>View</code>的一个属性来提供吧。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* 前面依旧不变 */</span>
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+  <span class="keyword">this</span>.el = $(<span class="string">'#new-todo'</span>);  <span class="comment">//定义一个el属性ß</span>
+
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+  <span class="keyword">this</span>.el.find(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+
+  <span class="keyword">this</span>.todoList.add(<span class="keyword">this</span>.el.find(<span class="string">'textarea'</span>).val());
+};
+
+NewTodoView.prototype.clearTextArea = <span class="keyword">function</span>(){
+  <span class="keyword">this</span>.el.find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+};
+
+<span class="keyword">var</span> TodoView = <span class="keyword">function</span>(){
+  <span class="keyword">this</span>.el = $(<span class="string">'#todo-list'</span>);
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+};
+
+TodoView.prototype.appendTodo = <span class="keyword">function</span>(todoContent){
+  <span class="keyword">this</span>.el.find(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
+};
+<span class="comment">/* 后面不变 */</span>
+</pre></figure>
+
+<p>此时观察发现，两个<code>View</code>当中还保留着对<code>DOM</code>节点的依赖，其重用度依然不高，于是可采用实例化<code>View</code>的时候传入<code>el</code>参数来解决这个问题。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* 前面不变 */</span>
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+  <span class="keyword">this</span>.el = options.el;
+
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+  <span class="keyword">this</span>.el.find(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+<span class="comment">/* NewTodoView的原型方法也不变 */</span>
+
+<span class="keyword">var</span> TodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.el = options.el;
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+};
+<span class="comment">/* TodoView的原型方法也不变 */</span>
+
+<span class="comment">/* 初始化View的时候传入el */</span>	
+$(<span class="keyword">function</span>(){
+  <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
+  <span class="keyword">new</span> NewTodoView({ el: $(<span class="string">'#new-todo'</span>), todoList: todoList });
+  <span class="keyword">new</span> TodoView({ el: $(<span class="string">'#todo-list'</span>) });
+});
+</pre></figure>
+
+<p><code>View</code>中我们频繁使用到了<code>jQuery</code>的<code>find()</code>方法来查找<code>View</code>所在<code>el</code>下面的子元素，所以可以考虑将这作为<code>View</code>的特性来提供，于是我们为<code>View</code>定义这样一个名叫<code>$</code>方法，然后替换掉<code>this.el.find()</code>这样的写法。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+  <span class="keyword">this</span>.el = options.el;
+
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+  <span class="keyword">this</span>.$(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+
+  <span class="keyword">this</span>.todoList.add(<span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val());
+};
+
+NewTodoView.prototype.clearTextArea = <span class="keyword">function</span>(){
+  <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+};
+
+NewTodoView.prototype.$ = <span class="keyword">function</span>(selector){
+  <span class="keyword">return</span> <span class="keyword">this</span>.el.find(selector);
+};
+
+<span class="keyword">var</span> TodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.el = options.el;
+  events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+};
+
+TodoView.prototype.appendTodo = <span class="keyword">function</span>(todoContent){
+  <span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
+};
+
+TodoView.prototype.$ = <span class="keyword">function</span>(selector){
+  <span class="keyword">return</span> <span class="keyword">this</span>.el.find(selector);
+};
+<span class="comment">/* … */</span>
+</pre></figure>
+
+<p>上面的代码越来越多了，看上去好像咱是干的坏事，而不是往好的方向发展啊。是的，如果每个<code>View</code>都有很多自己的特性（方法），那向上面这样着实太痛苦了。看样子是时候请出<code>Backbone</code>提供的<code>View</code>特性了。OK，把我们自己的<code>View</code>转移到<code>Backbone</code>的。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
+<span class="keyword">var</span> NewTodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.todoList = options.todoList;
+    <span class="keyword">this</span>.el = options.el;
+
+    events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+    <span class="keyword">this</span>.$(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+  },
+  addTodo: <span class="keyword">function</span>(e){
+    e.preventDefault();
+
+    <span class="keyword">this</span>.todoList.add(<span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val());
+  },
+  clearTextArea: <span class="keyword">function</span>(){
+    <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+  },
+  $: <span class="keyword">function</span>(selector){
+    <span class="keyword">return</span> <span class="keyword">this</span>.el.find(selector);
+  }
+});
+
+<span class="keyword">var</span> TodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.el = options.el;
+    events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+  },
+  appendTodo: <span class="keyword">function</span>(todoContent){
+    <span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
+  },
+  $: <span class="keyword">function</span>(selector){
+    <span class="keyword">return</span> <span class="keyword">this</span>.el.find(selector);
+  }
+});
+<span class="comment">/* … */</span>
+</pre></figure>
+
+<p>由于<code>Backbone</code>的<code>View</code>已经提供了我们实现的<code>$()</code>方法的能力，也叫<code>$</code>（这也是之前我们自己命名的原因）；同时<code>Backbone</code>的<code>View</code>也提供了<code>this.el</code>的能力，所以可以把它们从代码中显示的移除了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
+<span class="keyword">var</span> NewTodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.todoList = options.todoList;
+
+    events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+    <span class="keyword">this</span>.$(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+  },
+  addTodo: <span class="keyword">function</span>(e){
+    e.preventDefault();
+
+    <span class="keyword">this</span>.todoList.add(<span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val());
+  },
+  clearTextArea: <span class="keyword">function</span>(){
+    <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+  }
+});
+
+<span class="keyword">var</span> TodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    events.on(<span class="string">'todo:add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+  },
+  appendTodo: <span class="keyword">function</span>(todoContent){
+    <span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
+  }
+});
+<span class="comment">/* 启动代码依然不变 */</span>
+</pre></figure>
+
+<p>现在可以回过头来看看<code>ajax</code>那部分了，由于<code>Backbone</code>提供了<code>Model</code>的能力，这个就是用于和服务端打交道的，所以将长长的<code>ajax</code>代码改写为这一方式。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
+<span class="keyword">var</span> Todo = Backbone.Model.extend({
+  url: <span class="string">'/add'</span>
+});
+
+<span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+
+TodoList.prototype.add = <span class="keyword">function</span>(todoContent){
+  <span class="keyword">var</span> todo = <span class="keyword">new</span> Todo();
+  todo.save({ todoContent: todoContent },{
+    success: <span class="keyword">function</span>(model, data){
+      events.trigger(<span class="string">'todo:add'</span>, data.todoContent);
+    }
+  });
+};
+<span class="comment">/* … */</span>
+</pre></figure>
+
+<p>同时，<code>Backbone</code>中还提供了一个<code>Collection</code>的概念，也就是<code>Model</code>的集合，比如我们这个案例中，每次创建单条的<code>Todo</code>，然后形成<code>Todo List</code>。当然，我们的任何数据都应该是以多条记录的方式存在的。所以，我们同时将上面的<code>TodoList</code>的实现改为<code>Collection</code>。  </p>
+<p>而且，<code>Backbone</code>的<code>Collection</code>已经支持了<code>Event</code>机制，所以我们也无需自定义<code>events</code>了，于是开头的<code>events</code>变量也一并移除了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> Todo = Backbone.Model.extend({
+  url: <span class="string">'/add'</span>
+});
+
+<span class="keyword">var</span> TodoList = Backbone.Collection.extend({
+  add: <span class="keyword">function</span>(todoContent){
+    <span class="keyword">var</span> todo = <span class="keyword">new</span> Todo(),
+        that = <span class="keyword">this</span>;
+    todo.save({ todoContent: todoContent },{
+      success: <span class="keyword">function</span>(model, data){
+        that.trigger(<span class="string">'add'</span>, data.todoContent);
+      }
+    });
+  }
+});
+
+<span class="keyword">var</span> NewTodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.todoList = options.todoList;
+
+    <span class="keyword">this</span>.todoList.on(<span class="string">'add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+    <span class="keyword">this</span>.$(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+  },
+  addTodo: <span class="keyword">function</span>(e){
+    e.preventDefault();
+
+    <span class="keyword">this</span>.todoList.add(<span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val());
+  },
+  clearTextArea: <span class="keyword">function</span>(){
+    <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+  }
+});
+
+<span class="keyword">var</span> TodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.todoList = options.todoList;
+    <span class="keyword">this</span>.todoList.on(<span class="string">'add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+  },
+  appendTodo: <span class="keyword">function</span>(todoContent){
+    <span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
+  }
+});
+
+$(<span class="keyword">function</span>(){
+  <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
+  <span class="keyword">new</span> NewTodoView({ el: $(<span class="string">'#new-todo'</span>), todoList: todoList });
+  <span class="keyword">new</span> TodoView({ el: $(<span class="string">'#todo-list'</span>), todoList: todoList });
+});
+</pre></figure>
+
+<p><code>Collection</code>提供了一个名叫<code>create()</code>的方法，其可以根据<code>Collection</code>的<code>Model</code>属性创建一个<code>Model</code>的实例，并执行<code>Model</code>的<code>save()</code>方法。所以我们的<code>TodoList</code>中的<code>add()</code>方法已经可以废去了。我们只需为<code>TodoList</code>提供<code>Model</code>属性的值即可，然后在<code>NewTodoView</code>的<code>addTodo()</code>方法中，替换<code>this.todoList.add()</code>方法为<code>this.todoList.create()</code>。  </p>
+<figure class="highlight lang-javascript"><pre>	
+<span class="comment">/* … */</span>
+<span class="keyword">var</span> TodoList = Backbone.Collection.extend({
+  model: Todo
+});
+
+<span class="keyword">var</span> NewTodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.todoList = options.todoList;
+
+    <span class="keyword">this</span>.todoList.on(<span class="string">'add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+    <span class="keyword">this</span>.$(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+  },
+  addTodo: <span class="keyword">function</span>(e){
+    e.preventDefault();
+
+    <span class="keyword">this</span>.todoList.create({ todoContent: <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val() });  <span class="comment">//替换为create方法</span>
+  },
+  clearTextArea: <span class="keyword">function</span>(){
+    <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+  }
+});
+<span class="comment">/* … */</span>
+</pre></figure>
+
+<p>这时，我们的<code>Model</code>、<code>Collection</code>、<code>View</code>都已经齐上阵了。由于<code>Backbone</code>的<code>View</code>已经内置<code>collection</code>属性，使得我们可以设置、获取<code>View</code>对应的<code>Collection</code>，所以我们完全无需手动在<code>View</code>的内部来定义一个<code>todoList</code>的变量了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* … */</span>
+<span class="keyword">var</span> NewTodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.collection.on(<span class="string">'add'</span>, <span class="keyword">this</span>.clearTextArea, <span class="keyword">this</span>);
+
+    <span class="keyword">this</span>.$(<span class="string">'form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+  },
+  addTodo: <span class="keyword">function</span>(e){
+    e.preventDefault();
+
+    <span class="keyword">this</span>.collection.create({ todoContent: <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val() });
+  },
+  clearTextArea: <span class="keyword">function</span>(){
+    <span class="keyword">this</span>.$(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+  }
+});
+
+<span class="keyword">var</span> TodoView = Backbone.View.extend({
+  initialize: <span class="keyword">function</span>(options){
+    <span class="keyword">this</span>.collection.on(<span class="string">'add'</span>, <span class="keyword">this</span>.appendTodo, <span class="keyword">this</span>);
+  },
+  appendTodo: <span class="keyword">function</span>(todo){
+    <span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todo.get(<span class="string">'todoContent'</span>) + <span class="string">'&lt;/li&gt;'</span>);
+  }
+});
+
+$(<span class="keyword">function</span>(){
+  <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
+  <span class="keyword">new</span> NewTodoView({ el: $(<span class="string">'#new-todo'</span>), collection: todoList });
+  <span class="keyword">new</span> TodoView({ el: $(<span class="string">'#todo-list'</span>), collection: todoList });
+});
+</pre></figure>
+
+<p>至此，完整的基于<code>Backbone</code>的<code>Model</code>、<code>Collection</code>、<code>View</code>模式就构建好了。如果说还有什么瑕疵的话，应该就是一些表层功夫了，那就是咱们的<code>HTML Element</code>的<code>append</code>了，需要做一些过滤，比如用户输入<code>JavaScript</code>代码那就糟糕了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todo.get(<span class="string">'todoContent'</span>) + <span class="string">'&lt;/li&gt;'</span>);
+调整为
+<span class="keyword">this</span>.$(<span class="string">'ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todo.escape(<span class="string">'todoContent'</span>) + <span class="string">'&lt;/li&gt;'</span>);
+</pre></figure>
+
+<p>这样就Perfect了。文章忒长了点，但是为了从一个<code>0</code>变成一个<code>1</code>，我想应该还是很有意思的。</p>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>, <a href="/tags/backbone/">backbone</a>, <a href="/tags/mvc/">mvc</a>
+  </div>
+
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+  <div class="ds-thread" data-title="Backbone之旅：前端MVC架构初体验（下）">
+  </div>
+</section>
+</div>
+  </div>
+  <div class="widget-wrapper">
+    <aside id="sidebar">
+  
+  
+    
+      
+      
+
+<div class="widget tagcloud first">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/backbone/" style="font-size: 10.00px;">backbone</a><a href="/tags/blog/" style="font-size: 10.67px;">blog</a><a href="/tags/closure/" style="font-size: 11.33px;">closure</a><a href="/tags/design pattern/" style="font-size: 12.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.67px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 14.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 14.67px;">javascript</a><a href="/tags/javascript class/" style="font-size: 15.33px;">javascript class</a><a href="/tags/javascript timer/" style="font-size: 16.00px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 16.67px;">modernist</a><a href="/tags/mongodb/" style="font-size: 17.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 18.00px;">mvc</a><a href="/tags/scope/" style="font-size: 18.67px;">scope</a><a href="/tags/theme/" style="font-size: 19.33px;">theme</a>
+  </div>
+</div>
+
+    
+      
+      
+
+<div class="widget blogroll">
+  <h3 class="title">Links</h3>
+  <ul class="entry">
+  
+    
+    <li><a href="http://veryb.us/" target="_blank">fiture</a></li>
+  
+    
+    <li><a href="http://www.crossyou.cn/" target="_blank">crossyou</a></li>
+  
+    
+    <li><a href="http://island205.com/" target="_blank">island205</a></li>
+  
+  </ul>
+</div>
+
+    
+      
+      
+
+<div class="widget recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2013/07/27/javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/22/javascript-scope-sequel/">JavaScript变量作用域（续）</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/14/javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/24/bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/20/random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
+      </li>
+    
+  </ul>
+</div>
+
+    
+  
+</aside>
+<div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2013 <a href="/">Heroic Yang</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>
