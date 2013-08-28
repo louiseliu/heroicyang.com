@@ -1,0 +1,363 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>深入理解JavaScript定时器（续） | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  <meta name="description" content="Heroic Yang, web developer, javascript, node, Node.js">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta property="og:title" content="深入理解JavaScript定时器（续）"/>
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/about.css" media="screen" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <header id="header"><div class="title">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <p><a href="/">Web developer, love javascript and node.</a></p>
+</div>
+<nav class="nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/2012-10-14-javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
+    
+    
+  
+    <h1 class="title">深入理解JavaScript定时器（续）</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
+<h2>同步事件</h2>
+<h3>DOM改变事件(DOM Mutation events)</h3>
+<p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。</p>
+<figure class="highlight lang-html"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://heroicyang.com/"</span>&gt;</span>
+  heroicyang.com
+<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> anchor = document.getElementsByTagName(<span class="string">'a'</span>)[<span class="number">0</span>];
+  anchor.onclick = <span class="keyword">function</span>(e) {
+    alert(<span class="string">'in onclick'</span>);
+    <span class="keyword">this</span>.setAttribute(<span class="string">'href'</span>, <span class="string">'#'</span>);
+    alert(<span class="string">'out onclick'</span>);
+    <span class="keyword">return</span> <span class="literal">false</span>;
+  };
+  <span class="keyword">if</span> (anchor.addEventListener) {  <span class="comment">//Firefox, Opera</span>
+    anchor
+      .addEventListener(<span class="string">'DOMAttrModified'</span>, onpropchange, <span class="literal">false</span>);
+  } <span class="keyword">else</span> <span class="keyword">if</span> (anchor.attachEvent) {  <span class="comment">//IE</span>
+    anchor
+      .attachEvent(<span class="string">'onpropertychange'</span>, onpropchange);
+  }
+  
+  <span class="function"><span class="keyword">function</span> <span class="title">onpropchange</span><span class="params">()</span> {</span>
+    alert(<span class="string">'onpropchange'</span>);
+  }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</pre></figure>
+
+
+<p><a id="more"></a><br>当<code>click</code>事件触发时，其处理的顺序依次为：</p>
+<ol>
+<li>alert <code>in onclick</code>  </li>
+<li>超链接的属性立即被改变，并alert <code>onpropchange</code>  </li>
+<li>继续执行<code>onclick</code>事件处理程序中剩下的 <code>alert(&#39;out onclick&#39;);</code>  </li>
+</ol>
+<p><img src="http://img.heroicyang.com/synchronous-mutation-events.png" alt=""><br>关于<code>DOM Mutation events</code>，详情请参见：<br><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events" target="_blank"><a href="https://developer.mozilla.org/en-US/docs/DOM/Mutation_events">https://developer.mozilla.org/en-US/docs/DOM/Mutation_events</a></a><br><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents" target="_blank"><a href="http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents">http://www.w3.org/TR/DOM-Level-3-Events/#events-mutationevents</a></a>  </p>
+<h3>嵌套的DOM事件</h3>
+<p>在浏览器端，有一些方法会立即触发某类事件，而这类事件也是同步的。比如<code>element.focus()</code>，下面是演示代码。  </p>
+<figure class="highlight lang-javascript"><pre>&lt;input type=<span class="string">"button"</span> value=<span class="string">"click me"</span>&gt;
+<span class="xml"><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> btn = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">0</span>]
+    , text = document.getElementsByTagName(<span class="string">'input'</span>)[<span class="number">1</span>];
+
+  btn.onclick = <span class="keyword">function</span>(e) {
+    console.log(<span class="string">'in onclick'</span>);
+    text.focus();
+    console.log(<span class="string">'out onclick'</span>);
+  };
+
+  text.onfocus = <span class="keyword">function</span>(e) {
+    console.log(<span class="string">'onfocus'</span>);
+  };
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
+</pre></figure>
+
+<p>执行结果如下：</p>
+<p><img src="http://img.heroicyang.com/synchronous-focus-event.png" alt="">  </p>
+<p>常规情况下，事件处理都是一个一个执行的，而我们也就假定一个事件开始时，前一个事件是执行完毕了的。而以上这些同步事件不仅打破了我们的常规认识，还会给我们带来一些负面效应。不过我们依旧可以使用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth">上一篇</a>中所使用的<code>setTimeout(func, 0)</code>来解决。  </p>
+<h2>JavaScript执行与页面渲染</h2>
+<p>大多数浏览器中，JavaScript的执行和页面渲染是互斥的，于是JavaScript执行时，浏览器就不会做任何的页面渲染。比如下面的Demo…  </p>
+<figure class="highlight lang-javascript"><pre>&lt;!DOCTYPE HTML&gt;
+<span class="xml"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en-US"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">title</span>&gt;</span>JavaScript执行与页面渲染<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">style</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span><span class="css">
+    <span class="id">#container</span> <span class="rules">{
+      <span class="rule"><span class="attribute">width</span>:<span class="value"> <span class="number">200</span>px;</span></span> 
+      <span class="rule"><span class="attribute">height</span>:<span class="value"> <span class="number">100</span>px;</span></span> 
+      <span class="rule"><span class="attribute">background-color</span>:<span class="value"> <span class="hexcolor">#A00000</span>;</span></span> 
+      <span class="rule"><span class="attribute">margin-bottom</span>:<span class="value"> <span class="number">10</span>px;</span></span>
+    <span class="rule">}</span></span>
+  </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"container"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)
+      , container = document.getElementById(<span class="string">'container'</span>);
+    
+    runBtn.onclick = <span class="keyword">function</span>(e) {
+      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0xA00000</span>; i &lt; <span class="number">0xFFFFFF</span>; i++) {
+        container.style.backgroundColor = <span class="string">'#'</span> + i.toString(<span class="number">16</span>);
+      }
+    };
+  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span></span>
+</pre></figure>
+
+<iframe src="http://sample.heroicyang.com/repaint.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>
+
+<p>运行上面的Demo后，大多数浏览器都会假死了，直到<code>container</code>的背景颜色变更为<code>#FFFFFF</code>后才恢复。而有的浏览器(如Firefox)还会弹出警告，告知JavaScript没有响应，是终止还是等待。但是Opera却能正常运行，并不断更改背景颜色。因此不同浏览器对页面渲染和JavaScript执行的实现方式是不一样的。  </p>
+<p>关于这方面有很大的学问，还需要继续学习，慢慢摸索。So…这个就点到为止了。</p>
+<h3>模式对话框的同步调用</h3>
+<p>浏览器提供的如<code>alert</code>等的模式对话框是同步调用的，所以当这类对话框工作时，会停止<code>JavaScript线程</code>，当然如页面渲染等活动也将被冻结。继续下面的Demo…当运行代码下面的<code>iframe</code>中的进度条后，无论是点击<code>主窗体中的alert</code>按钮，还是点击<code>iframe中的alert</code>按钮，都会导致进度条挂起。  </p>
+<p><input type="button" value="主窗体中的alert" onclick="alert('主窗体对话框');"></p>
+<figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span> style=<span class="string">"width: 0px; height: 20px; background-color: #A00000;"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"iframe中的alert"</span> <span class="attribute">onclick</span>=<span class="value">"alert('iframe中的对话框');"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)
+    , stopBtn = document.getElementById(<span class="string">'stop'</span>)
+    , container = document.getElementById(<span class="string">'container'</span>);
+  <span class="keyword">var</span> timer = <span class="literal">null</span>;
+
+  runBtn.onclick = <span class="keyword">function</span>(e) {
+    timer = setInterval(<span class="keyword">function</span>() {
+      <span class="keyword">var</span> style = container.style;
+      style.width = (parseInt(style.width) + <span class="number">2</span>) % <span class="number">400</span> + <span class="string">'px'</span>;
+    }, <span class="number">50</span>);
+  };
+  stopBtn.onclick = <span class="keyword">function</span>(e) {
+    clearInterval(timer);
+  };
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
+</pre></figure>
+
+<iframe src="http://sample.heroicyang.com/modal-sync.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:70px; padding: 1px;"></iframe>  
+
+<p>因此，浏览器所提供的<code>alert</code>、<code>confirm</code>、<code>prompt</code>这三类模式对话框，都会阻塞<code>JavaScript线程</code>和<code>UI线程</code>。  </p>
+<p><strong>依旧，Opera有一点点的例外。。。</strong>  </p>
+<p>在Opera中，点击<code>主窗体中的alert</code>按钮不会阻塞<code>iframe</code>中的进度条。。。又打破我们的常规认识啊：同一个页面上，<code>iframe</code>是和主窗体同一个线程的。但Opera的设计并非如此。。。  </p>
+<h2>当脚本需要花很长的时间干复杂的工作时</h2>
+<p>类似的就是前面那个阻塞我们浏览器的，频繁更改<code>container</code>背景颜色的例子。最后，我们还是用<a href="http://heroicyang.com/2012/09/22/javascript-timer-in-depth">上一篇文章中</a>的<code>setTimeout(func, 0)</code>来解决它吧。  </p>
+<figure class="highlight lang-javascript"><pre>&lt;div id=<span class="string">"container"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"run"</span> <span class="attribute">id</span>=<span class="value">"run"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">value</span>=<span class="value">"stop"</span> <span class="attribute">id</span>=<span class="value">"stop"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+  <span class="keyword">var</span> runBtn = document.getElementById(<span class="string">'run'</span>)
+    , stopBtn = document.getElementById(<span class="string">'stop'</span>)
+    , container = document.getElementById(<span class="string">'container'</span>);
+  <span class="keyword">var</span> i = <span class="number">0xA00000</span>, timer = <span class="literal">null</span>;
+
+  runBtn.onclick = <span class="keyword">function</span>(e) {
+    <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">()</span> {</span>
+      timer = setTimeout(run, <span class="number">0</span>);
+      container.style.backgroundColor = <span class="string">'#'</span> + i.toString(<span class="number">16</span>);
+
+      <span class="keyword">if</span> (i++ == <span class="number">0xFFFFFF</span>) stop();
+    }
+    timer = setTimeout(run, <span class="number">0</span>);
+  };
+  stopBtn.onclick = stop;
+
+  <span class="function"><span class="keyword">function</span> <span class="title">stop</span><span class="params">()</span> {</span>
+    clearTimeout(timer);
+  }
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
+</pre></figure>
+
+<iframe src="http://sample.heroicyang.com/heavy-jobs.html" style="border: 1px solid #DDD; border-radius: 3px; background: #F8F8F8; width: 90%; height:150px; padding: 1px;"></iframe>  
+
+<p>最后，总结一下<code>setTimeout(func, 0)</code>的使用场景吧：</p>
+<ol>
+<li>让浏览器渲染当前的变化  </li>
+<li>避免长时间运行的脚本  </li>
+<li>流程控制  </li>
+<li>等等等等。。。</li>
+</ol>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>, <a href="/tags/javascript timer/">javascript timer</a>
+  </div>
+
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+  <div class="ds-thread" data-title="深入理解JavaScript定时器（续）">
+  </div>
+</section>
+</div>
+  </div>
+  <div class="widget-wrapper">
+    <aside id="sidebar">
+  
+  
+    
+      
+      
+
+<div class="widget tagcloud first">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/backbone/" style="font-size: 10.00px;">backbone</a><a href="/tags/blog/" style="font-size: 10.67px;">blog</a><a href="/tags/closure/" style="font-size: 11.33px;">closure</a><a href="/tags/design pattern/" style="font-size: 12.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.67px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 14.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 14.67px;">javascript</a><a href="/tags/javascript class/" style="font-size: 15.33px;">javascript class</a><a href="/tags/javascript timer/" style="font-size: 16.00px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 16.67px;">modernist</a><a href="/tags/mongodb/" style="font-size: 17.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 18.00px;">mvc</a><a href="/tags/scope/" style="font-size: 18.67px;">scope</a><a href="/tags/theme/" style="font-size: 19.33px;">theme</a>
+  </div>
+</div>
+
+    
+      
+      
+
+<div class="widget blogroll">
+  <h3 class="title">Links</h3>
+  <ul class="entry">
+  
+    
+    <li><a href="http://veryb.us/" target="_blank">fiture</a></li>
+  
+    
+    <li><a href="http://www.crossyou.cn/" target="_blank">crossyou</a></li>
+  
+    
+    <li><a href="http://island205.com/" target="_blank">island205</a></li>
+  
+  </ul>
+</div>
+
+    
+      
+      
+
+<div class="widget recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2013/07/27/2013-07-27-javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/22/2013-07-22-javascript-scope-sequel/">JavaScript变量作用域（续）</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/14/2013-07-14-javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/24/2013-06-24-bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/20/2013-06-20-random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
+      </li>
+    
+  </ul>
+</div>
+
+    
+  
+</aside>
+<div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2013 <a href="/">Heroic Yang</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>

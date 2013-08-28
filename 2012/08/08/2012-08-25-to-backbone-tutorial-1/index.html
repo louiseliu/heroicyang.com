@@ -1,0 +1,410 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>Backbone之旅：前端MVC架构初体验（上） | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  <meta name="description" content="Heroic Yang, web developer, javascript, node, Node.js">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta property="og:title" content="Backbone之旅：前端MVC架构初体验（上）"/>
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/about.css" media="screen" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <header id="header"><div class="title">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <p><a href="/">Web developer, love javascript and node.</a></p>
+</div>
+<nav class="nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/2012-08-25-to-backbone-tutorial-1/">Aug 8 2012</a></time>
+    
+    
+  
+    <h1 class="title">Backbone之旅：前端MVC架构初体验（上）</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>最近一段时间来，才算是真正的开始深入学习<code>JavaScript</code>，收获颇丰。也首次领略了前端<code>MVC</code>架构的风采，现在前端<code>MVC</code>的类库和框架越来越多，在经过初步的评估之后，决定先学习备受推崇的<code>Backbone</code>。 </p>
+<p>以前自己做的一些<code>Web</code>应用，基本上都是按照非常传统的方式：1.服务器端渲染模板；2.利用<code>jQuery</code>的<code>ajax</code>进行异步数据交换。所以首次接触前端架构类的东西，难免有点无从下手。经过几天的奋战，以及参阅国外大牛们的各种<code>Tutorial</code>之后，终于拨开迷雾，缕了些头绪，自己也试着从传统的方式过渡（重构）出了所谓的架构性的代码。  </p>
+<p>整个重构的过程让我受益良多，所以决定再认真的记录一遍，加深自己的印象，也再确认一遍自己是否真的搞明白了，文章应该会比较长。  </p>
+<a id="more"></a>
+
+<p>首先，先上一段所谓的传统式的代码。</p>
+<figure class="highlight lang-javascript"><pre>$(<span class="keyword">function</span>(){
+  $(<span class="string">'#new-todo form'</span>).submit(<span class="keyword">function</span>(e){
+    e.preventDefault();
+    <span class="keyword">var</span> that = <span class="keyword">this</span>;
+
+    $.ajax({
+      url: <span class="string">'/add'</span>,
+      type: <span class="string">'POST'</span>,
+      dataType: <span class="string">'json'</span>,
+      data: { todoContent: $(<span class="keyword">this</span>).find(<span class="string">'textarea'</span>).val() },
+      success: <span class="keyword">function</span>(data){
+        $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + data.todoContent + <span class="string">'&lt;/li&gt;'</span>);
+        $(that).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+      }
+    });
+  });
+});
+</pre></figure>
+
+<p>另外，也上一张关于这篇文章中涉及到的<code>HTML</code>结构图，方便参照。由于文章稍长，我想如果直接在这里插图的话会影响阅读，所以就只给出<a href="http://img.heroicyang.com/to-backbone-tutorial.png" target="_blank">图片链接</a>了。 </p>
+<p>上面的一段代码我想应该都是大家非常熟悉的做法，因为我是一个伪前端攻城湿，所以我以前的代码中无不充斥着类似的、一堆一堆这样的代码。看上去貌似挺好的啊，也没啥问题，程序跑得倍儿棒。但是就这么短短的一段代码，它可干了不少事情：监听页面事件、用户事件、网络事件，接收用户的输入、执行网络的I/O、解析服务端返回的数据、动态生成<code>HTML</code>结构，可谓是包罗万象啊，就这么短短的一段代码就解释了整个<code>Web</code>应用程序的本质。  </p>
+<p>所以即便是这么一个小小的应用，逻辑和架构上都已经臃肿了，完全违反了咱们软件开发中的“单一职责原则”。如果是一个大应用，那估计就如乱麻———剪不断理还乱了。所以，改变迫在眉睫。 </p>
+<p>确实咱的要求也不高，如果把它搞成这样，其实咱就满足了：</p>
+<ol>
+<li>在<code>$(document).ready</code>当中只保留一些应用程序的初始化代码即可，即应用的启动程序。  </li>
+<li>干掉乱如麻的逻辑，使得其符合咱们的“单一职责原则”，方便测试。  </li>
+<li>减小<code>ajax</code>和<code>DOM</code>的耦合，其实也算是第2条。  </li>
+</ol>
+<p>OK，动手。按照最基本的重构方式，咱先把<code>ajax</code>分离到一个方法里面去。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> addTodo = <span class="keyword">function</span>(){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val() },
+    success: <span class="keyword">function</span>(data){
+      $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + data.todoContent + <span class="string">'&lt;/li&gt;'</span>);
+      $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+    }
+  });
+};
+
+$(<span class="keyword">function</span>(){
+  $(<span class="string">'#new-todo form'</span>).submit(<span class="keyword">function</span>(e){
+    e.preventDefault();
+    
+    addTodo();
+  });
+});
+</pre></figure>
+
+<p>但是，在<code>ajax</code>所在的方法中，<code>data</code>和<code>success</code>属性仍然保留了对<code>DOM</code>的依赖，于是接下来将其调整为函数的参数来传递。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> addTodo = <span class="keyword">function</span>(options){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: options.todoContent },
+    success: options.success
+  });
+};
+
+$(<span class="keyword">function</span>(){
+  $(<span class="string">'#new-todo form'</span>).submit(<span class="keyword">function</span>(e){
+    e.preventDefault();
+    
+    addTodo({
+      todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+      success: <span class="keyword">function</span>(data){
+        $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + data.todoContent + <span class="string">'&lt;/li&gt;'</span>);
+        $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+      }
+    });
+  });
+});
+</pre></figure>
+
+<p>好像OK了，不过此时<code>addTodo()</code>方法暴露在全局环境内，任何人都可以呼之欲来。我可不想当屌丝，作为一个富有上进心的、想成为一个合格前端攻城湿的我，还是给<code>addTodo()</code>方法加个命名空间吧。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+
+TodoList.prototype.add = <span class="keyword">function</span>(options){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: options.todoContent },
+    success: options.success
+  });
+};
+
+$(<span class="keyword">function</span>(){
+  <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
+
+  $(<span class="string">'#new-todo form'</span>).submit(<span class="keyword">function</span>(e){
+    e.preventDefault();
+    
+    todoList.add({
+      todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+      success: <span class="keyword">function</span>(data){
+        $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + data.todoContent + <span class="string">'&lt;/li&gt;'</span>);
+        $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+      }
+    });
+  });
+});
+</pre></figure>
+
+<p>现在<code>submit</code>事件只依赖一个<code>todoList</code>变量了，而且最重要的是现在的<code>submit</code>事件中只关注<code>DOM</code>操作了，干脆大刀阔斧的把它移到外层去。于是咱们引入视图<code>View</code>了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+
+TodoList.prototype.add = <span class="keyword">function</span>(options){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: options.todoContent },
+    success: options.success
+  });
+};
+
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">var</span> todoList = options.todoList;
+
+  $(<span class="string">'#new-todo form'</span>).submit(<span class="keyword">function</span>(e){
+    e.preventDefault();
+    
+    todoList.add({
+      todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+      success: <span class="keyword">function</span>(data){
+        $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + data.todoContent + <span class="string">'&lt;/li&gt;'</span>);
+        $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+      }
+    });
+  });
+};
+
+$(<span class="keyword">function</span>(){
+  <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
+  <span class="keyword">new</span> NewTodoView({ todoList: todoList });
+});
+</pre></figure>
+
+<p>恩，现如今<code>$(document).ready</code>中就简洁得只剩我们之前所说的应用启动代码了。虽然代码已经组件化了，也工作得很好，但是仍然有需要重构的地方。<code>NewTodoView</code>目前看上去都不怎么像一个对象的行为，所以继续重构之。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> TodoList = <span class="keyword">function</span>(){};
+
+TodoList.prototype.add = <span class="keyword">function</span>(options){
+  $.ajax({
+    url: <span class="string">'/add'</span>,
+    type: <span class="string">'POST'</span>,
+    dataType: <span class="string">'json'</span>,
+    data: { todoContent: options.todoContent },
+    success: options.success
+  });
+};
+
+<span class="keyword">var</span> NewTodoView = <span class="keyword">function</span>(options){
+  <span class="keyword">this</span>.todoList = options.todoList;
+
+  $(<span class="string">'#new-todo form'</span>).submit($.proxy(<span class="keyword">this</span>.addTodo, <span class="keyword">this</span>));
+};
+
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+    
+  <span class="keyword">this</span>.todoList.add({
+    todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+    success: <span class="keyword">function</span>(data){
+      $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + data.todoContent + <span class="string">'&lt;/li&gt;'</span>);
+      $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+    }
+  });
+};
+
+$(<span class="keyword">function</span>(){
+  <span class="keyword">var</span> todoList = <span class="keyword">new</span> TodoList();
+  <span class="keyword">new</span> NewTodoView({ todoList: todoList });
+});
+</pre></figure>
+
+<p>这里用到了<code>jQuery</code>中的<code>$.proxy()</code>方法来解决<code>this</code>作用域的问题，玩<code>JavaScript</code>的童鞋们应该都很了解作用域这个东东。接下来，咱干点有关洁癖的事情，鉴于要保证代码的清晰、方便阅读，咱把<code>success</code>里面的行为采用<code>callback</code>的形式来完成。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/*前面不变*/</span>
+NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
+  e.preventDefault();
+  <span class="keyword">var</span> that = <span class="keyword">this</span>;
+
+  <span class="keyword">this</span>.todoList.add({
+    todoContent: $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(),
+    success: <span class="keyword">function</span>(data){
+      that.appendTodo(data.todoContent);
+      that.clearTextArea();
+    }
+  });
+};
+
+NewTodoView.prototype.appendTodo = <span class="keyword">function</span>(todoContent){
+  $(<span class="string">'#todo-list ul'</span>).append(<span class="string">'&lt;li&gt;'</span> + todoContent + <span class="string">'&lt;/li&gt;'</span>);
+};
+
+NewTodoView.prototype.clearTextArea = <span class="keyword">function</span>(){
+  $(<span class="string">'#new-todo'</span>).find(<span class="string">'textarea'</span>).val(<span class="string">''</span>);
+};
+<span class="comment">/*后面也不变*/</span>
+</pre></figure>
+
+<p>至此，重构的第一个版本其实就算得上大功告成了，已经达到前面提出的三大方针政策。文章果然比较长，所以我决定还是分成了上、下两节，当前这篇中完全没涉及到<code>backbone</code>，所以到此就打住了，敬请关注下回分解。</p>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>, <a href="/tags/backbone/">backbone</a>, <a href="/tags/mvc/">mvc</a>
+  </div>
+
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+  <div class="ds-thread" data-title="Backbone之旅：前端MVC架构初体验（上）">
+  </div>
+</section>
+</div>
+  </div>
+  <div class="widget-wrapper">
+    <aside id="sidebar">
+  
+  
+    
+      
+      
+
+<div class="widget tagcloud first">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/backbone/" style="font-size: 10.00px;">backbone</a><a href="/tags/blog/" style="font-size: 10.67px;">blog</a><a href="/tags/closure/" style="font-size: 11.33px;">closure</a><a href="/tags/design pattern/" style="font-size: 12.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.67px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 14.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 14.67px;">javascript</a><a href="/tags/javascript class/" style="font-size: 15.33px;">javascript class</a><a href="/tags/javascript timer/" style="font-size: 16.00px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 16.67px;">modernist</a><a href="/tags/mongodb/" style="font-size: 17.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 18.00px;">mvc</a><a href="/tags/scope/" style="font-size: 18.67px;">scope</a><a href="/tags/theme/" style="font-size: 19.33px;">theme</a>
+  </div>
+</div>
+
+    
+      
+      
+
+<div class="widget blogroll">
+  <h3 class="title">Links</h3>
+  <ul class="entry">
+  
+    
+    <li><a href="http://veryb.us/" target="_blank">fiture</a></li>
+  
+    
+    <li><a href="http://www.crossyou.cn/" target="_blank">crossyou</a></li>
+  
+    
+    <li><a href="http://island205.com/" target="_blank">island205</a></li>
+  
+  </ul>
+</div>
+
+    
+      
+      
+
+<div class="widget recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2013/07/27/2013-07-27-javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/22/2013-07-22-javascript-scope-sequel/">JavaScript变量作用域（续）</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/14/2013-07-14-javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/24/2013-06-24-bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/20/2013-06-20-random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
+      </li>
+    
+  </ul>
+</div>
+
+    
+  
+</aside>
+<div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2013 <a href="/">Heroic Yang</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>

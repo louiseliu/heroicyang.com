@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://heroicyang.com/2013/07/27/javascript-closure/</loc>
-    <lastmod>2013-07-28T15:01:58.000Z</lastmod>
+    <loc>http://heroicyang.com/2013/07/27/2013-07-27-javascript-closure/</loc>
+    <lastmod>2013-08-28T13:53:31.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/05/22/hexo-theme-modernist/</loc>
+    <loc>http://heroicyang.com/2013/05/22/2013-05-22-hexo-theme-modernist/</loc>
     <lastmod>2013-07-25T13:33:45.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/07/22/javascript-scope-sequel/</loc>
+    <loc>http://heroicyang.com/2013/07/22/2013-07-22-javascript-scope-sequel/</loc>
     <lastmod>2013-07-23T16:21:21.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/07/14/javascript-variable-scope/</loc>
+    <loc>http://heroicyang.com/2013/07/14/2013-07-14-javascript-variable-scope/</loc>
     <lastmod>2013-07-21T14:21:13.000Z</lastmod>
   </url>
   <url>
@@ -21,59 +21,59 @@
     <lastmod>2013-07-06T13:20:22.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/10/14/javascript-timer-and-event-in-depth/</loc>
+    <loc>http://heroicyang.com/2012/10/14/2012-10-14-javascript-timer-and-event-in-depth/</loc>
     <lastmod>2013-06-27T14:14:58.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/09/22/javascript-timer-in-depth/</loc>
+    <loc>http://heroicyang.com/2012/09/22/2012-09-22-javascript-timer-in-depth/</loc>
     <lastmod>2013-06-27T14:14:23.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/09/06/javascript-timers/</loc>
+    <loc>http://heroicyang.com/2012/09/06/2012-09-02-javascript-timers/</loc>
     <lastmod>2013-06-27T14:14:01.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/06/24/bind-function-in-javascript-web-application-book/</loc>
+    <loc>http://heroicyang.com/2013/06/24/2013-06-24-bind-function-in-javascript-web-application-book/</loc>
     <lastmod>2013-06-24T16:22:40.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/06/20/random-record-in-mongodb/</loc>
+    <loc>http://heroicyang.com/2013/06/20/2013-06-20-random-record-in-mongodb/</loc>
     <lastmod>2013-06-23T16:14:07.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/06/07/javascript-class-inherit-optimized/</loc>
+    <loc>http://heroicyang.com/2013/06/07/2013-06-07-javascript-class-inherit-optimized/</loc>
     <lastmod>2013-06-07T15:42:06.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/</loc>
+    <loc>http://heroicyang.com/2013/06/02/2013-06-02-learn-javascript-inherit-proto/</loc>
     <lastmod>2013-06-02T16:19:06.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/05/30/learn-javascript-inherit-class/</loc>
+    <loc>http://heroicyang.com/2013/05/30/2013-05-30-learn-javascript-inherit-class/</loc>
     <lastmod>2013-05-30T16:56:42.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/08/28/javascript-event-loop/</loc>
+    <loc>http://heroicyang.com/2012/08/28/2012-08-27-javascript-event-loop/</loc>
     <lastmod>2013-05-24T15:17:33.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/08/09/to-backbone-tutorial-2/</loc>
+    <loc>http://heroicyang.com/2012/08/09/2012-08-25-to-backbone-tutorial-2/</loc>
     <lastmod>2013-05-24T15:17:22.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/08/08/to-backbone-tutorial-1/</loc>
+    <loc>http://heroicyang.com/2012/08/08/2012-08-25-to-backbone-tutorial-1/</loc>
     <lastmod>2013-05-24T15:17:16.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/08/19/create-class-in-javascript/</loc>
+    <loc>http://heroicyang.com/2012/08/19/2012-08-25-create-class-in-javascript/</loc>
     <lastmod>2013-05-24T15:17:10.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2013/03/26/javascript-design-pattern-notes/</loc>
+    <loc>http://heroicyang.com/2013/03/26/2013-03-26-javascript-design-pattern-notes/</loc>
     <lastmod>2013-05-21T14:01:51.000Z</lastmod>
   </url>
   <url>
-    <loc>http://heroicyang.com/2012/08/26/blogging-like-a-hacker/</loc>
+    <loc>http://heroicyang.com/2012/08/26/2012-08-27-blogging-like-a-hacker/</loc>
     <lastmod>2013-01-29T14:40:15.000Z</lastmod>
   </url>
 </urlset>

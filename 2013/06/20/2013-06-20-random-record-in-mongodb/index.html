@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>Mongodb中随机的查询文档记录 | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  <meta name="description" content="Heroic Yang, web developer, javascript, node, Node.js">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta property="og:title" content="Mongodb中随机的查询文档记录"/>
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/about.css" media="screen" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <header id="header"><div class="title">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <p><a href="/">Web developer, love javascript and node.</a></p>
+</div>
+<nav class="nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2013-06-20T13:59:46.000Z"><a href="/2013/06/20/2013-06-20-random-record-in-mongodb/">Jun 20 2013</a></time>
+    
+    
+  
+    <h1 class="title">Mongodb中随机的查询文档记录</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>在实际应用场景中，几乎都会有随机获取数据记录的需求。而这个需求在Mongodb却不是很好实现，就目前而言，大致上有三种解决方案：</p>
+<ol>
+<li>先计算出一个从<code>0</code>到记录总数之间的随机数，然后采用<code>skip(yourRandomNumber)</code>方法。</li>
+<li>为每一条记录增设<code>random</code>字段，插入数据时赋值为<code>Math.random()</code>，查询时采用<code>$gte</code>和<code>$lte</code>。</li>
+<li>借助Mongodb对地理空间索引（<code>geospatial indexes</code>）的支持，从而可以在第二种方法的基础上来实现随机记录的获取。</li>
+</ol>
+<p>因为Mongodb是不建议使用<code>skip</code>方法的，所以这里就略去第一种方法吧。</p>
+<h3>方法二</h3>
+<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala0...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala1...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala2...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala3...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala4...'</span> })
+<span class="comment">/* more records... */</span>
+
+<span class="comment">/* create index */</span>
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
+
+&gt; rand = Math.random()
+&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $gte: rand } })
+&gt; <span class="keyword">if</span> (result == <span class="literal">null</span>) {
+&gt;   result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $lte: rand } })
+&gt; }
+</pre></figure>
+
+
+<h3>方法三</h3>
+<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala0...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala1...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala2...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala3...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala4...'</span> })
+<span class="comment">/* more records... */</span>
+
+<span class="comment">/* create index */</span>
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
+
+&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $near: [Math.random(), <span class="number">0</span>] } })
+</pre></figure>
+
+
+<p>更多关于Mongodb地理空间索引资料，请参见<a href="http://docs.mongodb.org/manual/core/2d/" target="_blank">这里</a>。</p>
+<p>目前这几种方案似乎都不是很理想，但是也没有其他办法了，所以广大程序员们就相约到Mongodb的官方jira提了相应的需求，但是目前仍然没有任何的响应。可以参见<a href="https://jira.mongodb.org/browse/SERVER-533" target="_blank">这里</a>，围观一下。</p>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+  
+  <div class="tags">
+    <a href="/tags/mongodb/">mongodb</a>
+  </div>
+
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+  <div class="ds-thread" data-title="Mongodb中随机的查询文档记录">
+  </div>
+</section>
+</div>
+  </div>
+  <div class="widget-wrapper">
+    <aside id="sidebar">
+  
+  
+    
+      
+      
+
+<div class="widget tagcloud first">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/backbone/" style="font-size: 10.00px;">backbone</a><a href="/tags/blog/" style="font-size: 10.67px;">blog</a><a href="/tags/closure/" style="font-size: 11.33px;">closure</a><a href="/tags/design pattern/" style="font-size: 12.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.67px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 14.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 14.67px;">javascript</a><a href="/tags/javascript class/" style="font-size: 15.33px;">javascript class</a><a href="/tags/javascript timer/" style="font-size: 16.00px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 16.67px;">modernist</a><a href="/tags/mongodb/" style="font-size: 17.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 18.00px;">mvc</a><a href="/tags/scope/" style="font-size: 18.67px;">scope</a><a href="/tags/theme/" style="font-size: 19.33px;">theme</a>
+  </div>
+</div>
+
+    
+      
+      
+
+<div class="widget blogroll">
+  <h3 class="title">Links</h3>
+  <ul class="entry">
+  
+    
+    <li><a href="http://veryb.us/" target="_blank">fiture</a></li>
+  
+    
+    <li><a href="http://www.crossyou.cn/" target="_blank">crossyou</a></li>
+  
+    
+    <li><a href="http://island205.com/" target="_blank">island205</a></li>
+  
+  </ul>
+</div>
+
+    
+      
+      
+
+<div class="widget recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2013/07/27/2013-07-27-javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/22/2013-07-22-javascript-scope-sequel/">JavaScript变量作用域（续）</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/14/2013-07-14-javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/24/2013-06-24-bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/20/2013-06-20-random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
+      </li>
+    
+  </ul>
+</div>
+
+    
+  
+</aside>
+<div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2013 <a href="/">Heroic Yang</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>

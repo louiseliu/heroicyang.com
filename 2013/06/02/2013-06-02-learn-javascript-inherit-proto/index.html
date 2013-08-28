@@ -1,0 +1,283 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  
+  <title>关于JavaScript中的继承（二）：原型式继承 | Heroic Yang's Blog</title>
+  <meta name="author" content="Heroic Yang">
+  
+  <meta name="description" content="Heroic Yang, web developer, javascript, node, Node.js">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta property="og:title" content="关于JavaScript中的继承（二）：原型式继承"/>
+  <meta property="og:site_name" content="Heroic Yang's Blog"/>
+
+  <link rel="alternate" href="/atom.xml" title="Heroic Yang's Blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/about.css" media="screen" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <div class="wrapper">
+    <header id="header"><div class="title">
+  <h1><a href="/">Heroic Yang's Blog</a></h1>
+  <p><a href="/">Web developer, love javascript and node.</a></p>
+</div>
+<nav class="nav">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+      <li><a href="/atom.xml">Rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+    <div class="content"><article class="post">
+  <header>
+    
+      <div class="icon"></div>
+      <time datetime="2013-06-02T14:52:19.000Z"><a href="/2013/06/02/2013-06-02-learn-javascript-inherit-proto/">Jun 2 2013</a></time>
+    
+    
+  
+    <h1 class="title">关于JavaScript中的继承（二）：原型式继承</h1>
+  
+
+  </header>
+  
+  <div class="entry">
+    
+      <p>JavaScript中本没有类，所以凡事也不要强求，强扭的瓜总是不填的嘛。继承也无非就是一个对象拥有另外一个对象的特性，所以完全不需要复杂的去模拟面向对象中的类式继承，而借助JavaScript独特的原型机制就可以实现了。同样，需要创建一个对象时也不再采用模拟<strong>类-对象</strong>的方式，而是直接使用JavaScript的对象字面量就好了。因为对于对象来说我们关系的无非也就是它具备哪些属性、有哪些行为而已。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
+  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="keyword">this</span>.name || <span class="string">'parent'</span>);
+  }
+};
+
+<span class="keyword">var</span> child = {};  <span class="comment">// 暂时这样</span>
+child.name = <span class="string">'child'</span>;  <span class="comment">// 在很多情况下我们并不希望继承原对象自己的属性，而是在我们需要时，直接添加就好</span>
+child.printName();  <span class="comment">// 重点的是我们希望child具备打印自己名字的行为</span>
+</pre></figure>
+
+
+<p>上面的代码目前还不能工作，<a href="http://heroicyang.com/2013/05/30/learn-javascript-inherit-class/">上一篇文章</a>中谈到过JavaScript中对象属性查找机制，如果<code>child</code>对象本身没有<code>printName()</code>这个方法，那我们保证其原型上有这个方法，它就能正常工作了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* var parent... */</span>
+
+<span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
+  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  F.prototype = obj;
+  <span class="keyword">return</span> <span class="keyword">new</span> F;
+};
+
+<span class="comment">// 改变child对象的创建方式，不直接采用字面量了，而是用`object`方法来创建</span>
+<span class="keyword">var</span> child = object(parent);
+child.name = <span class="string">'child'</span>;
+child.printName();  <span class="comment">// 'child'</span>
+</pre></figure>
+
+
+<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造函数，然后修改这个构造函数的原型，最后再返回这个构造函数的一个实例。</p>
+<a id="more"></a>
+
+<p>当然，<code>parent</code>对象也并不一定要使用对象字面量，你可以选择任何你能想到的创建对象的方式，如构造函数等。  </p>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span> <span class="params">()</span> {</span>
+  <span class="keyword">this</span>.name = <span class="string">'parent'</span>;
+};
+Parent.prototype.printName = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  console.log(<span class="keyword">this</span>.name);
+};
+
+<span class="keyword">var</span> parent = <span class="keyword">new</span> Parent();
+<span class="keyword">var</span> child = object(parent);
+child.printName();  <span class="comment">// 'parent'</span>
+</pre></figure>
+
+
+<p>正如前面所述，我们可能并不想继承原对象自己的属性，如上面的例子我们也并不希望它打印出<code>parent</code>。  </p>
+<p>原型式继承的规则就是：对象从对象继承，不管父对象是如何而来。而<code>Parent.prototype</code>也是一个对象，所以  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = object(Parent.prototype);
+child.printName();  <span class="comment">// undefined</span>
+</pre></figure>
+
+
+<p>改写之后，打印<code>child</code>自己的名字时得到的是<code>undefined</code>，因为创建<code>child</code>对象后，还没有给它赋予任何的属性，所以这恰是我们想要的结果。  </p>
+<p>而在<code>ECMAScript 5</code>中，原型式继承已经成为了语言特性，为我们增加了<code>Object.create()</code>方法，也就是说可以不用自己实现上面的<code>object</code>方法了。而且<code>Object.create()</code>方法更加强劲、适用。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
+  name: <span class="string">'parent'</span>,
+  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="keyword">this</span>.name);
+  }
+};
+
+<span class="comment">// 第二个参数接收一个对象，而该对象的属性将作为`child`对象的属性</span>
+<span class="keyword">var</span> child = Object.create(parent, {
+  name: { value: <span class="string">'child'</span> }
+});
+
+child.printName();  <span class="comment">// 'child'</span>
+</pre></figure>
+
+
+<p>最后，再谈谈最开始实现的<code>object()</code>方法吧，其实还可以做一点点简单的优化。那就是每次调用<code>object()</code>方法时都要创建一个临时的代理构造函数<code>F</code>，而事实上仅需要创建一次就足够了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  
+  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
+    F.prototype = obj;
+    <span class="keyword">return</span> <span class="keyword">new</span> F;  
+  };
+}();
+</pre></figure>
+
+
+<p>我们把代理构造函数放到一个立即执行的函数中创建，然后这个函数返回一个新的、真正实现继承逻辑的函数。</p>
+
+    
+  </div>
+  <footer>
+    
+      
+      
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>, <a href="/tags/inherit/">inherit</a>
+  </div>
+
+    
+    <div class="clearfix"></div>
+  </footer>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">Comments</h1>
+  <div class="ds-thread" data-title="关于JavaScript中的继承（二）：原型式继承">
+  </div>
+</section>
+</div>
+  </div>
+  <div class="widget-wrapper">
+    <aside id="sidebar">
+  
+  
+    
+      
+      
+
+<div class="widget tagcloud first">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/backbone/" style="font-size: 10.00px;">backbone</a><a href="/tags/blog/" style="font-size: 10.67px;">blog</a><a href="/tags/closure/" style="font-size: 11.33px;">closure</a><a href="/tags/design pattern/" style="font-size: 12.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.67px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 14.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 14.67px;">javascript</a><a href="/tags/javascript class/" style="font-size: 15.33px;">javascript class</a><a href="/tags/javascript timer/" style="font-size: 16.00px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 16.67px;">modernist</a><a href="/tags/mongodb/" style="font-size: 17.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 18.00px;">mvc</a><a href="/tags/scope/" style="font-size: 18.67px;">scope</a><a href="/tags/theme/" style="font-size: 19.33px;">theme</a>
+  </div>
+</div>
+
+    
+      
+      
+
+<div class="widget blogroll">
+  <h3 class="title">Links</h3>
+  <ul class="entry">
+  
+    
+    <li><a href="http://veryb.us/" target="_blank">fiture</a></li>
+  
+    
+    <li><a href="http://www.crossyou.cn/" target="_blank">crossyou</a></li>
+  
+    
+    <li><a href="http://island205.com/" target="_blank">island205</a></li>
+  
+  </ul>
+</div>
+
+    
+      
+      
+
+<div class="widget recent-posts">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2013/07/27/2013-07-27-javascript-closure/">JavaScript闭包</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/22/2013-07-22-javascript-scope-sequel/">JavaScript变量作用域（续）</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/14/2013-07-14-javascript-variable-scope/">JavaScript变量作用域</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/24/2013-06-24-bind-function-in-javascript-web-application-book/">关于《JavaScript Web Application》中的bind方法</a>
+      </li>
+    
+      <li>
+        <a href="/2013/06/20/2013-06-20-random-record-in-mongodb/">Mongodb中随机的查询文档记录</a>
+      </li>
+    
+  </ul>
+</div>
+
+    
+  
+</aside>
+<div class="clearfix"></div>
+  </div>
+  <footer id="footer"><div class="copyright">
+  
+  &copy; 2013 <a href="/">Heroic Yang</a>
+  
+</div>
+<div class="theme-copyright">
+  Theme by <a href="https://github.com/orderedlist" target="_blank">orderedlist</a>
+   | 
+  Redesign by <a href="http://heroicyang.com/" target="_blank">Heroic Yang</a>
+</div>
+<div class="clearfix"></div></footer>
+  <script src="/js/scale.fix.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'heroicyang' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+  (function($){
+    $('.fancybox').fancybox();
+  })(jQuery);
+</script>
+
+</body>
+</html>
