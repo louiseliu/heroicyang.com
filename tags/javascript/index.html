@@ -73,7 +73,7 @@ $(<span class="string">'.btn'</span>).onclick = <span class="keyword">function</
 };
 </pre></figure>
 
-<p>闭包，<a href="http://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)" target="_blank">维基百科</a><br>的解释是：指引用了自由变量的函数。而我个人认为前端大牛<a href="http://weibo.com/haxy" target="_blank">johnhax</a><br>的解释更加容易理解：闭包就是内部函数能访问外部的变量。</p>
+<p>闭包，<a href="http://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)" target="_blank">维基百科</a>的解释是：指引用了自由变量的函数。而我个人认为前端大牛<a href="http://weibo.com/haxy" target="_blank">johnhax</a>的解释更加容易理解：闭包就是内部函数能访问外部的变量。</p>
 <p>所以，要理解闭包，只要理清楚<strong>变量作用域</strong>这个概念就差不多了。我也把对<strong>变量作用域</strong>的一些个人理解记录在了前两篇文章中，故这里就只简单说说一个函数它可以访问哪些作用域中的变量：</p>
 <ol>
 <li>该函数自己内部声明的变量</li>
@@ -114,7 +114,7 @@ $(<span class="string">'.btn'</span>).onclick = <span class="keyword">function</
   
   <div class="entry">
     
-      <p>接<a href="http://heroicyang.com/2013/07/14/javascript-variable-scope/" target="_blank">上篇</a><br>，已经大致明确了以下几点：</p>
+      <p>接<a href="http://heroicyang.com/2013/07/14/javascript-variable-scope/">上篇</a>，已经大致明确了以下几点：</p>
 <ol>
 <li>JavaScript没有块级作用域，只有函数(局部)作用域和全局作用域</li>
 <li>函数中未使用<code>var</code>关键字声明的变量会成为全局变量</li>
@@ -234,7 +234,7 @@ console.log(name); <span class="comment">// 'heroic'</span>
   
   <div class="entry">
     
-      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" target="_blank">《JavaScript Web Application》</a><br>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
+      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" target="_blank">《JavaScript Web Application》</a>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
 <p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（中文版P16）：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
   Function.prototype.bind = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
@@ -667,7 +667,7 @@ setInterval(func|code, delay);
   <div class="entry">
     
       <p>最近在学习<code>Nodejs</code>的过程中深入的了解了<code>异步编程</code>这个概念，为了更好的使用<code>Nodejs</code>，这些概念不可不知。在以前作为一个<code>JavaScript</code>用户的时候，完全是不知道它是怎么运行的，对好些概念也是“知其然不知其所以然”。  </p>
-<p>对于客户端的<code>JavaScript</code>和<code>Nodejs</code>来说其实差距不是很大，这回就从客户端方面来说说<code>Event Loop</code>这个概念吧，算是<code>异步编程</code>的一个切入点吧。其实<code>jQuery</code>的作者John Resig在几年前就写了一篇好文章<a href="http://ejohn.org/blog/how-javascript-timers-work/" target="_blank">How JavaScript Timers Work</a>，来讲述<code>timer</code>和<code>事件</code>在浏览器中是怎样工作的，我也是通���这篇文章才“知其所以然”。  </p>
+<p>对于客户端的<code>JavaScript</code>和<code>Nodejs</code>来说其实差距不是很大，这回就从客户端方面来说说<code>Event Loop</code>这个概念吧，算是<code>异步编程</code>的一个切入点吧。其实<code>jQuery</code>的作者John Resig在几年前就写了一篇好文章<a href="http://ejohn.org/blog/how-javascript-timers-work/" target="_blank">How JavaScript Timers Work</a>，来讲述<code>timer</code>和<code>事件</code>在浏览器中是怎样工作的，我也是通过这篇文章才“知其所以���”。  </p>
 <h3>问题场景</h3>
 <p>先来看看一段代码：  </p>
 <figure class="highlight lang-html"><pre><span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"doBtn"</span>&gt;</span>do something<span class="tag">&lt;/<span class="title">a</span>&gt;</span>

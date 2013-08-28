@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://heroicyang.com/2013/07/27/2013-07-27-javascript-closure/</loc>
-    <lastmod>2013-08-28T13:53:31.000Z</lastmod>
+    <lastmod>2013-08-28T14:28:21.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://heroicyang.com/2013/06/24/2013-06-24-bind-function-in-javascript-web-application-book/</loc>
+    <lastmod>2013-08-28T14:26:12.000Z</lastmod>
+  </url>
+  <url>
+    <loc>http://heroicyang.com/2013/07/22/2013-07-22-javascript-scope-sequel/</loc>
+    <lastmod>2013-08-28T14:24:22.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2013/05/22/2013-05-22-hexo-theme-modernist/</loc>
     <lastmod>2013-07-25T13:33:45.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://heroicyang.com/2013/07/22/2013-07-22-javascript-scope-sequel/</loc>
-    <lastmod>2013-07-23T16:21:21.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2013/07/14/2013-07-14-javascript-variable-scope/</loc>
@@ -31,10 +35,6 @@
   <url>
     <loc>http://heroicyang.com/2012/09/06/2012-09-02-javascript-timers/</loc>
     <lastmod>2013-06-27T14:14:01.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://heroicyang.com/2013/06/24/2013-06-24-bind-function-in-javascript-web-application-book/</loc>
-    <lastmod>2013-06-24T16:22:40.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2013/06/20/2013-06-20-random-record-in-mongodb/</loc>

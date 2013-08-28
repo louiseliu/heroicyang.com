@@ -61,7 +61,7 @@
   
   <div class="entry">
     
-      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" target="_blank">《JavaScript Web Application》</a><br>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
+      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" target="_blank">《JavaScript Web Application》</a>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
 <p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（中文版P16）：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
   Function.prototype.bind = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
@@ -131,7 +131,7 @@ console.log(newFun1 <span class="keyword">instanceof</span> func);  <span class=
 
 
 <p>如此可见，在实现<code>bind()</code>方法的时候，除了考虑一般的函数调用以外，还得考虑其结合<code>new</code>关键字使用时的构造函数的特性。因此以我在第一次看这本书时的认知，看不明白也就不奇怪了，嚯嚯。。  </p>
-<p>那就来继续解最开始的那三个圈住的迷惑���</p>
+<p>那就来继续解最开始的那三个圈住的迷惑：</p>
 <ul>
 <li>① <code>var nop = function () {}</code> ：这并是一个普通的函数，而是一个构造函数，把它用作返回的<code>bound</code>函数的原型，以便于代码中做<code>instanceof</code>判断。</li>
 <li>② 鉴于前面的解释，这里做<code>instanceof</code>判断就无可厚非了。</li>
