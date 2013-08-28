@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://heroicyang.com/2013/06/20/random-record-in-mongodb/</loc>
+    <lastmod>2013-08-28T15:21:56.000Z</lastmod>
+  </url>
+  <url>
     <loc>http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/</loc>
-    <lastmod>2013-08-28T15:07:05.000Z</lastmod>
+    <lastmod>2013-08-28T15:17:06.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2013/07/27/javascript-closure/</loc>
@@ -39,10 +43,6 @@
   <url>
     <loc>http://heroicyang.com/2012/09/06/javascript-timers/</loc>
     <lastmod>2013-06-27T14:14:01.000Z</lastmod>
-  </url>
-  <url>
-    <loc>http://heroicyang.com/2013/06/20/random-record-in-mongodb/</loc>
-    <lastmod>2013-06-23T16:14:07.000Z</lastmod>
   </url>
   <url>
     <loc>http://heroicyang.com/2013/06/07/javascript-class-inherit-optimized/</loc>

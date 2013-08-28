@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Web developer, love javascript and node.]]></subtitle>
   <link href="http://heroicyang.com/atom.xml" rel="self"/>
   <link href="http://heroicyang.com"/>
-  <updated>2013-08-28T15:07:17.928Z</updated>
+  <updated>2013-08-28T15:22:03.954Z</updated>
   <id>http://heroicyang.com/</id>
   <author>
     <name><![CDATA[Heroic Yang]]></name>
@@ -1301,56 +1301,98 @@ parent.print();  <span class="comment">// name:  heroic , tags:  coder</span>
     <category scheme="http://heroicyang.com/tags/inherit/" term="inherit"/>
   </entry>
   <entry>
-    <title type="html"><![CDATA[Mongodb中随机的查询文档记录]]></title>
-    <link href="http://heroicyang.com/2013/06/20/random-record-in-mongodb/"/>
-    <id>http://heroicyang.com/2013/06/20/random-record-in-mongodb/</id>
-    <published>2013-06-20T13:59:46.000Z</published>
-    <updated>2013-06-23T16:14:07.000Z</updated>
-    <content type="html"><![CDATA[<p>在实际应用场景中，几乎都会有随机获取数据记录的需求。而这个需求在Mongodb却不是很好实现，就目前而言，大致上有三种解决方案：</p>
-<ol>
-<li>先计算出一个从<code>0</code>到记录总数之间的随机数，然后采用<code>skip(yourRandomNumber)</code>方法。</li>
-<li>为每一条记录增设<code>random</code>字段，插入数据时赋值为<code>Math.random()</code>，查询时采用<code>$gte</code>和<code>$lte</code>。</li>
-<li>借助Mongodb对地理空间索引（<code>geospatial indexes</code>）的支持，从而可以在第二种方法的基础上来实现随机记录的获取。</li>
-</ol>
-<p>因为Mongodb是不建议使用<code>skip</code>方法的，所以这里就略去第一种方法吧。</p>
-<h3>方法二</h3>
-<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala0...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala1...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala2...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala3...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala4...'</span> })
-<span class="comment">/* more records... */</span>
+    <title type="html"><![CDATA[关于JavaScript中的继承（二）：原型式继承]]></title>
+    <link href="http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/"/>
+    <id>http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/</id>
+    <published>2013-06-02T14:52:19.000Z</published>
+    <updated>2013-08-28T15:17:06.000Z</updated>
+    <content type="html"><![CDATA[<p>JavaScript中本没有类，所以凡事也不要强求，强扭的瓜总是不填的嘛。继承也无非就是一个对象拥有另外一个对象的特性，所以完全不需要复杂的去模拟面向对象中的类式继承，而借助JavaScript独特的原型机制就可以实现了。同样，需要创建一个对象时也不再采用模拟<strong>类-对象</strong>的方式，而是直接使用JavaScript的对象字面量就好了。因为对于对象来说我们关系的无非也就是它具备哪些属性、有哪些行为而已。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
+  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="keyword">this</span>.name || <span class="string">'parent'</span>);
+  }
+};
 
-<span class="comment">/* create index */</span>
-&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
-
-&gt; rand = Math.random()
-&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $gte: rand } })
-&gt; <span class="keyword">if</span> (result == <span class="literal">null</span>) {
-&gt;   result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $lte: rand } })
-&gt; }
+<span class="keyword">var</span> child = {};  <span class="comment">// 暂时这样</span>
+child.name = <span class="string">'child'</span>;  <span class="comment">// 在很多情况下我们并不希望继承原对象自己的属性，而是在我们需要时，直接添加就好</span>
+child.printName();  <span class="comment">// 重点的是我们希望child具备打印自己名字的行为</span>
 </pre></figure>
 
 
-<h3>方法三</h3>
-<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala0...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala1...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala2...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala3...'</span> })
-&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala4...'</span> })
-<span class="comment">/* more records... */</span>
+<p>上面的代码目前还不能工作，<a href="http://heroicyang.com/2013/05/30/learn-javascript-inherit-class/">上一篇文章</a>中谈到过JavaScript中对象属性查找机制，如果<code>child</code>对象本身没有<code>printName()</code>这个方法，那我们保证其原型上有这个方法，它就能正常工作了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="comment">/* var parent... */</span>
 
-<span class="comment">/* create index */</span>
-&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
+<span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
+  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  F.prototype = obj;
+  <span class="keyword">return</span> <span class="keyword">new</span> F;
+};
 
-&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $near: [Math.random(), <span class="number">0</span>] } })
+<span class="comment">// 改变child对象的创建方式，不直接采用字面量了，而是用`object`方法来创建</span>
+<span class="keyword">var</span> child = object(parent);
+child.name = <span class="string">'child'</span>;
+child.printName();  <span class="comment">// 'child'</span>
 </pre></figure>
 
 
-<p>更多关于Mongodb地理空间索引资料，请参见<a href="http://docs.mongodb.org/manual/core/2d/" target="_blank">这里</a>。</p>
-<p>目前这几种方案似乎都不是很理想，但是也没有其他办法了，所以广大程序员们就相约到Mongodb的官方jira提了相应的需求，但是目前仍然没有任何的响应。可以参见<a href="https://jira.mongodb.org/browse/SERVER-533" target="_blank">这里</a>，围观一下。</p>
+<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造函数，然后修改这个构造函数的原型，最后再返回这个构造函数的一个实例。</p>
+<a id="more"></a>
+
+<p>当然，<code>parent</code>对象也并不一定要使用对象字面量，你可以选择任何你能想到的创建对象的方式，如构造函数等。  </p>
+<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span> <span class="params">()</span> {</span>
+  <span class="keyword">this</span>.name = <span class="string">'parent'</span>;
+};
+Parent.prototype.printName = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  console.log(<span class="keyword">this</span>.name);
+};
+
+<span class="keyword">var</span> parent = <span class="keyword">new</span> Parent();
+<span class="keyword">var</span> child = object(parent);
+child.printName();  <span class="comment">// 'parent'</span>
+</pre></figure>
+
+
+<p>正如前面所述，我们可能并不想继承原对象自己的属性，如上面的例子我们也并不希望它打印出<code>parent</code>。  </p>
+<p>原型式继承的规则就是：对象从对象继承，不管父对象是如何而来。而<code>Parent.prototype</code>也是一个对象，所以  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = object(Parent.prototype);
+child.printName();  <span class="comment">// undefined</span>
+</pre></figure>
+
+
+<p>改写之后，打印<code>child</code>自己的名字时得到的是<code>undefined</code>，因为创建<code>child</code>对象后，还没有给它赋予任何的属性，所以这恰是我们想要的结果。  </p>
+<p>而在<code>ECMAScript 5</code>中，原型式继承已经成为了语言特性，为我们增加了<code>Object.create()</code>方法，也就是说可以不用自己实现上面的<code>object</code>方法了。而且<code>Object.create()</code>方法更加强劲、适用。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
+  name: <span class="string">'parent'</span>,
+  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="keyword">this</span>.name);
+  }
+};
+
+<span class="comment">// 第二个参数接收一个对象，而该对象的属性将作为`child`对象的属性</span>
+<span class="keyword">var</span> child = Object.create(parent, {
+  name: { value: <span class="string">'child'</span> }
+});
+
+child.printName();  <span class="comment">// 'child'</span>
+</pre></figure>
+
+
+<p>最后，再谈谈最开始实现的<code>object()</code>方法吧，其实还可以做一点点简单的优化。那就是每次调用<code>object()</code>方法时都要创建一个临时的代理构造函数<code>F</code>，而事实上仅需要创建一次就足够了。  </p>
+<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  
+  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
+    F.prototype = obj;
+    <span class="keyword">return</span> <span class="keyword">new</span> F;  
+  };
+}();
+</pre></figure>
+
+
+<p>我们把代理构造函数放到一个立即执行的函数中创建，然后这个函数返回一个新的、真正实现继承逻辑的函数。</p>
 ]]></content>
-    <category scheme="http://heroicyang.com/tags/mongodb/" term="mongodb"/>
+    <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
+    <category scheme="http://heroicyang.com/tags/inherit/" term="inherit"/>
   </entry>
   <entry>
     <title type="html"><![CDATA[Backbone之旅：前端MVC架构初体验（上）]]></title>
@@ -1994,97 +2036,55 @@ $(<span class="keyword">function</span>(){
     <category scheme="http://heroicyang.com/tags/mvc/" term="mvc"/>
   </entry>
   <entry>
-    <title type="html"><![CDATA[关于JavaScript中的继承（二）：原型式继承]]></title>
-    <link href="http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/"/>
-    <id>http://heroicyang.com/2013/06/02/learn-javascript-inherit-proto/</id>
-    <published>2013-06-02T14:52:19.000Z</published>
-    <updated>2013-08-28T15:07:05.000Z</updated>
-    <content type="html"><![CDATA[<p>JavaScript中本没有类，所以凡事也不要强求，强扭的瓜总是不填的嘛。继承也无非就是一个对象拥有另外一个对象的特性，所以完全不需要复杂的去模拟面向对象中的类式继承，而借助JavaScript独特的原型机制就可以实现了。同样，需要创建一个对象时也不再采用模拟<strong>类-对象</strong>的方式，而是直接使用JavaScript的对象字面量就好了。因为对于对象来说我们关系的无非也就是它具备哪些属性、有哪些行为而已。  </p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
-  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="keyword">this</span>.name || <span class="string">'parent'</span>);
-  }
-};
+    <title type="html"><![CDATA[Mongodb中随机的查询文档记录]]></title>
+    <link href="http://heroicyang.com/2013/06/20/random-record-in-mongodb/"/>
+    <id>http://heroicyang.com/2013/06/20/random-record-in-mongodb/</id>
+    <published>2013-06-20T13:59:46.000Z</published>
+    <updated>2013-08-28T15:21:56.000Z</updated>
+    <content type="html"><![CDATA[<p>在实际应用场景中，几乎都会有随机获取数据记录的需求。而这个需求在Mongodb却不是很好实现，就目前而言，大致上有三种解决方案：</p>
+<ol>
+<li>先计算出一个从<code>0</code>到记录总数之间的随机数，然后采用<code>skip(yourRandomNumber)</code>方法。</li>
+<li>为每一条记录增设<code>random</code>字段，插入数据时赋值为<code>Math.random()</code>，查询时采用<code>$gte</code>和<code>$lte</code>。</li>
+<li>借助Mongodb对地理空间索引（<code>geospatial indexes</code>）的支持，从而可以在第二种方法的基础上来实现随机记录的获取。</li>
+</ol>
+<p>因为Mongodb是不建议使用<code>skip</code>方法的，所以这里就略去第一种方法吧。</p>
+<h3>方法二</h3>
+<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala0...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala1...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala2...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala3...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: Math.random(), content: <span class="string">'balabala4...'</span> })
+<span class="comment">/* more records... */</span>
 
-<span class="keyword">var</span> child = {};  <span class="comment">// 暂时这样</span>
-child.name = <span class="string">'child'</span>;  <span class="comment">// 在很多情况下我们并不希望继承原对象自己的属性，而是在我们需要时，直接添加就好</span>
-child.printName();  <span class="comment">// 重点的是我们希望child具备打印自己名字的行为</span>
+<span class="comment">/* create index */</span>
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="number">1</span> })
+
+&gt; rand = Math.random()
+&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $gte: rand } })
+&gt; <span class="keyword">if</span> (result == <span class="literal">null</span>) {
+&gt;   result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $lte: rand } })
+&gt; }
 </pre></figure>
 
 
-<p>上面的代码目前还不能工作，<a href="http://heroicyang.com/2013/05/30/learn-javascript-inherit-class/">上一篇文章</a>中谈到过JavaScript中对象属性查找机制，如果<code>child</code>对象本身没有<code>printName()</code>这个方法，那我们保证其原型上有这个方法，它就能正常工作了。  </p>
-<figure class="highlight lang-javascript"><pre><span class="comment">/* var parent... */</span>
+<h3>方法三</h3>
+<figure class="highlight lang-javascript"><pre>&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala0...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala1...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala2...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala3...'</span> })
+&gt; db.twitter.save({ username: <span class="string">'heroic'</span>, random: [Math.random(), <span class="number">0</span>], content: <span class="string">'balabala4...'</span> })
+<span class="comment">/* more records... */</span>
 
-<span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
-  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
-  F.prototype = obj;
-  <span class="keyword">return</span> <span class="keyword">new</span> F;
-};
+<span class="comment">/* create index */</span>
+&gt; db.twitter.ensureIndex({ username: <span class="number">1</span>, random: <span class="string">'2d'</span> })
 
-<span class="comment">// 改变child对象的创建方式，不直接采用字面量了，而是用`object`方法来创建</span>
-<span class="keyword">var</span> child = object(parent);
-child.name = <span class="string">'child'</span>;
-child.printName();  <span class="comment">// 'child'</span>
+&gt; result = db.twitter.findOne({ username: <span class="string">'heroic'</span>, random: { $near: [Math.random(), <span class="number">0</span>] } })
 </pre></figure>
 
 
-<p>通过一个<code>object()</code>函数，我们就完全可以实现一个对象从另一个对象继承了。其原理很简单，即在<code>object()</code>函数内部创建一个临时的构造函数，然后修改这个构造函数的原型，最后再返回这个构造函数的一个实例。</p>
-<a id="more"></a>
-
-<p>当然，<code>parent</code>对象也并不一定要使用对象字面量，你可以选择任何你能想到的创建对象的方式，如构造函数等。  </p>
-<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">Parent</span> <span class="params">()</span> {</span>
-  <span class="keyword">this</span>.name = <span class="string">'parent'</span>;
-};
-Parent.prototype.printName = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  console.log(<span class="keyword">this</span>.name);
-};
-
-<span class="keyword">var</span> parent = <span class="keyword">new</span> Parent();
-<span class="keyword">var</span> child = object(parent);
-child.printName();  <span class="comment">// 'parent'</span>
-</pre></figure>
-
-
-<p>正如前面所述，我们可能并不想继承原对象自己的属性，如上面的例子我们也并不希望它打印出<code>parent</code>。  </p>
-<p>原型式继承的规则就是：对象从对象继承，不管父对象是如何而来。而<code>Parent.prototype</code>也是一个对象，所以  </p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> child = object(Parent.prototype);
-child.printName();  <span class="comment">// undefined</span>
-</pre></figure>
-
-
-<p>改写之后，打印<code>child</code>自己的名字时得到的是<code>undefined</code>，因为创建<code>child</code>对象后，还没有给它赋予任何的属性，所以这恰是我们想要的结果。  </p>
-<p>而在<code>ECMAScript 5</code>中，原型式继承已经成为了语言特性，为我们增加了<code>Object.create()</code>方法，也就是说可以不用自己实现上面的<code>object</code>方法了。而且<code>Object.create()</code>方法更加强劲、适用。  </p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> parent = {
-  name: <span class="string">'parent'</span>,
-  printName: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="keyword">this</span>.name);
-  }
-};
-
-<span class="comment">// 第二个参数接收一个对象，而该对象的属性将作为`child`对象的属性</span>
-<span class="keyword">var</span> child = Object.create(parent, {
-  name: { value: <span class="string">'child'</span> }
-});
-
-child.printName();  <span class="comment">// 'child'</span>
-</pre></figure>
-
-
-<p>最后，再谈谈最开始实现的<code>object()</code>方法吧，其实还可以做一点点简单的优化。那就是每次调用<code>object()</code>方法时都要创建一个临时的代理构造函数<code>F</code>，而事实上仅需要创建一次就足够了。  </p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> object = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  <span class="keyword">var</span> F = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
-  
-  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="params">(obj)</span> {</span>
-    F.prototype = obj;
-    <span class="keyword">return</span> <span class="keyword">new</span> F;  
-  };
-}();
-</pre></figure>
-
-
-<p>我们把代理构造函数放到一个立即执行的函数中创建，然后这个函数返回一个新的、真正实现继承逻辑的函数。</p>
+<p>更多关于Mongodb地理空间索引资料，请参见<a href="http://docs.mongodb.org/manual/core/2d/" target="_blank">这里</a>。</p>
+<p>目前这几种方案似乎都不是很理想，但是也没有其他办法了，所以广大程序员们就相约到Mongodb的官方jira提了相应的需求，但是目前仍然没有任何的响应。可以参见<a href="https://jira.mongodb.org/browse/SERVER-533" target="_blank">这里</a>，围观一下。</p>
 ]]></content>
-    <category scheme="http://heroicyang.com/tags/javascript/" term="javascript"/>
-    <category scheme="http://heroicyang.com/tags/inherit/" term="inherit"/>
+    <category scheme="http://heroicyang.com/tags/mongodb/" term="mongodb"/>
   </entry>
 </feed>
