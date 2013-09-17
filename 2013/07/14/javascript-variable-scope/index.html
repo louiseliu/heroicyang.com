@@ -7,7 +7,7 @@
   <title>JavaScript变量作用域 | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
-  <meta name="description" content="Heroic Yang, web developer, javascript, node, Node.js">
+  <meta name="description" content="Heroic Yang, web developer, css, javascript, node, Node.js">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -29,7 +29,7 @@
   <div class="wrapper">
     <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <p><a href="/">Web developer, love javascript and node.</a></p>
+  <p><a href="/">Web developer, javascript and node fan.</a></p>
 </div>
 <nav class="nav">
   <ul>
@@ -50,7 +50,7 @@
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-07-14T14:11:36.000Z"><a href="/2013/07/14/javascript-variable-scope/">7月 14 2013</a></time>
+      <time datetime="2013-07-14T14:11:36.000Z"><a href="/2013/07/14/javascript-variable-scope/">Jul 14 2013</a></time>
     
     
   
@@ -63,7 +63,7 @@
     
       <p>所谓作用域，也就是变量和函数起作用的区域，不同的语言有着不同的实现。而在JavaScript中，这也是往往让人迷糊的地方，也是JavaScript中必须理解的特性之一。  </p>
 <p>首先来看看下面的代码：</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+<figure class="highlight"><pre><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
     <span class="keyword">var</span> foo = <span class="string">'bar'</span>;
 }
 
@@ -74,9 +74,8 @@
 foo();
 </pre></figure>
 
-
 <p>从运行结果不难看出，变量<code>i</code>在循环体结束之后仍然可以访问。而诸如Java、C#等语言中，循环结束之后便不能再访问到循环体中的变量了。继续看下面代码：</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+<figure class="highlight"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
 
 <span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> name = <span class="string">'foo'</span>;
@@ -87,18 +86,16 @@ foo();
 console.log(name); <span class="comment">// 'heroic'</span>
 </pre></figure>
 
-
 <p><strong>结合两段代码可以知道，在JavaScript中是不存在块级作用域的，只存在函数作用域（也称“本地作用域”）和全局作用域。</strong>而作用域中的变量我们分别称其为：局部变量和全局变量。  </p>
-<p>接下来从局部变量和全局变量来继续谈谈变量作用域。</p>
+<p>前辈们（前端的长辈们，嚯嚯）常常反复在说，全局变量是魔鬼啊，魔鬼啊。。。（回声）那到底是嘛原因呢？咱接着往下说。</p>
 <a id="more"></a>
 
-<h3>谨慎使用全局变量</h3>
 <ul>
-<li>任何地方都可以访问并修改这些全局变量，代码变得不可控。</li>
-<li>命名冲突，很难保证引入的多个模块间不出现相同名称的变量，代码也会变的不可控。</li>
-<li>局部变量的访问优先级高于全局变量，所以在某种特殊情况下（JavaScript变量声明提前特性），代码同样变的不可控。</li>
+<li>JavaScript中如果不使用<code>var</code>关键字来声明变量，则该变量会成为全局变量。  </li>
+<li>在整个作用域中，都可以访问并修改这些全局变量，不可控，BUG随之而来。  </li>
+<li>局部变量的访问优先级高于全局变量，所以在某种特殊情况下（JavaScript变量声明提前特性），可能得不到我们想要的结果。</li>
 </ul>
-<figure class="highlight lang-javascript"><pre><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+<figure class="highlight"><pre><span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
   name = <span class="string">'foo'</span>;
 }
 
@@ -112,87 +109,33 @@ bar();
 console.log(name); <span class="comment">// 'bar'</span>
 </pre></figure>
 
+<p>上面这个例子很好理解，由于在<code>foo</code>中没有使用<code>var</code>关键字来声明<code>name</code>变量，所以可以在整个全局作用域中访问并修改该变量的值，在实际项目中必然会混乱不堪，引入不可控的BUG等等。接下来看看这个可能对于初学者来说有点迷糊的例子。</p>
+<figure class="highlight"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
 
-<p>上面这个例子很好理解，由于在<code>foo</code>中没有使用<code>var</code>关键字来声明<code>name</code>变量，所以就成全局变量了。  </p>
-<h3>声明提前</h3>
-<p>接下来看看这个可能对于初学者来说会有点迷糊的例子。</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
-
-<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
+<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> <span class="comment">{
   console.log(name);
-  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
+  var name = 'foo';
   console.log(name);
-}
+}</span>
 
-foo();
+<span class="title">foo</span><span class="params">()</span>;</span>
 <span class="comment">// undefined</span>
 <span class="comment">// 'foo'</span>
 </pre></figure>
 
-
-<p>结果可能跟编写代码的初衷有点不一致：或许是希望在调用<code>foo</code>函数时，如果<code>name</code>变量未定义就使用全局的，然后再定义局部的<code>name</code>变量，之后再赋值并使用局部的变量。  </p>
-<p>但由于JavaScript的<strong>声明提前</strong>特性，使得执行时的逻辑违背了初衷。究其原因：JavaScript中变量和函数以及函数的参数的申明都是在一个类似于预编译的时期就做了，而在运行时期才是创建变量赋值表达式和函数表达式等。所以上面的代码等同于：</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+<p>这就是前面提到的<strong>声明提前</strong>，JavaScript中变量和函数以及函数的参数的申明都是在一个类似于预编译的时期就做了，而在运行时期才是创建变量赋值表达式和函数表达式等。所以上面的代码等同于：</p>
+<figure class="highlight"><pre>var name = <span class="string">'heroic'</span>;
 
 <span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
-  <span class="keyword">var</span> name;
-  console.log(name);
+  var name;
+  <span class="transposed_variable">console.</span><span class="built_in">log</span>(name);
   name = <span class="string">'foo'</span>;
-  console.log(name);
+  <span class="transposed_variable">console.</span><span class="built_in">log</span>(name);
 }
 
 foo();
 </pre></figure>
 
-
-<p>以及下面这种看上去是先调用后定义的写法，也是不会报错的：</p>
-<figure class="highlight lang-javascript"><pre>foo();
-<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
-
-<span class="comment">// 等同于</span>
-
-<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
-foo();
-</pre></figure>
-
-
-<p>在声明提前这种情况下，有两点需要特别注意：</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> foo;
-<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
-
-<span class="comment">// 最后变量`foo`到底是谁？</span>
-console.log(<span class="keyword">typeof</span> foo); <span class="comment">// 'function'</span>
-</pre></figure>
-
-
-<ul>
-<li>也就是说，函数声明会覆盖变量声明</li>
-</ul>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> foo = <span class="string">'bar'</span>;
-<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>}
-
-<span class="comment">// 这次又会是谁呢？</span>
-console.log(<span class="keyword">typeof</span> foo);  <span class="comment">// 'string'</span>
-</pre></figure>
-
-
-<ul>
-<li>而变量赋值表达式会覆盖函数声明</li>
-</ul>
-<p>最后，大家来猜猜下面这段代码的结果吧~</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'global'</span>;
-
-<span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
-  <span class="keyword">var</span> name = <span class="string">'foo'</span>;
-  bar();
-}
-
-<span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span> {</span>
-  console.log(name);
-}
-
-foo();
-</pre></figure>
 
     
   </div>
@@ -202,7 +145,7 @@ foo();
       
   
   <div class="tags">
-    <a href="/tags/javascript/">javascript</a>, <a href="/tags/scope/">scope</a>
+    <a href="/tags/javascript/">javascript</a>
   </div>
 
     
@@ -212,7 +155,7 @@ foo();
 
 
 <section id="comment">
-  <h1 class="title">留言</h1>
+  <h1 class="title">Comments</h1>
   <div class="ds-thread" data-title="JavaScript变量作用域">
   </div>
 </section>
@@ -227,7 +170,7 @@ foo();
       
 
 <div class="widget tagcloud first">
-  <h3 class="title">标签云</h3>
+  <h3 class="title">Tag Cloud</h3>
   <div class="entry">
     <a href="/tags/backbone/" style="font-size: 10.00px;">backbone</a><a href="/tags/blog/" style="font-size: 10.67px;">blog</a><a href="/tags/closure/" style="font-size: 11.33px;">closure</a><a href="/tags/design pattern/" style="font-size: 12.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.67px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 14.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 14.67px;">javascript</a><a href="/tags/javascript class/" style="font-size: 15.33px;">javascript class</a><a href="/tags/javascript timer/" style="font-size: 16.00px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 16.67px;">modernist</a><a href="/tags/mongodb/" style="font-size: 17.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 18.00px;">mvc</a><a href="/tags/scope/" style="font-size: 18.67px;">scope</a><a href="/tags/theme/" style="font-size: 19.33px;">theme</a>
   </div>
@@ -238,7 +181,7 @@ foo();
       
 
 <div class="widget blogroll">
-  <h3 class="title">友情链接</h3>
+  <h3 class="title">Links</h3>
   <ul class="entry">
   
     
@@ -258,7 +201,7 @@ foo();
       
 
 <div class="widget recent-posts">
-  <h3 class="title">最近的文章</h3>
+  <h3 class="title">Recent Posts</h3>
   <ul class="entry">
     
       <li>

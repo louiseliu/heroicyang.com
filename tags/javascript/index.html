@@ -7,7 +7,7 @@
   <title>javascript | Heroic Yang's Blog</title>
   <meta name="author" content="Heroic Yang">
   
-  <meta name="description" content="Heroic Yang, web developer, javascript, node, Node.js">
+  <meta name="description" content="Heroic Yang, web developer, css, javascript, node, Node.js">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -29,7 +29,7 @@
   <div class="wrapper">
     <header id="header"><div class="title">
   <h1><a href="/">Heroic Yang's Blog</a></h1>
-  <p><a href="/">Web developer, love javascript and node.</a></p>
+  <p><a href="/">Web developer, javascript and node fan.</a></p>
 </div>
 <nav class="nav">
   <ul>
@@ -55,7 +55,7 @@
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-07-27T10:20:35.000Z"><a href="/2013/07/27/javascript-closure/">7月 27 2013</a></time>
+      <time datetime="2013-07-27T10:20:35.000Z"><a href="/2013/07/27/javascript-closure/">Jul 27 2013</a></time>
     
     
   
@@ -103,7 +103,7 @@ $(<span class="string">'.btn'</span>).onclick = <span class="keyword">function</
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-07-22T14:14:06.000Z"><a href="/2013/07/22/javascript-scope-sequel/">7月 22 2013</a></time>
+      <time datetime="2013-07-22T14:14:06.000Z"><a href="/2013/07/22/javascript-scope-sequel/">Jul 22 2013</a></time>
     
     
   
@@ -161,7 +161,7 @@ foo();
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-07-14T14:11:36.000Z"><a href="/2013/07/14/javascript-variable-scope/">7月 14 2013</a></time>
+      <time datetime="2013-07-14T14:11:36.000Z"><a href="/2013/07/14/javascript-variable-scope/">Jul 14 2013</a></time>
     
     
   
@@ -174,7 +174,7 @@ foo();
     
       <p>所谓作用域，也就是变量和函数起作用的区域，不同的语言有着不同的实现。而在JavaScript中，这也是往往让人迷糊的地方，也是JavaScript中必须理解的特性之一。  </p>
 <p>首先来看看下面的代码：</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+<figure class="highlight"><pre><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
     <span class="keyword">var</span> foo = <span class="string">'bar'</span>;
 }
 
@@ -185,9 +185,8 @@ foo();
 foo();
 </pre></figure>
 
-
 <p>从运行结果不难看出，变量<code>i</code>在循环体结束之后仍然可以访问。而诸如Java、C#等语言中，循环结束之后便不能再访问到循环体中的变量了。继续看下面代码：</p>
-<figure class="highlight lang-javascript"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
+<figure class="highlight"><pre><span class="keyword">var</span> name = <span class="string">'heroic'</span>;
 
 <span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span> {</span>
   <span class="keyword">var</span> name = <span class="string">'foo'</span>;
@@ -198,9 +197,8 @@ foo();
 console.log(name); <span class="comment">// 'heroic'</span>
 </pre></figure>
 
-
 <p><strong>结合两段代码可以知道，在JavaScript中是不存在块级作用域的，只存在函数作用域（也称“本地作用域”）和全局作用域。</strong>而作用域中的变量我们分别称其为：局部变量和全局变量。  </p>
-<p>接下来从局部变量和全局变量来继续谈谈变量作用域。</p>
+<p>前辈们（前端的长辈们，嚯嚯）常常反复在说，全局变量是魔鬼啊，魔鬼啊。。。（回声）那到底是嘛原因呢？咱接着往下说。</p>
 
     
   </div>
@@ -223,7 +221,7 @@ console.log(name); <span class="comment">// 'heroic'</span>
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-06-24T13:04:39.000Z"><a href="/2013/06/24/bind-function-in-javascript-web-application-book/">6月 24 2013</a></time>
+      <time datetime="2013-06-24T13:04:39.000Z"><a href="/2013/06/24/bind-function-in-javascript-web-application-book/">Jun 24 2013</a></time>
     
     
   
@@ -234,7 +232,7 @@ console.log(name); <span class="comment">// 'heroic'</span>
   
   <div class="entry">
     
-      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" target="_blank">《JavaScript Web Application》</a>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
+      <p>去年底就草草了了的翻过<a href="http://book.douban.com/subject/10733304/" target="_blank">《JavaScript Web Application》</a><br>这本书，当时就遇到好几个地方没怎么看明白，当时也没有去深究，就只是简单的过一遍这本书。由于此前JavaScript方面的知识匮乏，所以把这本书就缓在阅读队列里了，最近才轮到。其间读了好几本基础和进阶的书，所以这次读这本书，很多之前不明白的地方就豁然明了了。不过好记性不如烂笔头，没准下次忘记了呢。  </p>
 <p>记得此前书中对ES5 <code>bind()</code>方法的实现就是一个让我感到迷糊的地方（中文版P16）：</p>
 <figure class="highlight lang-javascript"><pre><span class="keyword">if</span> (!Function.prototype.bind) {
   Function.prototype.bind = <span class="function"><span class="keyword">function</span> <span class="params">(context)</span> {</span>
@@ -284,7 +282,7 @@ console.log(name); <span class="comment">// 'heroic'</span>
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-06-07T14:23:30.000Z"><a href="/2013/06/07/javascript-class-inherit-optimized/">6月 7 2013</a></time>
+      <time datetime="2013-06-07T14:23:30.000Z"><a href="/2013/06/07/javascript-class-inherit-optimized/">Jun 7 2013</a></time>
     
     
   
@@ -359,11 +357,11 @@ console.log(child.name);  <span class="comment">// undefined</span>
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-06-02T14:52:19.000Z"><a href="/2013/06/02/learn-javascript-inherit-proto/">6月 2 2013</a></time>
+      <time datetime="2013-06-02T14:52:19.000Z"><a href="/2013/06/02/learn-javascript-inherit-proto/">Jun 2 2013</a></time>
     
     
   
-    <h1 class="title"><a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中���继承（二）：原型式继承</a></h1>
+    <h1 class="title"><a href="/2013/06/02/learn-javascript-inherit-proto/">关于JavaScript中的继承（二）：原型式继承</a></h1>
   
 
   </header>
@@ -422,7 +420,7 @@ child.printName();  <span class="comment">// 'child'</span>
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-05-30T14:19:21.000Z"><a href="/2013/05/30/learn-javascript-inherit-class/">5月 30 2013</a></time>
+      <time datetime="2013-05-30T14:19:21.000Z"><a href="/2013/05/30/learn-javascript-inherit-class/">May 30 2013</a></time>
     
     
   
@@ -477,7 +475,7 @@ Child.inherit(Parent);
   <header>
     
       <div class="icon"></div>
-      <time datetime="2013-03-26T15:42:35.000Z"><a href="/2013/03/26/javascript-design-pattern-notes/">3月 26 2013</a></time>
+      <time datetime="2013-03-26T15:42:35.000Z"><a href="/2013/03/26/javascript-design-pattern-notes/">Mar 26 2013</a></time>
     
     
   
@@ -514,7 +512,7 @@ Child.inherit(Parent);
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">10月 14 2012</a></time>
+      <time datetime="2012-10-14T14:50:00.000Z"><a href="/2012/10/14/javascript-timer-and-event-in-depth/">Oct 14 2012</a></time>
     
     
   
@@ -525,7 +523,7 @@ Child.inherit(Parent);
   
   <div class="entry">
     
-      <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却不是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
+      <p>对于浏览器端来说，大多数事件都是异步的，但是有部分事件却���是，这部分事件称做<strong>同步事件</strong>，因此它们都是立即执行的，完全不理会前几篇文章中所提到的<strong>事件队列</strong>。以及浏览器的渲染、重绘等操作，也会打乱之前我们好不容易所建立起来的<strong>事件队列</strong>的概念。不过，本篇将会陆续不断的把这些坑给填上。  </p>
 <h2>同步事件</h2>
 <h3>DOM改变事件(DOM Mutation events)</h3>
 <p>下面的Demo便用于说明同步事件之一的<code>DOM Mutation events</code>（注：该事件不支持Chrome浏览器）。</p>
@@ -577,7 +575,7 @@ Child.inherit(Parent);
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-09-22T10:57:00.000Z"><a href="/2012/09/22/javascript-timer-in-depth/">9月 22 2012</a></time>
+      <time datetime="2012-09-22T10:57:00.000Z"><a href="/2012/09/22/javascript-timer-in-depth/">Sep 22 2012</a></time>
     
     
   
@@ -614,7 +612,7 @@ Child.inherit(Parent);
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-09-06T14:56:00.000Z"><a href="/2012/09/06/javascript-timers/">9月 6 2012</a></time>
+      <time datetime="2012-09-06T14:56:00.000Z"><a href="/2012/09/06/javascript-timers/">Sep 6 2012</a></time>
     
     
   
@@ -655,7 +653,7 @@ setInterval(func|code, delay);
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-08-28T14:52:00.000Z"><a href="/2012/08/28/javascript-event-loop/">8月 28 2012</a></time>
+      <time datetime="2012-08-28T14:52:00.000Z"><a href="/2012/08/28/javascript-event-loop/">Aug 28 2012</a></time>
     
     
   
@@ -716,7 +714,7 @@ setInterval(func|code, delay);
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-08-18T17:05:00.000Z"><a href="/2012/08/19/create-class-in-javascript/">8月 19 2012</a></time>
+      <time datetime="2012-08-18T17:05:00.000Z"><a href="/2012/08/19/create-class-in-javascript/">Aug 19 2012</a></time>
     
     
   
@@ -751,7 +749,7 @@ setInterval(func|code, delay);
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">8月 9 2012</a></time>
+      <time datetime="2012-08-08T16:59:00.000Z"><a href="/2012/08/09/to-backbone-tutorial-2/">Aug 9 2012</a></time>
     
     
   
@@ -824,7 +822,7 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
   <header>
     
       <div class="icon"></div>
-      <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">8月 8 2012</a></time>
+      <time datetime="2012-08-07T16:48:00.000Z"><a href="/2012/08/08/to-backbone-tutorial-1/">Aug 8 2012</a></time>
     
     
   
@@ -873,7 +871,7 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
       
 
 <div class="widget tagcloud first">
-  <h3 class="title">标签云</h3>
+  <h3 class="title">Tag Cloud</h3>
   <div class="entry">
     <a href="/tags/backbone/" style="font-size: 10.00px;">backbone</a><a href="/tags/blog/" style="font-size: 10.67px;">blog</a><a href="/tags/closure/" style="font-size: 11.33px;">closure</a><a href="/tags/design pattern/" style="font-size: 12.00px;">design pattern</a><a href="/tags/event-loop/" style="font-size: 12.67px;">event-loop</a><a href="/tags/hexo/" style="font-size: 13.33px;">hexo</a><a href="/tags/inherit/" style="font-size: 14.00px;">inherit</a><a href="/tags/javascript/" style="font-size: 14.67px;">javascript</a><a href="/tags/javascript class/" style="font-size: 15.33px;">javascript class</a><a href="/tags/javascript timer/" style="font-size: 16.00px;">javascript timer</a><a href="/tags/modernist/" style="font-size: 16.67px;">modernist</a><a href="/tags/mongodb/" style="font-size: 17.33px;">mongodb</a><a href="/tags/mvc/" style="font-size: 18.00px;">mvc</a><a href="/tags/scope/" style="font-size: 18.67px;">scope</a><a href="/tags/theme/" style="font-size: 19.33px;">theme</a>
   </div>
@@ -884,7 +882,7 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
       
 
 <div class="widget blogroll">
-  <h3 class="title">友情链接</h3>
+  <h3 class="title">Links</h3>
   <ul class="entry">
   
     
@@ -904,7 +902,7 @@ NewTodoView.prototype.addTodo = <span class="keyword">function</span>(e){
       
 
 <div class="widget recent-posts">
-  <h3 class="title">最近的文章</h3>
+  <h3 class="title">Recent Posts</h3>
   <ul class="entry">
     
       <li>
